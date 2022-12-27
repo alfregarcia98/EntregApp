@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "26791803216",
+    "project_id": "entregapp-42ccf",
+    "storage_bucket": "entregapp-42ccf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:26791803216:android:91a776d46a20a1d9c15455",
+        "android_client_info": {
+          "package_name": "com.dam.entregapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "26791803216-atva36a38rh4ien7gbpt91kt43t0kvdh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIBkZI3IO8qG-sh1k5MbL1E-0hOi0H3GM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "26791803216-atva36a38rh4ien7gbpt91kt43t0kvdh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
