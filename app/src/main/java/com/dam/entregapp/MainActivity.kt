@@ -1,5 +1,11 @@
 package com.dam.entregapp
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.IntentSender
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,9 +13,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
+import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 
 enum class ProviderType{
     BASIC
@@ -21,18 +31,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 /*ROOM
         lifecycleScope.launch {
             val users = app.room.userDao().getAll()
             Log.d("", "onCreate: ${users.size} users")
         }
 */
-
-        val contador = findViewById<TextView>(R.id.contador)
-        val botoncont = findViewById<Button>(R.id.btpulsa)
         var cuenta = 0
 
-        botoncont.setOnClickListener {
+        btpulsa.setOnClickListener {
             cuenta++
             contador.text = "Has pulsado: $cuenta veces"
             Toast.makeText(this, "Has pulsado: $cuenta veces", Toast.LENGTH_SHORT).show()
@@ -40,22 +48,64 @@ class MainActivity : AppCompatActivity() {
 
         //Setup
         val bundle = intent.extras
-        val email : String? = bundle?.getString("email")
-        val provider : String? = bundle?.getString("provider")
-        setup(email ?: "",provider ?:"")
+        val email: String? = bundle?.getString("email")
+        val provider: String? = bundle?.getString("provider")
+        setup(email ?: "", provider ?: "")
+
+        //LocationTutorial
+
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+            ),
+            0
+        )
     }
 
 
+
+
     private fun setup(email: String, provider: String){
+        val db = Firebase.firestore
         title = "Inicio"
-        val txt_email = findViewById<TextView>(R.id.txt_email)
-        val txt_provider = findViewById<TextView>(R.id.txt_provider)
         txt_email.text = email
         txt_provider.text = provider
-        val botonlogout = findViewById<Button>(R.id.bt_logout)
-        botonlogout.setOnClickListener {
+        bt_logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             onBackPressed()
+        }
+
+        btn_guardar.setOnClickListener {
+            db.collection("users").document(email).set(
+                hashMapOf("provider" to provider,
+                    "phone" to txt_telefono.text.toString(),
+                    "name" to txt_nombre.text.toString())
+            )
+        }
+        btn_recuperar.setOnClickListener {
+            db.collection("users").document(email).get().addOnSuccessListener {
+                txt_telefono.setText(it.get("phone") as String?)
+                txt_nombre.setText(it.get("name") as String?)
+            }
+        }
+        btn_eliminar.setOnClickListener {
+            db.collection("users").document(email).delete()
+        }
+
+        startService.setOnClickListener {
+            Intent(applicationContext, LocationService::class.java).apply {
+                action = LocationService.ACTION_START
+                startService(this)
+            }
+        }
+
+        stopService.setOnClickListener {
+            Intent(applicationContext, LocationService::class.java).apply {
+                action = LocationService.ACTION_STOP
+                startService(this)
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,10 +19,6 @@ class LoginActivity : AppCompatActivity() {
         setup()
     }
     private fun setup(){
-        val email = findViewById<EditText>(R.id.email)
-        val password = findViewById<EditText>(R.id.password)
-        val btn_login = findViewById<Button>(R.id.btn_login)
-        val registro = findViewById<TextView>(R.id.registro)
 
         btn_login.setOnClickListener {
             val emailText = email.text.toString()
