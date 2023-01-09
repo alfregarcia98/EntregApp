@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.dam.entregapp.LocationApp.Companion.prefs
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -72,8 +73,10 @@ class MainActivity : AppCompatActivity() {
         title = "Inicio"
         txt_email.text = email
         txt_provider.text = provider
+
         bt_logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
+            prefs.wipe()
             onBackPressed()
         }
 

@@ -8,6 +8,10 @@ import android.os.Build
 
 class LocationApp: Application() {
 
+    companion object {
+        lateinit var prefs: Prefs
+    }
+
     override fun onCreate() {
         super.onCreate()
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -19,5 +23,9 @@ class LocationApp: Application() {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+
+        prefs = Prefs(applicationContext)
+
+
     }
 }
