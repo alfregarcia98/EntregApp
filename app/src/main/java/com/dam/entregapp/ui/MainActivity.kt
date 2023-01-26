@@ -1,36 +1,40 @@
-package com.dam.entregapp
+package com.dam.entregapp.ui
 
 import android.Manifest
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.dam.entregapp.LocationApp.Companion.prefs
+import com.dam.entregapp.LocationService
+import com.dam.entregapp.R
+import com.dam.entregapp.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_main.*
+
 
 enum class ProviderType{
     BASIC
 }
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         var cuenta = 0
 
-        btpulsa.setOnClickListener {
+        binding.btpulsa.setOnClickListener {
             cuenta++
-            contador.text = "Has pulsado: $cuenta veces"
+            binding.contador.text = "Has pulsado: $cuenta veces"
             Toast.makeText(this, "Has pulsado: $cuenta veces", Toast.LENGTH_SHORT).show()
         }
 
@@ -40,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                     while (!this.isInterrupted) {
                         sleep(1000)
                         runOnUiThread {
-                            txt_ubi.text = "${LocationService.lat}, ${LocationService.long}"
+                            binding.txtUbi.text = "${LocationService.lat}, ${LocationService.long}"
                         }
                     }
                 } catch (e: InterruptedException) {
@@ -94,38 +98,43 @@ class MainActivity : AppCompatActivity() {
     private fun setup(email: String, provider: String){
         val db = Firebase.firestore
         title = "Inicio"
-        txt_email.text = email
-        txt_provider.text = provider
+        binding.txtEmail.text = email
+        binding.txtProvider.text = provider
 
-        bt_logout.setOnClickListener {
+        binding.btLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             prefs.wipe()
             onBackPressed()
         }
 
-        btn_guardar.setOnClickListener {
+        binding.btnAddr.setOnClickListener {
+
+        }
+
+        binding.btnGuardar.setOnClickListener {
             db.collection("users").document(email).set(
                 hashMapOf("provider" to provider,
-                    "phone" to txt_telefono.text.toString(),
-                    "name" to txt_nombre.text.toString()))
+                    "phone" to binding.txtTelefono.text.toString(),
+                    "name" to binding.txtNombre.text.toString()))
 
             db.collection("users").document(email).collection("location").document("coordenadas").set(
                 hashMapOf("time" to FieldValue.serverTimestamp(),
                     "lat" to LocationService.lat,
-                    "long" to LocationService.long)
+                    "long" to LocationService.long
+                )
             )
         }
-        btn_recuperar.setOnClickListener {
+        binding.btnRecuperar.setOnClickListener {
             db.collection("users").document(email).get().addOnSuccessListener {
-                txt_telefono.setText(it.get("phone") as String?)
-                txt_nombre.setText(it.get("name") as String?)
+                binding.txtTelefono.setText(it.get("phone") as String?)
+                binding.txtNombre.setText(it.get("name") as String?)
             }
         }
-        btn_eliminar.setOnClickListener {
+        binding.btnEliminar.setOnClickListener {
             db.collection("users").document(email).delete()
         }
 
-        startService.setOnClickListener {
+        binding.startService.setOnClickListener {
             Intent(applicationContext, LocationService::class.java).apply {
                 action = LocationService.ACTION_START
                 startService(this)
@@ -138,7 +147,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        stopService.setOnClickListener {
+        binding.stopService.setOnClickListener {
             Intent(applicationContext, LocationService::class.java).apply {
                 action = LocationService.ACTION_STOP
                 startService(this)
@@ -148,7 +157,7 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
-        btn_random.setOnClickListener {
+        binding.btnRandom.setOnClickListener {
             /**if (mBound) {
                 val num: Int = mService.randomNumber
                 Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()*/

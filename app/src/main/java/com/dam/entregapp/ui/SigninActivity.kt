@@ -1,36 +1,36 @@
-package com.dam.entregapp
+package com.dam.entregapp.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.dam.entregapp.databinding.ActivityLoginBinding
+import com.dam.entregapp.databinding.ActivitySigninBinding
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_signin.*
 
 class SigninActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySigninBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signin)
+        binding = ActivitySigninBinding.inflate(layoutInflater)
 
         setup()
     }
 
     private fun setup(){
 
-        btn_loginNow.setOnClickListener {
+        binding.btnLoginNow.setOnClickListener {
             finish()
         }
 
-        btn_registrar_correo.setOnClickListener {
-            val usuarioText = usuario.text.toString()
-            val phoneText = phone.text.toString()
-            val emailText = email.text.toString()
-            val contrasenaText = contrasena.text.toString()
-            val contrasena2Text = contrasena2.text.toString()
+        binding.btnRegistrarCorreo.setOnClickListener {
+            val usuarioText = binding.usuario.text.toString()
+            val phoneText = binding.phone.text.toString()
+            val emailText = binding.email.text.toString()
+            val contrasenaText = binding.contrasena.text.toString()
+            val contrasena2Text = binding.contrasena2.text.toString()
 
             // comprobamos que se rellenan todos los campos antes de mandarlo a la base de datos
             if (usuarioText.isEmpty() || phoneText.isEmpty() || emailText.isEmpty() || contrasenaText.isEmpty()) {
@@ -38,7 +38,7 @@ class SigninActivity : AppCompatActivity() {
             }else if (!contrasenaText.equals(contrasena2Text)){
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             }else{
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.text.toString(), contrasena.text.toString()).addOnCompleteListener {
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(binding.email.text.toString(), binding.contrasena.text.toString()).addOnCompleteListener {
                     if (it.isSuccessful){
                         showHome(it.result?.user?.email.toString(), ProviderType.BASIC)
                     } else {

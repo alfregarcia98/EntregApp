@@ -1,23 +1,26 @@
-package com.dam.entregapp
+package com.dam.entregapp.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.dam.entregapp.LocationApp.Companion.prefs
+import com.dam.entregapp.databinding.ActivityLoginBinding
+import com.dam.entregapp.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
+
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        val screenSplash = installSplashScreen()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        val screenSplash = installSplashScreen()
 
         //Splash
         //Thread.sleep(300)
@@ -29,15 +32,15 @@ class LoginActivity : AppCompatActivity() {
 
         checkUserValues()
 
-        btn_login.setOnClickListener {
-            val emailText = email.text.toString()
-            val passwordText = password.text.toString()
+        binding.btnLogin.setOnClickListener {
+            val emailText = binding.email.text.toString()
+            val passwordText = binding.password.text.toString()
 
             if(emailText.isEmpty() || passwordText.isEmpty()){
                 Toast.makeText(this, "Por favor, introduce tus datos", Toast.LENGTH_SHORT).show()
             } else{
                 //LogIn en FireBase
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(email.text.toString(), password.text.toString()).addOnCompleteListener {
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(binding.email.text.toString(), binding.password.text.toString()).addOnCompleteListener {
                     if (it.isSuccessful){
                         //Guardamos el nombre en SharedPreferences para mantener la sesion posteriormente
                         prefs.saveName(emailText)
@@ -50,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        registro.setOnClickListener {
+        binding.registro.setOnClickListener {
             // abrimos la actividad de registro
             val a = Intent(this, SigninActivity::class.java)
             startActivity(a)

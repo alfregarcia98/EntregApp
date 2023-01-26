@@ -7,8 +7,13 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
+    <Button
+        android:id="@+id/btn_addr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Configura tus direcciones de entrega" />
     <Button
         android:id="@+id/startService"
         android:layout_width="wrap_content"
