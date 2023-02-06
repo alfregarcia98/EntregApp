@@ -3,8 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/manageAddress">
+    app:startDestination="@id/mainMenu">
 
+    <fragment
+        android:id="@+id/mainMenu"
+        android:name="com.dam.entregapp.ui.fragments.mainmenu.MainMenu"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/action_mainMenu_to_manageAddress"
+            app:destination="@id/manageAddress" />
+        <action
+            android:id="@+id/action_mainMenu_to_manageSettings"
+            app:destination="@id/manageSettings" />
+    </fragment>
     <fragment
         android:id="@+id/manageAddress"
         android:name="com.dam.entregapp.ui.fragments.manageaddress.ManageAddress"
@@ -22,17 +34,5 @@
         <action
             android:id="@+id/action_manageSettings_to_mainMenu"
             app:destination="@id/mainMenu" />
-    </fragment>
-    <fragment
-        android:id="@+id/mainMenu"
-        android:name="com.dam.entregapp.ui.fragments.mainmenu.MainMenu"
-        android:label="fragment_main_menu"
-        tools:layout="@layout/fragment_main_menu" >
-        <action
-            android:id="@+id/action_mainMenu_to_manageAddress"
-            app:destination="@id/manageAddress" />
-        <action
-            android:id="@+id/action_mainMenu_to_manageSettings"
-            app:destination="@id/manageSettings" />
     </fragment>
 </navigation>

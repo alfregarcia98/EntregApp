@@ -50,12 +50,43 @@
             android:hint="Segunda dirección"
             android:inputType="text" />
 
+
+        <Button
+            android:id="@+id/bt_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccione una fecha" />
+
+        <TextView
+            android:id="@+id/tx_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/bt_hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccione una hora" />
+
+        <TextView
+            android:id="@+id/tx_hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
         <Button
             android:id="@+id/btn_guardar"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Guardar" />
+        <Button
+            android:id="@+id/btn_update"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Actualizar" />
 
     </LinearLayout>
 </FrameLayout>

@@ -3,12 +3,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.managesettings.ManageSettings">
+    tools:context=".ui.fragments.manageaddress.ManageAddress">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre"
+            android:inputType="textPersonName" />
 
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correo electrónico"
+            android:inputType="textEmailAddress" />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/telephone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Número de telefono"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/addr1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Primera dirección"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/addr2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Segunda dirección"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btn_guardar"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardar" />
+
+    </LinearLayout>
 </FrameLayout>

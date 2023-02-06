@@ -60,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
+
     private fun checkUserValues(){
         if(prefs.getName().isNotEmpty()){
             FirebaseAuth.getInstance().signInWithEmailAndPassword(prefs.getName(), prefs.getPassword()).addOnCompleteListener {
