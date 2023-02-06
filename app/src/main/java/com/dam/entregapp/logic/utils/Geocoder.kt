@@ -26,7 +26,7 @@ object Geocoder {
 //  val client = OkHttpClient()
   var response: HttpResponse
 
-  runBlocking {
+
    response = client.get("http://api.positionstack.com/v1/forward") {
     url {
      parameters.append("access_key", "6dde42cd8f9c77849398a675529ffe26")
@@ -34,11 +34,12 @@ object Geocoder {
     }
    }
 
+
    Log.d("Geocoding", response.toString())
 
    client.close()
 
-  }
+
   /**
   var httpBuilder: HttpUrl.Builder =
   "http://api.positionstack.com/v1/forward".toHttpUrlOrNull()!!.newBuilder()
