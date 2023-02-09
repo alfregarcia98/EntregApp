@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dam.entregapp.R
+import com.dam.entregapp.data.model.Address
 import com.dam.entregapp.data.model.User
 import com.dam.entregapp.databinding.FragmentManageAddressBinding
 import com.dam.entregapp.model.GeocoderService
@@ -110,6 +111,9 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
 
             //add the user if all the fields are filled
             userViewModel.addUser(user)
+            //Prueba
+            val address = Address(0,2,"Buena y bonita calle",67.5,69.6)
+            userViewModel.addAddress(address)
             Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_SHORT).show()
 
             //navigate back to our home fragment

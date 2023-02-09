@@ -1,6 +1,11 @@
 package com.dam.entregapp.logic.repository
 
 import androidx.lifecycle.LiveData
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.dam.entregapp.data.model.Address
 import com.dam.entregapp.data.model.User
 import com.dam.entregapp.logic.dao.UserDAO
 
@@ -20,7 +25,20 @@ class UserRepository(private val userDAO: UserDAO) {
     }
 
     suspend fun deleteAllUsers(){
-        userDAO.deleteAll()
+        userDAO.deleteAllUsers()
     }
 
+    //Address
+
+    suspend fun addAddress(address: Address){
+        userDAO.addAddress(address)
+    }
+
+    suspend fun deleteAddress(address: Address){
+        userDAO.deleteAddress(address)
+    }
+
+    suspend fun deleteAllAddress(){
+        userDAO.deleteAllAddress()
+    }
 }

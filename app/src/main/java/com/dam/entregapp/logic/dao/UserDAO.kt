@@ -18,9 +18,6 @@ interface UserDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addUser(user: User)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addAddress(address: Address)
-
     @Update
     suspend fun updateUser(user: User)
 
@@ -31,9 +28,22 @@ interface UserDAO {
     fun getAllUsers(): LiveData<List<User>>
 
     @Query("DELETE FROM user_table")
-    suspend fun deleteAll()
+    suspend fun deleteAllUsers()
 
     @Transaction
     @Query("SELECT * FROM user_table WHERE id = :id")
     suspend fun getUserWithAddress(id: Int): List<UserWithAddress>
+
+    //Address
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addAddress(address: Address)
+
+    @Delete
+    suspend fun deleteAddress(address: Address)
+
+    @Query("SELECT * FROM address_table ORDER BY id DESC")
+    fun getAllAddress(): LiveData<List<Address>>
+
+    @Query("DELETE FROM address_table")
+    suspend fun deleteAllAddress()
 }

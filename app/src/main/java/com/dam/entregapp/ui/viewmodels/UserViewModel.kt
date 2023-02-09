@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.dam.entregapp.data.database.UserDB
+import com.dam.entregapp.data.model.Address
 import com.dam.entregapp.data.model.User
 import com.dam.entregapp.logic.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
@@ -45,5 +46,23 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    //Address
 
+    fun addAddress(address: Address) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addAddress(address)
+        }
+    }
+
+    fun deleteAddress(address: Address) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAddress(address)
+        }
+    }
+
+    fun deleteAllAddress() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllAddress()
+        }
+    }
 }
