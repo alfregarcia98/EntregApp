@@ -5,9 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.dam.entregapp.R
+import com.dam.entregapp.data.model.User
 import com.dam.entregapp.databinding.FragmentManageAddressBinding
 import com.dam.entregapp.model.GeocoderService
 import com.dam.entregapp.ui.viewmodels.UserViewModel
@@ -27,7 +30,9 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
     private var password = ""
     private var telephone = 0
     private var addr1 = ""
+    private var coordinates1 = ""
     private var addr2 = ""
+    private var coordinates2 = ""
 
     private var _binding: FragmentManageAddressBinding? = null
     private val binding get() = _binding!!
@@ -53,9 +58,7 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         binding.btnGuardar.setOnClickListener {
-            addr1 = binding.addr1.text.toString()
-            getGeocoder()
-            //addUserToDB()
+            addUserToDB()
         }
 
 
@@ -68,84 +71,46 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
             .build()
     }
 
-    private fun getGeocoder() {
+    private fun getGeocoder(address: String): Pair<Double, Double> {
+        var lon: Double = 0.0
+        var lat: Double = 0.0
+
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
             throwable.printStackTrace()
         }
 
         CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             val call = getRetrofit().create(GeocoderService::class.java)
-                .listGeocoderResult("6dde42cd8f9c77849398a675529ffe26", "$addr1","1")
+                .listGeocoderResult("6dde42cd8f9c77849398a675529ffe26", "$address", "1")
             val geocoder = call.execute().body()
             Log.d("getGeocoder", "Print: $geocoder")
 
-            var lon = geocoder!!.data[0].longitude
-            var lat = geocoder!!.data[0].latitude
+            lon = geocoder!!.data[0].longitude
+            lat = geocoder!!.data[0].latitude
 
             Log.d("Geocoder", "Ubicacion: $lon,$lat")
-
-
         }
-
-    }
-}
-/**
-
-private fun getGeocoder(){
-    val coroutineExceptionHandler = CoroutineExceptionHandler{_, throwable ->
-        throwable.printStackTrace()
+        return Pair(lon, lat)
     }
 
-    GlobalScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-        val apiKey = getString(R.string.api_key)
-        Log.d("Retrofit", "Hola")
-        val response = GeocoderClient.service.listGeocoderResult(apiKey,addr1)
-        val body = response.execute().body()
-        if (body != null)
-            Log.d("Retrofit", "Count : ${body.data.size}")
-    }
-
-    }
-
-}
-**/
-/**
-private fun addUserToDB() {
+    private fun addUserToDB() {
         //Get text from editTexts
         name = binding.name.text.toString()
         email = binding.email.text.toString()
         password = binding.password.text.toString()
         telephone = binding.telephone.text.toString().toInt()
         addr1 = binding.addr1.text.toString()
+        //coordinates1 = getGeocoder(addr1).toString()
         addr2 = binding.addr2.text.toString()
-**/
-/** Tutorial 1
-        GlobalScope.launch(Dispatchers.IO) {
-            val apiKey = getString(R.string.api_key)
-            val response = GeocoderClient.service.listGeocoderResult(apiKey)
-            val body = response.execute().body()
-            if (body != null)
-                Log.d("Retrofit", "Count : ${body.data.size}")
-        }
-**/
+        //coordinates2 = getGeocoder(addr2).toString()
 
-/**
-
-        GlobalScope.launch(Dispatchers.IO) {
-            var result = Geocoder.forwardGeocode(addr1)
-
-            Log.d("Geocoder", result.toString())
-            println(result)
-        }
-        **/
-/**
         //Check that the form is complete before submitting data to the database
         if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone == 0 || addr1.isEmpty() || addr2.isEmpty())) {
             val user = User(0, name, email, password, telephone, addr1, addr2)
 
             //add the user if all the fields are filled
             userViewModel.addUser(user)
-            Toast.makeText(context, "User created successfully!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_SHORT).show()
 
             //navigate back to our home fragment
             findNavController().navigate(R.id.action_manageSettings_to_mainMenu)
@@ -153,4 +118,4 @@ private fun addUserToDB() {
             Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
         }
     }
-}**/
+}

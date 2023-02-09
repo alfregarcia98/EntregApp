@@ -1,16 +1,18 @@
 package com.dam.entregapp.data.database
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.dam.entregapp.data.model.Address
 import com.dam.entregapp.data.model.User
 import com.dam.entregapp.logic.dao.UserDAO
 
 @Database(
-    entities = [User::class],
-    version = 1,
-    exportSchema = false
+    entities = [User::class,Address::class],
+    version = 2,
+    exportSchema = true
 )
 abstract class UserDB : RoomDatabase() {
 
@@ -31,7 +33,7 @@ abstract class UserDB : RoomDatabase() {
                     context.applicationContext,
                     UserDB::class.java,
                     "user_database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 return instance
             }

@@ -94,7 +94,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address), TimePickerDial
         addr1 = binding.addr1.text.toString()
         addr2 = binding.addr2.text.toString()
         if (!(addr1.isEmpty() || addr2.isEmpty())) {
-            val user = User(0, name, email, password, telephone, addr1, addr2)
+      //      val user = User(0, name, email, password, telephone, addr1, addr2)
         }
     }
 
@@ -109,10 +109,10 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address), TimePickerDial
 
     //Check that the form is complete before submitting data to the database
     if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone == 0 || addr1.isEmpty() || addr2.isEmpty())) {
-    val user = User(0, name, email, password, telephone, addr1, addr2)
+ //   val user = User(0, name, email, password, telephone, addr1, addr2)
 
     //add the user if all the fields are filled
-    userViewModel.addUser(user)
+    //userViewModel.addUser(user)
     Toast.makeText(context, "User created successfully!", Toast.LENGTH_SHORT).show()
 
     //navigate back to our home fragment
