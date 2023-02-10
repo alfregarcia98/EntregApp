@@ -5,27 +5,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.mainmenu.MainMenu">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <Button
+        android:id="@+id/btn_addr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:text="Configura tus direcciones de entrega" />
 
+    <Button
+        android:id="@+id/btn_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Configura tu cuenta" />
 
-        <Button
-            android:id="@+id/btn_addr"
-            android:layout_marginTop="100dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Configura tus direcciones de entrega" />
-
-        <Button
-            android:id="@+id/btn_settings"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Configura tu cuenta" />
-
-    </LinearLayout>
 </FrameLayout>

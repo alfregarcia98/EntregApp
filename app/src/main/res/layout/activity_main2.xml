@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity2"
-    android:background="#222222">
+    android:background="#222222"
+    tools:context=".ui.MainActivity2">
 
     <fragment
         android:id="@+id/navHostFragment"
@@ -14,6 +14,5 @@
         android:layout_height="match_parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/main_nav" />
-
 
 </RelativeLayout>

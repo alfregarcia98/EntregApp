@@ -42,5 +42,6 @@ class MainMenu : Fragment(R.layout.fragment_main_menu) {
             findNavController().navigate(R.id.action_mainMenu_to_manageSettings)
         }
     }
+
 }
 

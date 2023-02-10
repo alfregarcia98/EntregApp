@@ -15,10 +15,10 @@ import com.dam.entregapp.data.model.User
 import com.dam.entregapp.databinding.FragmentManageAddressBinding
 import com.dam.entregapp.model.GeocoderService
 import com.dam.entregapp.ui.viewmodels.UserViewModel
-
-import kotlinx.coroutines.*
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -112,7 +112,7 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
             //add the user if all the fields are filled
             userViewModel.addUser(user)
             //Prueba
-            val address = Address(null,2,"Buena y bonita calle",67.5,69.6)
+            val address = Address(null, 2, "Buena y bonita calle", 67.5, 69.6)
             userViewModel.addAddress(address)
             Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_SHORT).show()
 

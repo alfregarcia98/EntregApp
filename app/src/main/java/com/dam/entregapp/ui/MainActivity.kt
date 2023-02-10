@@ -2,13 +2,14 @@ package com.dam.entregapp.ui
 
 import android.Manifest
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.LocationService
-import com.dam.entregapp.R
 import com.dam.entregapp.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -16,7 +17,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
-enum class ProviderType{
+enum class ProviderType {
     BASIC
 }
 
@@ -30,19 +31,11 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        var cuenta = 0
-
-        binding.btpulsa.setOnClickListener {
-            cuenta++
-            binding.contador.text = "Has pulsado: $cuenta veces"
-            Toast.makeText(this, "Has pulsado: $cuenta veces", Toast.LENGTH_SHORT).show()
-        }
-
         val thread: Thread = object : Thread() {
             override fun run() {
                 try {
                     while (!this.isInterrupted) {
-                        sleep(1000)
+                        sleep(4000)
                         runOnUiThread {
                             binding.txtUbi.text = "${LocationService.lat}, ${LocationService.long}"
                         }
@@ -73,8 +66,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
     /**Prueba
     private lateinit var mService: LocationService
     private var mBound: Boolean = false
@@ -82,20 +73,20 @@ class MainActivity : AppCompatActivity() {
     /** Defines callbacks for service binding, passed to bindService()  */
     private val connection = object : ServiceConnection {
 
-        override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            val binder = service as LocationService.LocalBinder
-            mService = binder.getService()
-            mBound = true
-        }
-
-        override fun onServiceDisconnected(arg0: ComponentName) {
-            mBound = false
-        }
+    override fun onServiceConnected(className: ComponentName, service: IBinder) {
+    // We've bound to LocalService, cast the IBinder and get LocalService instance
+    val binder = service as LocationService.LocalBinder
+    mService = binder.getService()
+    mBound = true
     }
-    */
 
-    private fun setup(email: String, provider: String){
+    override fun onServiceDisconnected(arg0: ComponentName) {
+    mBound = false
+    }
+    }
+     */
+
+    private fun setup(email: String, provider: String) {
         val db = Firebase.firestore
         title = "Inicio"
         binding.txtEmail.text = email
@@ -107,22 +98,28 @@ class MainActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        binding.btnAddr.setOnClickListener {
-
+        binding.btnMainMenu.setOnClickListener {
+            val a = Intent(this, MainActivity2::class.java)
+            startActivity(a)
         }
 
         binding.btnGuardar.setOnClickListener {
             db.collection("users").document(email).set(
-                hashMapOf("provider" to provider,
+                hashMapOf(
+                    "provider" to provider,
                     "phone" to binding.txtTelefono.text.toString(),
-                    "name" to binding.txtNombre.text.toString()))
-
-            db.collection("users").document(email).collection("location").document("coordenadas").set(
-                hashMapOf("time" to FieldValue.serverTimestamp(),
-                    "lat" to LocationService.lat,
-                    "long" to LocationService.long
+                    "name" to binding.txtNombre.text.toString()
                 )
             )
+
+            db.collection("users").document(email).collection("location").document("coordenadas")
+                .set(
+                    hashMapOf(
+                        "time" to FieldValue.serverTimestamp(),
+                        "lat" to LocationService.lat,
+                        "long" to LocationService.long
+                    )
+                )
         }
         binding.btnRecuperar.setOnClickListener {
             db.collection("users").document(email).get().addOnSuccessListener {
@@ -141,7 +138,7 @@ class MainActivity : AppCompatActivity() {
             }
             /** Bind to LocalService
             Intent(this, LocationService::class.java).also { intent ->
-                bindService(intent, connection, Context.BIND_AUTO_CREATE)
+            bindService(intent, connection, Context.BIND_AUTO_CREATE)
             }*/
         }
 
@@ -157,13 +154,34 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
-        binding.btnRandom.setOnClickListener {
+        binding.btnDistancia.setOnClickListener {
             /**if (mBound) {
-                val num: Int = mService.randomNumber
-                Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()*/
-                Toast.makeText(this, "Location: ${LocationService.lat}, ${LocationService.long}", Toast.LENGTH_SHORT).show()
+            val num: Int = mService.randomNumber
+            Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()*/
+
+            var text = distanceBetweenLocations()
+            Toast.makeText(
+                this,
+                "$text",
+                Toast.LENGTH_LONG
+            ).show()
             //}
         }
+    }
+
+    fun distanceBetweenLocations(): String {
+
+        val currentLocation = Location("locationA")
+        currentLocation.latitude = 41.400524
+        currentLocation.longitude = 2.163368
+        val destination = Location("locationB")
+        destination.latitude = LocationService.lat
+        destination.longitude = LocationService.long
+
+        val distance = currentLocation.distanceTo(destination)
+
+        Log.d("Distancia", "$distance Metros")
+        return ("Distance between two Geographic Locations: $distance Metros")
 
     }
 }
