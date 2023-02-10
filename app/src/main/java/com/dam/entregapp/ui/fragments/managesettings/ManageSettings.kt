@@ -107,12 +107,12 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
 
         //Check that the form is complete before submitting data to the database
         if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone == 0 || addr1.isEmpty() || addr2.isEmpty())) {
-            val user = User(0, name, email, password, telephone, addr1, addr2)
+            val user = User(null, name, email, password, telephone)
 
             //add the user if all the fields are filled
             userViewModel.addUser(user)
             //Prueba
-            val address = Address(0,2,"Buena y bonita calle",67.5,69.6)
+            val address = Address(null,2,"Buena y bonita calle",67.5,69.6)
             userViewModel.addAddress(address)
             Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_SHORT).show()
 

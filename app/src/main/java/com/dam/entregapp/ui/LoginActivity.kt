@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.databinding.ActivityLoginBinding
-import com.dam.entregapp.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -20,11 +18,11 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        val screenSplash = installSplashScreen()
+        //val screenSplash = installSplashScreen()
 
         //Splash
         //Thread.sleep(300)
-        screenSplash.setKeepOnScreenCondition{false}
+        //screenSplash.setKeepOnScreenCondition{false}
 
         setup()
     }
@@ -55,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.registro.setOnClickListener {
             // abrimos la actividad de registro
-            val a = Intent(this, SigninActivity::class.java)
+            val a = Intent(this, RegisterActivity::class.java)
             startActivity(a)
         }
 

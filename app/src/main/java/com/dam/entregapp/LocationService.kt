@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.util.*
 
-class LocationService: Service() {
+class LocationService : Service() {
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var locationClient: LocationClient
@@ -60,7 +60,7 @@ class LocationService: Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when(intent?.action) {
+        when (intent?.action) {
             ACTION_START -> start()
             ACTION_STOP -> stop()
         }
@@ -74,7 +74,8 @@ class LocationService: Service() {
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setOngoing(true)
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         locationClient
             .getLocationUpdates(1000L)

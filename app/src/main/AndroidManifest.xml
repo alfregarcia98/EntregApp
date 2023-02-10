@@ -56,12 +56,13 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.SigninActivity"
+            android:name=".ui.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".ui.LoginActivity"
-            android:exported="true"
-            android:theme="@style/Theme.EntregApp.Starting">
+            android:exported="true">
+            <!--Para la splashscreen-->
+            <!--android:theme="@style/Theme.EntregApp.Starting"-->
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
