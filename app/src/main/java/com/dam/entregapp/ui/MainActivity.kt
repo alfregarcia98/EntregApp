@@ -12,18 +12,16 @@ import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.LocationService
 import com.dam.entregapp.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
-enum class ProviderType {
-    BASIC
-}
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    val user = Firebase.auth.currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,11 +45,13 @@ class MainActivity : AppCompatActivity() {
 
         thread.start()
 
+        //Compruebo usuario
+        checkUser()
+
         //Setup
         val bundle = intent.extras
         val email: String? = bundle?.getString("email")
-        val provider: String? = bundle?.getString("provider")
-        setup(email ?: "", provider ?: "")
+        setup(email ?: "")
 
         //LocationTutorial
 
@@ -86,11 +86,27 @@ class MainActivity : AppCompatActivity() {
     }
      */
 
-    private fun setup(email: String, provider: String) {
+    private fun checkUser() {
+        //val user = Firebase.auth.currentUser
+        if (user != null) {
+            // User is signed in
+        } else {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+
+    private fun setup(emailExtra: String) {
         val db = Firebase.firestore
         title = "Inicio"
-        binding.txtEmail.text = email
-        binding.txtProvider.text = provider
+        user?.let {
+            // Name, email address, and profile photo Url
+            val name = it.displayName
+            val email = it.email
+            binding.txtEmail.text = email
+            binding.txtProvider.text = name
+        }
 
         binding.btLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -104,15 +120,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnGuardar.setOnClickListener {
-            db.collection("users").document(email).set(
+            db.collection("users").document(emailExtra).set(
                 hashMapOf(
-                    "provider" to provider,
                     "phone" to binding.txtTelefono.text.toString(),
                     "name" to binding.txtNombre.text.toString()
                 )
             )
 
-            db.collection("users").document(email).collection("location").document("coordenadas")
+            db.collection("users").document(emailExtra).collection("location")
+                .document("coordenadas")
                 .set(
                     hashMapOf(
                         "time" to FieldValue.serverTimestamp(),
@@ -122,13 +138,13 @@ class MainActivity : AppCompatActivity() {
                 )
         }
         binding.btnRecuperar.setOnClickListener {
-            db.collection("users").document(email).get().addOnSuccessListener {
+            db.collection("users").document(emailExtra).get().addOnSuccessListener {
                 binding.txtTelefono.setText(it.get("phone") as String?)
                 binding.txtNombre.setText(it.get("name") as String?)
             }
         }
         binding.btnEliminar.setOnClickListener {
-            db.collection("users").document(email).delete()
+            db.collection("users").document(emailExtra).delete()
         }
 
         binding.startService.setOnClickListener {

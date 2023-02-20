@@ -9,19 +9,25 @@
         android:id="@+id/mainMenu"
         android:name="com.dam.entregapp.ui.fragments.mainmenu.MainMenu"
         android:label="fragment_main_menu"
-        tools:layout="@layout/fragment_main_menu" >
+        tools:layout="@layout/fragment_main_menu">
         <action
             android:id="@+id/action_mainMenu_to_manageAddress"
             app:destination="@id/manageAddress" />
         <action
             android:id="@+id/action_mainMenu_to_manageSettings"
             app:destination="@id/manageSettings" />
+        <action
+            android:id="@+id/action_mainMenu_to_loginFragment2"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_mainMenu_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/manageAddress"
         android:name="com.dam.entregapp.ui.fragments.manageaddress.ManageAddress"
         android:label="fragment_manage_address"
-        tools:layout="@layout/fragment_manage_address" >
+        tools:layout="@layout/fragment_manage_address">
         <action
             android:id="@+id/action_manageAddress_to_mainMenu"
             app:destination="@id/mainMenu" />
@@ -30,9 +36,33 @@
         android:id="@+id/manageSettings"
         android:name="com.dam.entregapp.ui.fragments.managesettings.ManageSettings"
         android:label="fragment_manage_settings"
-        tools:layout="@layout/fragment_manage_settings" >
+        tools:layout="@layout/fragment_manage_settings">
         <action
             android:id="@+id/action_manageSettings_to_mainMenu"
             app:destination="@id/mainMenu" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.dam.entregapp.ui.fragments.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_mainMenu2"
+            app:destination="@id/mainMenu" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.dam.entregapp.ui.fragments.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_mainMenu"
+            app:destination="@id/mainMenu" />
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

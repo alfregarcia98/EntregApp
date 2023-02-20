@@ -26,24 +26,28 @@ class LoginActivity : AppCompatActivity() {
 
         setup()
     }
-    private fun setup(){
 
-        checkUserValues()
+    private fun setup() {
+
+        //checkUserValues()
 
         binding.btnLogin.setOnClickListener {
             val emailText = binding.email.text.toString()
             val passwordText = binding.password.text.toString()
 
-            if(emailText.isEmpty() || passwordText.isEmpty()){
+            if (emailText.isEmpty() || passwordText.isEmpty()) {
                 Toast.makeText(this, "Por favor, introduce tus datos", Toast.LENGTH_SHORT).show()
-            } else{
+            } else {
                 //LogIn en FireBase
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(binding.email.text.toString(), binding.password.text.toString()).addOnCompleteListener {
-                    if (it.isSuccessful){
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(
+                    binding.email.text.toString(),
+                    binding.password.text.toString()
+                ).addOnCompleteListener {
+                    if (it.isSuccessful) {
                         //Guardamos el nombre en SharedPreferences para mantener la sesion posteriormente
                         prefs.saveName(emailText)
                         prefs.savePassword(passwordText)
-                        showHome(it.result?.user?.email.toString(), ProviderType.BASIC)
+                        showHome(it.result?.user?.email.toString())
                     } else {
                         showAlert()
                     }
@@ -59,31 +63,33 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun checkUserValues(){
-        if(prefs.getName().isNotEmpty()){
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(prefs.getName(), prefs.getPassword()).addOnCompleteListener {
-                if (it.isSuccessful){
-                    showHome(it.result?.user?.email.toString(), ProviderType.BASIC)
-                } else {
-                    showAlert()
+    private fun checkUserValues() {
+        if (prefs.getName().isNotEmpty()) {
+            FirebaseAuth.getInstance()
+                .signInWithEmailAndPassword(prefs.getName(), prefs.getPassword())
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        showHome(it.result?.user?.email.toString())
+                    } else {
+                        showAlert()
+                    }
                 }
-            }
         }
     }
 
-    private fun showAlert(){
+    private fun showAlert() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Error")
         builder.setMessage("Se ha producido un error autenticando al ususario")
-        builder.setPositiveButton("Aceptar",null)
+        builder.setPositiveButton("Aceptar", null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
-    private fun showHome(email: String, provider: ProviderType){
+
+    private fun showHome(email: String) {
 
         val homeIntent = Intent(this, MainActivity::class.java).apply {
             putExtra("email", email)
-            putExtra("provider", provider.name)
         }
         startActivity(homeIntent)
     }

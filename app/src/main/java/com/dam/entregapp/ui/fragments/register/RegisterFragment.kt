@@ -1,39 +1,52 @@
-package com.dam.entregapp.ui
+package com.dam.entregapp.ui.fragments.register
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.dam.entregapp.R
 import com.dam.entregapp.data.model.User
-import com.dam.entregapp.databinding.ActivityRegisterBinding
+import com.dam.entregapp.databinding.FragmentRegisterBinding
 import com.dam.entregapp.ui.viewmodels.RegisterViewModel
 import com.google.firebase.auth.FirebaseAuth
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterFragment : Fragment(R.layout.fragment_register) {
+
     private lateinit var registerViewModel: RegisterViewModel
-    private lateinit var binding: ActivityRegisterBinding
+    private var _binding: FragmentRegisterBinding? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityRegisterBinding.inflate(layoutInflater)
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         val view = binding.root
-        setContentView(view)
+        return view
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-        /**        val user = User(null,"alfredo","a@gmail.com","hola",665)
-        registerViewModel.addUser(user)
-         **/
-
         setup()
     }
 
     private fun setup() {
 
         binding.btnLoginNow.setOnClickListener {
-            finish()
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
         binding.btnRegistrarCorreo.setOnClickListener {
@@ -42,20 +55,23 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun showAlert() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Error")
+        //val builder = DialogFragment.STYLE_NORMAL
+        /**builder.setTitle("Error")
         builder.setMessage("Se ha producido un error registrando al ususario")
         builder.setPositiveButton("Aceptar", null)
         val dialog: AlertDialog = builder.create()
-        dialog.show()
+        dialog.show()*/
     }
 
     private fun showHome(email: String) {
 
+        findNavController().navigate(R.id.action_registerFragment_to_mainMenu)
+        /**
         val homeIntent = Intent(this, MainActivity::class.java).apply {
-            putExtra("email", email)
+        putExtra("email", email)
         }
         startActivity(homeIntent)
+         */
     }
 
     private fun userToDB() {
@@ -69,9 +85,9 @@ class RegisterActivity : AppCompatActivity() {
 
         // comprobamos que se rellenan todos los campos antes de mandarlo a la base de datos
         if (usuarioText.isEmpty() || phoneText.isEmpty() || emailText.isEmpty() || contrasenaText.isEmpty()) {
-            Toast.makeText(this, "Rellene todos los campos", Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, "Rellene todos los campos", Toast.LENGTH_LONG).show()
         } else if (!contrasenaText.equals(contrasena2Text)) {
-            Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
         } else {
             Log.d("Registro", "Antes de registrar")
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailText, contrasenaText)
