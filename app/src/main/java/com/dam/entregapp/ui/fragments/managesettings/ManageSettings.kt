@@ -1,7 +1,6 @@
 package com.dam.entregapp.ui.fragments.managesettings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,17 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.dam.entregapp.R
-import com.dam.entregapp.data.model.Address
 import com.dam.entregapp.data.model.User
-import com.dam.entregapp.databinding.FragmentManageAddressBinding
-import com.dam.entregapp.model.GeocoderService
+import com.dam.entregapp.databinding.FragmentManageSettingsBinding
 import com.dam.entregapp.ui.viewmodels.UserViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
@@ -31,11 +22,9 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
     private var password = ""
     private var telephone = 0
     private var addr1 = ""
-    private var coordinates1 = ""
     private var addr2 = ""
-    private var coordinates2 = ""
 
-    private var _binding: FragmentManageAddressBinding? = null
+    private var _binding: FragmentManageSettingsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -43,7 +32,7 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentManageAddressBinding.inflate(inflater, container, false)
+        _binding = FragmentManageSettingsBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
     }
@@ -59,42 +48,13 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         binding.btnGuardar.setOnClickListener {
-            addUserToDB()
+            updateUserDB()
         }
 
 
     }
 
-    private fun getRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("http://api.positionstack.com/v1/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
-    private fun getGeocoder(address: String): Pair<Double, Double> {
-        var lon: Double = 0.0
-        var lat: Double = 0.0
-
-        val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            throwable.printStackTrace()
-        }
-
-        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
-            val call = getRetrofit().create(GeocoderService::class.java)
-                .listGeocoderResult("6dde42cd8f9c77849398a675529ffe26", "$address", "1")
-            val geocoder = call.execute().body()
-            Log.d("getGeocoder", "Print: $geocoder")
-
-            lon = geocoder!!.data[0].longitude
-            lat = geocoder!!.data[0].latitude
-
-            Log.d("Geocoder", "Ubicacion: $lon,$lat")
-        }
-        return Pair(lon, lat)
-    }
-
-    private fun addUserToDB() {
+    private fun updateUserDB() {
         //Get text from editTexts
         name = binding.name.text.toString()
         email = binding.email.text.toString()
@@ -110,10 +70,7 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
             val user = User(null, name, email, password, telephone)
 
             //add the user if all the fields are filled
-            userViewModel.addUser(user)
-            //Prueba
-            val address = Address(null, 2, "Buena y bonita calle", 67.5, 69.6)
-            userViewModel.addAddress(address)
+            userViewModel.updateUser(user)
             Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_SHORT).show()
 
             //navigate back to our home fragment

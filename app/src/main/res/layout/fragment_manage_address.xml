@@ -9,32 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Correo electrónico"
-            android:inputType="textEmailAddress" />
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Contraseña"
-            android:inputType="textPassword" />
-
-        <EditText
-            android:id="@+id/telephone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Número de telefono"
-            android:inputType="phone" />
 
         <EditText
             android:id="@+id/addr1"
@@ -43,6 +17,18 @@
             android:hint="Primera dirección"
             android:inputType="text" />
 
+        <Button
+            android:id="@+id/bt_hour1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccione una hora" />
+
+        <TextView
+            android:id="@+id/tx_hour1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
         <EditText
             android:id="@+id/addr2"
             android:layout_width="match_parent"
@@ -50,27 +36,14 @@
             android:hint="Segunda dirección"
             android:inputType="text" />
 
-
         <Button
-            android:id="@+id/bt_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Seleccione una fecha" />
-
-        <TextView
-            android:id="@+id/tx_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <Button
-            android:id="@+id/bt_hour"
+            android:id="@+id/bt_hour2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Seleccione una hora" />
 
         <TextView
-            android:id="@+id/tx_hour"
+            android:id="@+id/tx_hour2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
@@ -81,6 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Guardar" />
+
         <Button
             android:id="@+id/btn_update"
             android:layout_gravity="center"

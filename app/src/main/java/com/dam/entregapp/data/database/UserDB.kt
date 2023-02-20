@@ -1,7 +1,6 @@
 package com.dam.entregapp.data.database
 
 import android.content.Context
-import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -10,25 +9,25 @@ import com.dam.entregapp.data.model.User
 import com.dam.entregapp.logic.dao.UserDAO
 
 @Database(
-    entities = [User::class,Address::class],
-    version = 3,
+    entities = [User::class, Address::class],
+    version = 4,
     exportSchema = true
 )
 abstract class UserDB : RoomDatabase() {
 
     abstract fun userDao(): UserDAO
 
-    companion object{
+    companion object {
 
         @Volatile
         private var INSTANCE: UserDB? = null
 
-        fun getDatabase(context: Context): UserDB{
+        fun getDatabase(context: Context): UserDB {
             val tempInstance = INSTANCE
-            if (tempInstance != null){
+            if (tempInstance != null) {
                 return tempInstance
             }
-            synchronized(this){
+            synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     UserDB::class.java,

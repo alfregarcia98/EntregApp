@@ -12,6 +12,7 @@ data class Address(
     var id: Int? = null,
     val user_id: Int,
     val name: String,
+    val hour: String,
     val lon: Double,
     val lat: Double
 ) : Parcelable
