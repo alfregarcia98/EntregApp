@@ -63,19 +63,20 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    /** Prescindible
     private fun checkUserValues() {
-        if (prefs.getName().isNotEmpty()) {
-            FirebaseAuth.getInstance()
-                .signInWithEmailAndPassword(prefs.getName(), prefs.getPassword())
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        showHome(it.result?.user?.email.toString())
-                    } else {
-                        showAlert()
-                    }
-                }
-        }
+    if (prefs.getName().isNotEmpty()) {
+    FirebaseAuth.getInstance()
+    .signInWithEmailAndPassword(prefs.getName(), prefs.getPassword())
+    .addOnCompleteListener {
+    if (it.isSuccessful) {
+    showHome(it.result?.user?.email.toString())
+    } else {
+    showAlert()
     }
+    }
+    }
+    }*/
 
     private fun showAlert() {
         val builder = AlertDialog.Builder(this)

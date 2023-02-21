@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     val user = Firebase.auth.currentUser
+    val email = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +50,10 @@ class MainActivity : AppCompatActivity() {
         //Compruebo usuario
         checkUser()
 
-        //Setup
-        val bundle = intent.extras
-        val email: String? = bundle?.getString("email")
-        setup(email ?: "")
+        //Setup en caso de querer los extras desde login y register
+        //val bundle = intent.extras
+        //val email: String? = bundle?.getString("email")
+        //setup(email ?: "")
 
         //LocationTutorial
 
@@ -89,7 +91,12 @@ class MainActivity : AppCompatActivity() {
     private fun checkUser() {
         //val user = Firebase.auth.currentUser
         if (user != null) {
-            // User is signed in
+            user?.let {
+                // Name, email address, and profile photo Url
+                val email = it!!.email!!
+                setup(email)
+                //binding.txtEmail.text = email
+            }
         } else {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -97,16 +104,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setup(emailExtra: String) {
+    private fun setup(userEmail: String) {
         val db = Firebase.firestore
         title = "Inicio"
-        user?.let {
-            // Name, email address, and profile photo Url
-            val name = it.displayName
-            val email = it.email
-            binding.txtEmail.text = email
-            binding.txtProvider.text = name
-        }
+        /**user?.let {
+        // Name, email address, and profile photo Url
+        val id = it.tenantId
+        val email = it.email
+        binding.txtEmail.text = email
+        binding.txtProvider.text = id
+        }*/
+        binding.txtEmail.text = userEmail
 
         binding.btLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -120,14 +128,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnGuardar.setOnClickListener {
-            db.collection("users").document(emailExtra).set(
+            db.collection("users").document(userEmail).set(
                 hashMapOf(
                     "phone" to binding.txtTelefono.text.toString(),
                     "name" to binding.txtNombre.text.toString()
                 )
             )
 
-            db.collection("users").document(emailExtra).collection("location")
+            db.collection("users").document(userEmail).collection("location")
                 .document("coordenadas")
                 .set(
                     hashMapOf(
@@ -138,13 +146,13 @@ class MainActivity : AppCompatActivity() {
                 )
         }
         binding.btnRecuperar.setOnClickListener {
-            db.collection("users").document(emailExtra).get().addOnSuccessListener {
+            db.collection("users").document(userEmail).get().addOnSuccessListener {
                 binding.txtTelefono.setText(it.get("phone") as String?)
                 binding.txtNombre.setText(it.get("name") as String?)
             }
         }
         binding.btnEliminar.setOnClickListener {
-            db.collection("users").document(emailExtra).delete()
+            db.collection("users").document(userEmail).delete()
         }
 
         binding.startService.setOnClickListener {

@@ -1,9 +1,11 @@
 package com.dam.entregapp.ui.fragments.login
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dam.entregapp.LocationApp
@@ -40,14 +42,12 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun setup() {
 
-        checkUserValues()
-
         binding.btnLogin.setOnClickListener {
             val emailText = binding.email.text.toString()
             val passwordText = binding.password.text.toString()
 
             if (emailText.isEmpty() || passwordText.isEmpty()) {
-                //Toast.makeText(this, "Por favor, introduce tus datos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Por favor, introduce tus datos", Toast.LENGTH_SHORT).show()
             } else {
                 //LogIn en FireBase
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(
@@ -58,9 +58,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         //Guardamos el nombre en SharedPreferences para mantener la sesion posteriormente
                         LocationApp.prefs.saveName(emailText)
                         LocationApp.prefs.savePassword(passwordText)
-                        showHome(it.result?.user?.email.toString())
+                        showHome()
                     } else {
-                        showAlert()
+                        showAlert(requireView())
                     }
                 }
             }
@@ -73,36 +73,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     }
 
-    private fun checkUserValues() {
-        if (LocationApp.prefs.getName().isNotEmpty()) {
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(
-                LocationApp.prefs.getName(),
-                LocationApp.prefs.getPassword()
-            ).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    showHome(it.result?.user?.email.toString())
-                } else {
-                    showAlert()
-                }
-            }
-        }
-    }
-
-    private fun showAlert() {
-        /**val builder = AlertDialog.Builder(this)
+    private fun showAlert(v: View) {
+        val builder = AlertDialog.Builder(v.context)
         builder.setTitle("Error")
         builder.setMessage("Se ha producido un error autenticando al ususario")
         builder.setPositiveButton("Aceptar", null)
         val dialog: AlertDialog = builder.create()
-        dialog.show()*/
+        dialog.show()
     }
 
-    private fun showHome(email: String) {
-        /**
-        val homeIntent = Intent(this, MainActivity::class.java).apply {
-        putExtra("email", email)
-        }
-        startActivity(homeIntent)*/
+    private fun showHome() {
         findNavController().navigate(R.id.action_loginFragment_to_mainMenu2)
     }
 }

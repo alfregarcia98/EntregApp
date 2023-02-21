@@ -72,7 +72,6 @@
         <!-- Para la splashscreen -->
         <!-- android:theme="@style/Theme.EntregApp.Starting" -->
 
-
         <activity
             android:name=".ui.AuthActivity"
             android:exported="false" />
@@ -87,7 +86,10 @@
         </activity>
         <activity
             android:name=".ui.MainActivity2"
-            android:exported="true" />
+            android:exported="false" />
+        <activity
+            android:name=".ui.SplashScreenActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
