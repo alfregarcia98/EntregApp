@@ -24,6 +24,8 @@ class LocationService : Service() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var locationClient: LocationClient
 
+    private val MIN_PROXIMITY = 100.0
+
     //Probando
     // Binder given to clients
     private val binder = LocalBinder()
@@ -79,9 +81,28 @@ class LocationService : Service() {
         locationClient
             .getLocationUpdates(5000L)
             .catch { e -> e.printStackTrace() }
-            .onEach { location ->
-                lat = location.latitude
-                long = location.longitude
+            .onEach { currentLocation ->
+//                if (DistanceCalculator.areLocationsWithinDistance(
+//                        primaryLocation,
+//                        currentLocation,
+//                        MIN_PROXIMITY
+//                    )
+//                ) {
+//                    // save this datapoint to the db with primary location id
+//                } else if (DistanceCalculator.areLocationsWithinDistance(
+//                        secondaryLocation,
+//                        currentLocation,
+//                        MIN_PROXIMITY
+//                    )
+//                ) {
+//                    // save this datapoint to the db with secondary location id
+//                } else {
+//                    // log ou
+//                }
+
+
+                lat = currentLocation.latitude
+                long = currentLocation.longitude
                 val updatedNotification = notification.setContentText("Location: ($lat, $long)")
                 Log.d("LOCATION_UPDATE", "Ubicacion: $lat, $long")
 

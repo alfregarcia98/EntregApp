@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "tracking_data_table")
 data class TrackingData(
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
+    var id: Int,
     val user_id: Int,
     val address_id: Int,
     val TimeStamp: String

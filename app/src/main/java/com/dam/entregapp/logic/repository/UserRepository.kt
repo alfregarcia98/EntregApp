@@ -8,6 +8,8 @@ import com.dam.entregapp.logic.dao.UserDAO
 
 class UserRepository(private val userDAO: UserDAO) {
     val getAllUsers: LiveData<List<User>> = userDAO.getAllUsers()
+    val getAllAddress: LiveData<List<Address>> = userDAO.getAllAddress()
+    val getAllTrackingData: LiveData<List<TrackingData>> = userDAO.getAllTrackingData()
 
     //User
     suspend fun addUser(user: User) {
@@ -24,6 +26,10 @@ class UserRepository(private val userDAO: UserDAO) {
 
     suspend fun deleteAllUsers() {
         userDAO.deleteAllUsers()
+    }
+
+    suspend fun getUserID(email: String): Int {
+        return userDAO.getUserID(email)[0]
     }
 
     //Address

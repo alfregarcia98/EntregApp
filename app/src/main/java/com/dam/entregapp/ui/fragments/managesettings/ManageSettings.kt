@@ -65,7 +65,7 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
 
         //Check that the form is complete before submitting data to the database
         if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone == 0)) {
-            val user = User(null, name, email, password, telephone)
+            val user = User(0, name, email, password, telephone)
 
             //add the user if all the fields are filled
             userViewModel.updateUser(user)
@@ -87,7 +87,7 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
 
         //Check that the form is complete before submitting data to the database
         if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone == 0)) {
-            val user = User(null, name, email, password, telephone)
+            val user = User(0, name, email, password, telephone)
 
             //add the user if all the fields are filled
             userViewModel.addUser(user)

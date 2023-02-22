@@ -8,19 +8,26 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
 import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.LocationService
 import com.dam.entregapp.databinding.ActivityMainBinding
+import com.dam.entregapp.ui.viewmodels.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mainViewModel: MainViewModel
     val user = Firebase.auth.currentUser
     val email = ""
 
@@ -30,6 +37,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         val thread: Thread = object : Thread() {
             override fun run() {
@@ -48,7 +57,13 @@ class MainActivity : AppCompatActivity() {
         thread.start()
 
         //Compruebo usuario
-        checkUser()
+        val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            throwable.printStackTrace()
+        }
+
+        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+            checkUser()
+        }
 
         //Setup en caso de querer los extras desde login y register
         //val bundle = intent.extras
@@ -88,13 +103,14 @@ class MainActivity : AppCompatActivity() {
     }
      */
 
-    private fun checkUser() {
+    suspend fun checkUser() {
         //val user = Firebase.auth.currentUser
         if (user != null) {
             user?.let {
                 // Name, email address, and profile photo Url
                 val email = it!!.email!!
-                setup(email)
+                val userID = mainViewModel.getUserID(email)
+                setup(email, userID)
                 //binding.txtEmail.text = email
             }
         } else {
@@ -104,7 +120,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setup(userEmail: String) {
+    private fun setup(userEmail: String, userID: Int) {
         val db = Firebase.firestore
         title = "Inicio"
         /**user?.let {
@@ -115,6 +131,7 @@ class MainActivity : AppCompatActivity() {
         binding.txtProvider.text = id
         }*/
         binding.txtEmail.text = userEmail
+        binding.txtProvider.text = userID.toString()
 
         binding.btLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()

@@ -91,7 +91,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         val user =
-                            User(null, usuarioText, emailText, contrasenaText, phoneText.toInt())
+                            User(0, usuarioText, emailText, contrasenaText, phoneText.toInt())
                         registerViewModel.addUser(user)
                         Log.d("Registro", "Pues parece que funciona")
                         showHome()

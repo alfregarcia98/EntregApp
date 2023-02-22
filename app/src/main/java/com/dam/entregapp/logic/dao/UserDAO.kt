@@ -23,6 +23,9 @@ interface UserDAO {
     @Query("SELECT * FROM user_table ORDER BY id DESC")
     fun getAllUsers(): LiveData<List<User>>
 
+    @Query("SELECT id FROM user_table WHERE email = :email")
+    suspend fun getUserID(email: String): List<Int>
+
     @Query("DELETE FROM user_table")
     suspend fun deleteAllUsers()
 
@@ -46,4 +49,7 @@ interface UserDAO {
     //TrackingData
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTrackingData(track: TrackingData)
+
+    @Query("SELECT * FROM tracking_data_table ORDER BY id DESC")
+    fun getAllTrackingData(): LiveData<List<TrackingData>>
 }

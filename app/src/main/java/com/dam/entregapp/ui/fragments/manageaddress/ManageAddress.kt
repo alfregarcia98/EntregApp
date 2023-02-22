@@ -94,7 +94,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
             Geocoder.getGeocoder(
                 address = addr1,
                 onResult = { (lon, lat) ->
-                    val primaryAddress = Address(null, 1, addr1, cleanTimePrimary, lon, lat)
+                    val primaryAddress = Address(0, 1, addr1, cleanTimePrimary, lon, lat)
                     userViewModel.addAddress(primaryAddress)
                 }
             )
@@ -102,7 +102,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
             Geocoder.getGeocoder(
                 address = addr2,
                 onResult = { (lon, lat) ->
-                    val secondaryAddress = Address(null, 1, addr2, cleanTimeSecondary, lon, lat)
+                    val secondaryAddress = Address(0, 1, addr2, cleanTimeSecondary, lon, lat)
                     userViewModel.addAddress(secondaryAddress)
                 }
             )

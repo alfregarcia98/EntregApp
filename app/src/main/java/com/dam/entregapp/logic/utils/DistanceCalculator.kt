@@ -5,6 +5,18 @@ import android.util.Log
 import java.sql.Timestamp
 
 object DistanceCalculator {
+    fun areLocationsWithinDistance(
+        one: Location,
+        other: Location,
+        distance: Double
+    ): Boolean {
+        return distanceBetweenLocations(one, other) <= distance
+    }
+
+    fun distanceBetweenLocations(one: Location, other: Location): Double {
+        return one.distanceTo(other).toDouble()
+    }
+
 
     fun distanceBetweenLocations(lat: Double, long: Double): String {
 

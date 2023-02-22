@@ -23,7 +23,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(view)
 
         registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-        /**        val user = User(null,"alfredo","a@gmail.com","hola",665)
+        /**        val user = User(0,"alfredo","a@gmail.com","hola",665)
         registerViewModel.addUser(user)
          **/
 
@@ -78,7 +78,7 @@ class RegisterActivity : AppCompatActivity() {
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         val user =
-                            User(null, usuarioText, emailText, contrasenaText, phoneText.toInt())
+                            User(0, usuarioText, emailText, contrasenaText, phoneText.toInt())
                         registerViewModel.addUser(user)
                         Log.d("Registro", "Pues parece que funciona")
                         showHome(it.result?.user?.email.toString())
