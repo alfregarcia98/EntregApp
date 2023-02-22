@@ -8,9 +8,8 @@ import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.dam.entregapp.logic.utils.DistanceCalculator
 import com.google.android.gms.location.LocationServices
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -78,7 +77,7 @@ class LocationService : Service() {
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         locationClient
-            .getLocationUpdates(1000L)
+            .getLocationUpdates(5000L)
             .catch { e -> e.printStackTrace() }
             .onEach { location ->
                 lat = location.latitude
@@ -87,6 +86,8 @@ class LocationService : Service() {
                 Log.d("LOCATION_UPDATE", "Ubicacion: $lat, $long")
 
                 notificationManager.notify(1, updatedNotification.build())
+                var dist = DistanceCalculator.distanceBetweenLocations(lat, long)
+                Log.d("LOCATION_UPDATE", "Disctancia: $dist")
             }
             .launchIn(serviceScope)
 

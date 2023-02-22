@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:hint="Correo electrónico"
             android:inputType="textEmailAddress" />
+
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
@@ -36,19 +38,6 @@
             android:hint="Número de telefono"
             android:inputType="phone" />
 
-        <EditText
-            android:id="@+id/addr1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Primera dirección"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/addr2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Segunda dirección"
-            android:inputType="text" />
 
         <Button
             android:id="@+id/btn_guardar"
@@ -56,6 +45,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Guardar" />
+
+
+        <Button
+            android:id="@+id/btn_temporal"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear" />
 
     </LinearLayout>
 </FrameLayout>

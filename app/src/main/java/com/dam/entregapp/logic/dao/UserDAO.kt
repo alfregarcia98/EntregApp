@@ -1,20 +1,16 @@
 package com.dam.entregapp.logic.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Transaction
-import androidx.room.Update
+import androidx.room.*
 import com.dam.entregapp.data.database.relations.UserWithAddress
 import com.dam.entregapp.data.model.Address
+import com.dam.entregapp.data.model.TrackingData
 import com.dam.entregapp.data.model.User
 
 @Dao
 interface UserDAO {
 
+    //User
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addUser(user: User)
 
@@ -46,4 +42,8 @@ interface UserDAO {
 
     @Query("DELETE FROM address_table")
     suspend fun deleteAllAddress()
+
+    //TrackingData
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addTrackingData(track: TrackingData)
 }

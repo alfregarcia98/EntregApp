@@ -21,8 +21,6 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
     private var email = ""
     private var password = ""
     private var telephone = 0
-    private var addr1 = ""
-    private var addr2 = ""
 
     private var _binding: FragmentManageSettingsBinding? = null
     private val binding get() = _binding!!
@@ -51,6 +49,10 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
             updateUserDB()
         }
 
+        binding.btnTemporal.setOnClickListener {
+            addUserDB()
+        }
+
 
     }
 
@@ -60,17 +62,35 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
         email = binding.email.text.toString()
         password = binding.password.text.toString()
         telephone = binding.telephone.text.toString().toInt()
-        addr1 = binding.addr1.text.toString()
-        //coordinates1 = getGeocoder(addr1).toString()
-        addr2 = binding.addr2.text.toString()
-        //coordinates2 = getGeocoder(addr2).toString()
 
         //Check that the form is complete before submitting data to the database
-        if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone == 0 || addr1.isEmpty() || addr2.isEmpty())) {
+        if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone == 0)) {
             val user = User(null, name, email, password, telephone)
 
             //add the user if all the fields are filled
             userViewModel.updateUser(user)
+            Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_SHORT).show()
+
+            //navigate back to our home fragment
+            findNavController().navigate(R.id.action_manageSettings_to_mainMenu)
+        } else {
+            Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun addUserDB() {
+        //Get text from editTexts
+        name = binding.name.text.toString()
+        email = binding.email.text.toString()
+        password = binding.password.text.toString()
+        telephone = binding.telephone.text.toString().toInt()
+
+        //Check that the form is complete before submitting data to the database
+        if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone == 0)) {
+            val user = User(null, name, email, password, telephone)
+
+            //add the user if all the fields are filled
+            userViewModel.addUser(user)
             Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_SHORT).show()
 
             //navigate back to our home fragment

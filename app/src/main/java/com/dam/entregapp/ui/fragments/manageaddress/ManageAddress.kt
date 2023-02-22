@@ -17,14 +17,8 @@ import com.dam.entregapp.R
 import com.dam.entregapp.data.model.Address
 import com.dam.entregapp.databinding.FragmentManageAddressBinding
 import com.dam.entregapp.logic.utils.Calculations
-import com.dam.entregapp.model.GeocoderService
+import com.dam.entregapp.logic.utils.Geocoder
 import com.dam.entregapp.ui.viewmodels.UserViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
 class ManageAddress : Fragment(R.layout.fragment_manage_address),
@@ -97,18 +91,18 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
         //Check that the form is complete before submitting data to the database
         if (!(addr1.isEmpty() || addr2.isEmpty())) {
 
-            getGeocoder(
+            Geocoder.getGeocoder(
                 address = addr1,
                 onResult = { (lon, lat) ->
-                    val primaryAddress = Address(null, 2, addr1, cleanTimePrimary, lon, lat)
+                    val primaryAddress = Address(null, 1, addr1, cleanTimePrimary, lon, lat)
                     userViewModel.addAddress(primaryAddress)
                 }
             )
 
-            getGeocoder(
+            Geocoder.getGeocoder(
                 address = addr2,
                 onResult = { (lon, lat) ->
-                    val secondaryAddress = Address(null, 2, addr2, cleanTimeSecondary, lon, lat)
+                    val secondaryAddress = Address(null, 1, addr2, cleanTimeSecondary, lon, lat)
                     userViewModel.addAddress(secondaryAddress)
                 }
             )
@@ -157,38 +151,38 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
     month = cal.get(Calendar.MONTH)
     year = cal.get(Calendar.YEAR)
     }*/
-
+    /**
     private fun getRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("http://api.positionstack.com/v1/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    return Retrofit.Builder()
+    .baseUrl("http://api.positionstack.com/v1/")
+    .addConverterFactory(GsonConverterFactory.create())
+    .build()
     }
 
     private fun getGeocoder(
-        address: String,
-        onResult: (latLong: Pair<Double, Double>) -> Unit
+    address: String,
+    onResult: (latLong: Pair<Double, Double>) -> Unit
     ) {
-        val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            throwable.printStackTrace()
-        }
-
-        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
-
-            var lon: Double = 0.0
-            var lat: Double = 0.0
-
-            val call = getRetrofit().create(GeocoderService::class.java)
-                .listGeocoderResult("6dde42cd8f9c77849398a675529ffe26", "$address", "1")
-            val geocoder = call.execute().body()
-            Log.d("getGeocoder", "Print: $geocoder")
-
-            lon = geocoder!!.data[0].longitude
-            lat = geocoder!!.data[0].latitude
-
-            onResult(Pair(lon, lat))
-
-            Log.d("Geocoder", "Ubicacion: $lon,$lat")
-        }
+    val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    throwable.printStackTrace()
     }
+
+    CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+
+    var lon: Double = 0.0
+    var lat: Double = 0.0
+
+    val call = getRetrofit().create(GeocoderService::class.java)
+    .listGeocoderResult("6dde42cd8f9c77849398a675529ffe26", "$address", "1")
+    val geocoder = call.execute().body()
+    Log.d("getGeocoder", "Print: $geocoder")
+
+    lon = geocoder!!.data[0].longitude
+    lat = geocoder!!.data[0].latitude
+
+    onResult(Pair(lon, lat))
+
+    Log.d("Geocoder", "Ubicacion: $lon,$lat")
+    }
+    }*/
 }
