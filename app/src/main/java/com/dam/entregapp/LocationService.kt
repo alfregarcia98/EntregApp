@@ -93,11 +93,18 @@ class LocationService : Service() {
         val userSecondaryAddressID = prefs.getSecondaryAddressID()
 
         val primaryLocation = Location("primaryLocation")
-        primaryLocation.latitude = 41.400524
-        primaryLocation.longitude = 2.163368
+        primaryLocation.latitude = prefs.getPrimaryAddressLat().toDouble()
+        primaryLocation.longitude = prefs.getPrimaryAddressLon().toDouble()
+        val secondaryLocation = Location("secondaryLocation")
+        secondaryLocation.latitude = prefs.getSecondaryAddressLat().toDouble()
+        secondaryLocation.longitude = prefs.getSecondaryAddressLon().toDouble()
+
+/*        val primaryLocation = Location("primaryLocation")
+        primaryLocation.latitude = 36.597027
+        primaryLocation.longitude = -6.225
         val secondaryLocation = Location("secondaryLocation")
         secondaryLocation.latitude = 37.3955
-        secondaryLocation.longitude = -5.9913
+        secondaryLocation.longitude = -5.9913*/
 
 
         locationClient
@@ -113,7 +120,7 @@ class LocationService : Service() {
                     // save this datapoint to the db with primary location id
                     val currentTime =
                         currentLocation.time.toString() //TODO dejarlo en long para luego operar con el
-                    val tracking = TrackingData(0, userID, 2, currentTime)
+                    val tracking = TrackingData(0, userID, userPrimaryAddressID, currentTime)
                     repository.addTrackingData(tracking)
 
                 } else if (DistanceCalculator.areLocationsWithinDistance(
@@ -125,7 +132,7 @@ class LocationService : Service() {
                     // save this datapoint to the db with secondary location id
                     val currentTime =
                         currentLocation.time.toString() //TODO dejarlo en long para luego operar con el
-                    val tracking = TrackingData(0, userID, 3, currentTime)
+                    val tracking = TrackingData(0, userID, userSecondaryAddressID, currentTime)
                     repository.addTrackingData(tracking)
                 } else {
                     // log out

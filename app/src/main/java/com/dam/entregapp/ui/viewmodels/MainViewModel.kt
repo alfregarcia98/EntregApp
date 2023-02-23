@@ -27,13 +27,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getUserWithAddress(id)
     }
 
-    suspend fun getUserAddressesID(id: Int): List<Int> {
-        return repository.getUserAddressesID(id)
-    }
-
     fun addTracking(tracking: TrackingData) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addTrackingData(tracking)
         }
+    }
+
+    suspend fun deleteAllTrackingData() {
+        repository.deleteAllTrackingData()
     }
 }

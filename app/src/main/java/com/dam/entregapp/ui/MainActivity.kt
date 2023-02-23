@@ -2,10 +2,8 @@ package com.dam.entregapp.ui
 
 import android.Manifest
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
@@ -110,13 +108,47 @@ class MainActivity : AppCompatActivity() {
                 // Name, email address, and profile photo Url
                 val email = it!!.email!!
                 val userID = mainViewModel.getUserID(email)
-                //val lista = mainViewModel.getUserAddressesID(userID)
                 setup(email, userID)
+                prueba(userID)
                 //binding.txtEmail.text = email
             }
         } else {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+        }
+
+    }
+
+    suspend fun prueba(userID: Int) {
+        val lista = mainViewModel.getUserWithAddress(userID)
+        if (lista.isNotEmpty()) {
+            if (lista[0].addresses.isNotEmpty()) {
+                if (lista[0].addresses.size == 2) {
+
+                    Log.d("Prueba", "Lista: $lista")
+                    val primaryName = lista[0].addresses[0].name
+                    val secondaryName = lista[0].addresses[1].name
+                    val primaryID = lista[0].addresses[0].id
+                    val secondaryID = lista[0].addresses[1].id
+                    Log.d("Prueba", "Primary: $primaryName, Secondary: $secondaryName")
+                    val primaryLat = lista[0].addresses[0].lat.toFloat()
+                    val primaryLon = lista[0].addresses[0].lon.toFloat()
+                    val secondaryLat = lista[0].addresses[1].lat.toFloat()
+                    val secondaryLon = lista[0].addresses[1].lon.toFloat()
+
+                    prefs.savePrimaryAddressID(primaryID)
+                    prefs.saveSecondaryAddressID(secondaryID)
+                    prefs.savePrimaryAddressLat(primaryLat)
+                    prefs.savePrimaryAddressLon(primaryLon)
+                    prefs.saveSecondaryAddressLat(secondaryLat)
+                    prefs.saveSecondaryAddressLon(secondaryLon)
+
+                    Log.d(
+                        "Prueba",
+                        "PrimaryLat: $primaryLat, PrimaryLon: $primaryLon, SecondaryLat: $secondaryLat, SecondaryLon: $secondaryLon"
+                    )
+                }
+            }
         }
 
     }
@@ -198,34 +230,14 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
-        binding.btnDistancia.setOnClickListener {
+        binding.btnBorrar.setOnClickListener {
             /**if (mBound) {
             val num: Int = mService.randomNumber
             Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()*/
-
-            var text = distanceBetweenLocations()
-            Toast.makeText(
-                this,
-                "$text",
-                Toast.LENGTH_LONG
-            ).show()
+            CoroutineScope(Dispatchers.IO).launch {
+                mainViewModel.deleteAllTrackingData()
+            }
             //}
         }
-    }
-
-    fun distanceBetweenLocations(): String {
-
-        val currentLocation = Location("locationA")
-        currentLocation.latitude = 41.400524
-        currentLocation.longitude = 2.163368
-        val destination = Location("locationB")
-        destination.latitude = LocationService.lat
-        destination.longitude = LocationService.long
-
-        val distance = currentLocation.distanceTo(destination)
-
-        Log.d("Distancia", "$distance Metros")
-        return ("Distance between two Geographic Locations: $distance Metros")
-
     }
 }

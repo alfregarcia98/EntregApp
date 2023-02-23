@@ -5,8 +5,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import com.dam.entregapp.data.Prefs
 
-class LocationApp: Application() {
+class LocationApp : Application() {
 
     companion object {
         lateinit var prefs: Prefs
@@ -14,13 +15,14 @@ class LocationApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 "location",
                 "Location",
                 NotificationManager.IMPORTANCE_LOW
             )
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
 

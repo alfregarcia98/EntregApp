@@ -29,13 +29,10 @@ interface UserDAO {
     @Query("DELETE FROM user_table")
     suspend fun deleteAllUsers()
 
+    //Relation 1-M
     @Transaction
     @Query("SELECT * FROM user_table WHERE id = :id")
     suspend fun getUserWithAddress(id: Int): List<UserWithAddress>
-
-    @Transaction
-    @Query("SELECT id FROM user_table WHERE id = :id")
-    suspend fun getUserAddressesID(id: Int): List<Int>
 
     //Address
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -56,4 +53,7 @@ interface UserDAO {
 
     @Query("SELECT * FROM tracking_data_table ORDER BY id DESC")
     fun getAllTrackingData(): LiveData<List<TrackingData>>
+
+    @Query("DELETE FROM tracking_data_table")
+    suspend fun deleteAllTrackingData()
 }

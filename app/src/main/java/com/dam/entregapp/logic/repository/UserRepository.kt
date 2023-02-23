@@ -37,12 +37,8 @@ class UserRepository(private val userDAO: UserDAO) {
         return userDAO.getUserWithAddress(id)
     }
 
-    suspend fun getUserAddressesID(id: Int): List<Int> {
-        return userDAO.getUserAddressesID(id)
-    }
 
     //Address
-
     suspend fun addAddress(address: Address) {
         userDAO.addAddress(address)
     }
@@ -58,5 +54,9 @@ class UserRepository(private val userDAO: UserDAO) {
     //TrackingData
     suspend fun addTrackingData(tracking: TrackingData) {
         userDAO.addTrackingData(tracking)
+    }
+
+    suspend fun deleteAllTrackingData() {
+        userDAO.deleteAllTrackingData()
     }
 }
