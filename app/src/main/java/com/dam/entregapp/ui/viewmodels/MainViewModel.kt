@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dam.entregapp.data.database.UserDB
+import com.dam.entregapp.data.database.relations.UserWithAddress
 import com.dam.entregapp.data.model.TrackingData
 import com.dam.entregapp.logic.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun getUserID(email: String): Int {
         return repository.getUserID(email)
+    }
+
+    suspend fun getUserWithAddress(id: Int): List<UserWithAddress> {
+        return repository.getUserWithAddress(id)
+    }
+
+    suspend fun getUserAddressesID(id: Int): List<Int> {
+        return repository.getUserAddressesID(id)
     }
 
     fun addTracking(tracking: TrackingData) {

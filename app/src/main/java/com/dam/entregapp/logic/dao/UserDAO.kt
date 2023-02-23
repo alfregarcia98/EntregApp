@@ -33,6 +33,10 @@ interface UserDAO {
     @Query("SELECT * FROM user_table WHERE id = :id")
     suspend fun getUserWithAddress(id: Int): List<UserWithAddress>
 
+    @Transaction
+    @Query("SELECT id FROM user_table WHERE id = :id")
+    suspend fun getUserAddressesID(id: Int): List<Int>
+
     //Address
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAddress(address: Address)

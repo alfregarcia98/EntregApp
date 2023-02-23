@@ -110,6 +110,7 @@ class MainActivity : AppCompatActivity() {
                 // Name, email address, and profile photo Url
                 val email = it!!.email!!
                 val userID = mainViewModel.getUserID(email)
+                //val lista = mainViewModel.getUserAddressesID(userID)
                 setup(email, userID)
                 //binding.txtEmail.text = email
             }
@@ -132,6 +133,8 @@ class MainActivity : AppCompatActivity() {
         }*/
         binding.txtEmail.text = userEmail
         binding.txtProvider.text = userID.toString()
+
+        prefs.saveCurrentUserID(userID)
 
         binding.btLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()

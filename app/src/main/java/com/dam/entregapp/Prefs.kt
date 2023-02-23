@@ -27,6 +27,30 @@ class Prefs(val context: Context) {
         return storage.getString(SHARED_PASSWORD, "")!!
     }
 
+    fun saveCurrentUserID(userID: Int) {
+        storage.edit().putInt(SHARED_USERNAME, userID).apply()
+    }
+
+    fun getCurrentUserID(): Int {
+        return storage.getInt(SHARED_USERNAME, 0)!!
+    }
+
+    fun savePrimaryAddressID(primaryAddID: Int) {
+        storage.edit().putInt(SHARED_USERNAME, primaryAddID).apply()
+    }
+
+    fun getPrimaryAddressID(): Int {
+        return storage.getInt(SHARED_USERNAME, 0)!!
+    }
+
+    fun saveSecondaryAddressID(secondaryAddID: Int) {
+        storage.edit().putInt(SHARED_USERNAME, secondaryAddID).apply()
+    }
+
+    fun getSecondaryAddressID(): Int {
+        return storage.getInt(SHARED_USERNAME, 0)!!
+    }
+
     fun wipe() {
         storage.edit().clear().apply()
     }

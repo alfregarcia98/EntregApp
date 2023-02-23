@@ -1,6 +1,7 @@
 package com.dam.entregapp.logic.repository
 
 import androidx.lifecycle.LiveData
+import com.dam.entregapp.data.database.relations.UserWithAddress
 import com.dam.entregapp.data.model.Address
 import com.dam.entregapp.data.model.TrackingData
 import com.dam.entregapp.data.model.User
@@ -30,6 +31,14 @@ class UserRepository(private val userDAO: UserDAO) {
 
     suspend fun getUserID(email: String): Int {
         return userDAO.getUserID(email)[0]
+    }
+
+    suspend fun getUserWithAddress(id: Int): List<UserWithAddress> {
+        return userDAO.getUserWithAddress(id)
+    }
+
+    suspend fun getUserAddressesID(id: Int): List<Int> {
+        return userDAO.getUserAddressesID(id)
     }
 
     //Address

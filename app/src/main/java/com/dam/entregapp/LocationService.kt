@@ -4,10 +4,15 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.location.Location
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.dam.entregapp.LocationApp.Companion.prefs
+import com.dam.entregapp.data.database.UserDB
+import com.dam.entregapp.data.model.TrackingData
+import com.dam.entregapp.logic.repository.UserRepository
 import com.dam.entregapp.logic.utils.DistanceCalculator
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.CoroutineScope
@@ -78,37 +83,64 @@ class LocationService : Service() {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+        val repository: UserRepository
+        val userDao = UserDB.getDatabase(application).userDao()
+        repository = UserRepository(userDao)
+
+        //Get all the info relative to the user id and his addresses
+        val userID = prefs.getCurrentUserID()
+        val userPrimaryAddressID = prefs.getPrimaryAddressID()
+        val userSecondaryAddressID = prefs.getSecondaryAddressID()
+
+        val primaryLocation = Location("primaryLocation")
+        primaryLocation.latitude = 41.400524
+        primaryLocation.longitude = 2.163368
+        val secondaryLocation = Location("secondaryLocation")
+        secondaryLocation.latitude = 37.3955
+        secondaryLocation.longitude = -5.9913
+
+
         locationClient
             .getLocationUpdates(5000L)
             .catch { e -> e.printStackTrace() }
             .onEach { currentLocation ->
-//                if (DistanceCalculator.areLocationsWithinDistance(
-//                        primaryLocation,
-//                        currentLocation,
-//                        MIN_PROXIMITY
-//                    )
-//                ) {
-//                    // save this datapoint to the db with primary location id
-//                } else if (DistanceCalculator.areLocationsWithinDistance(
-//                        secondaryLocation,
-//                        currentLocation,
-//                        MIN_PROXIMITY
-//                    )
-//                ) {
-//                    // save this datapoint to the db with secondary location id
-//                } else {
-//                    // log ou
-//                }
+                if (DistanceCalculator.areLocationsWithinDistance(
+                        primaryLocation,
+                        currentLocation,
+                        MIN_PROXIMITY
+                    )
+                ) {
+                    // save this datapoint to the db with primary location id
+                    val currentTime =
+                        currentLocation.time.toString() //TODO dejarlo en long para luego operar con el
+                    val tracking = TrackingData(0, userID, 2, currentTime)
+                    repository.addTrackingData(tracking)
+
+                } else if (DistanceCalculator.areLocationsWithinDistance(
+                        secondaryLocation,
+                        currentLocation,
+                        MIN_PROXIMITY
+                    )
+                ) {
+                    // save this datapoint to the db with secondary location id
+                    val currentTime =
+                        currentLocation.time.toString() //TODO dejarlo en long para luego operar con el
+                    val tracking = TrackingData(0, userID, 3, currentTime)
+                    repository.addTrackingData(tracking)
+                } else {
+                    // log out
+                    Log.d("LOCATION_UPDATE", "No esta disponible")
+                }
 
 
-                lat = currentLocation.latitude
+                /*lat = currentLocation.latitude
                 long = currentLocation.longitude
                 val updatedNotification = notification.setContentText("Location: ($lat, $long)")
                 Log.d("LOCATION_UPDATE", "Ubicacion: $lat, $long")
 
                 notificationManager.notify(1, updatedNotification.build())
                 var dist = DistanceCalculator.distanceBetweenLocations(lat, long)
-                Log.d("LOCATION_UPDATE", "Disctancia: $dist")
+                Log.d("LOCATION_UPDATE", "Disctancia: $dist")*/
             }
             .launchIn(serviceScope)
 
