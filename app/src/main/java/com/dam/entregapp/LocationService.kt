@@ -30,6 +30,7 @@ class LocationService : Service() {
     private lateinit var locationClient: LocationClient
 
     private val MIN_PROXIMITY = 100.0
+    var trackingCounter = 0
 
     //Probando
     // Binder given to clients
@@ -98,14 +99,9 @@ class LocationService : Service() {
         val secondaryLocation = Location("secondaryLocation")
         secondaryLocation.latitude = prefs.getSecondaryAddressLat().toDouble()
         secondaryLocation.longitude = prefs.getSecondaryAddressLon().toDouble()
-
-/*        val primaryLocation = Location("primaryLocation")
-        primaryLocation.latitude = 36.597027
-        primaryLocation.longitude = -6.225
-        val secondaryLocation = Location("secondaryLocation")
-        secondaryLocation.latitude = 37.3955
-        secondaryLocation.longitude = -5.9913*/
-
+        if (trackingCounter == 0) {
+            trackingCounter = prefs.getTrackingCount()
+        }
 
         locationClient
             .getLocationUpdates(5000L)
@@ -138,6 +134,9 @@ class LocationService : Service() {
                     // log out
                     Log.d("LOCATION_UPDATE", "No esta disponible")
                 }
+
+                trackingCounter++
+                prefs.saveTrackingCount(trackingCounter)
 
 
                 /*lat = currentLocation.latitude

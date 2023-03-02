@@ -56,6 +56,10 @@ class UserRepository(private val userDAO: UserDAO) {
         userDAO.addTrackingData(tracking)
     }
 
+    suspend fun getTrackingWithAddrID(id: Int): List<TrackingData> {
+        return userDAO.getTrackingWithAddrID(id)
+    }
+
     suspend fun deleteAllTrackingData() {
         userDAO.deleteAllTrackingData()
     }

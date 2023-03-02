@@ -142,6 +142,8 @@ class MainActivity : AppCompatActivity() {
                     prefs.savePrimaryAddressLon(primaryLon)
                     prefs.saveSecondaryAddressLat(secondaryLat)
                     prefs.saveSecondaryAddressLon(secondaryLon)
+                    prefs.savePrimaryAddressName(primaryName)
+                    prefs.saveSecondaryAddressName(secondaryName)
 
                     Log.d(
                         "Prueba",

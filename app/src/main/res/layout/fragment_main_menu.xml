@@ -37,4 +37,12 @@
         android:layout_marginTop="150dp"
         android:text="Registro" />
 
+    <Button
+        android:id="@+id/btn_estadisticas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="150dp"
+        android:text="Estadisticas" />
+
 </FrameLayout>

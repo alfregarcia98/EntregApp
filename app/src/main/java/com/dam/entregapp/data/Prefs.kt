@@ -14,6 +14,9 @@ class Prefs(val context: Context) {
     val SHARED_SECONDARYLON = "secondarylon"
     val SHARED_PRIMARYID = "primaryAddressID"
     val SHARED_SECONDARYID = "secondaryAddressID"
+    val SHARED_PRIMARYNAME = "primaryAddressName"
+    val SHARED_SECONDARYNAME = "secondaryAddressName"
+    val SHARED_TRACKINGCOUNT = "trackingtotalcount"
 
     //Create a new field storing the actual user
     val storage = context.getSharedPreferences(SHARED_NAME, 0)
@@ -76,8 +79,8 @@ class Prefs(val context: Context) {
         return storage.getFloat(SHARED_SECONDARYLON, 0F)!!
     }
 
-    fun savePrimaryAddressID(secondaryAddID: Int) {
-        storage.edit().putInt(SHARED_PRIMARYID, secondaryAddID).apply()
+    fun savePrimaryAddressID(primaryAddID: Int) {
+        storage.edit().putInt(SHARED_PRIMARYID, primaryAddID).apply()
     }
 
     fun getPrimaryAddressID(): Int {
@@ -90,6 +93,34 @@ class Prefs(val context: Context) {
 
     fun getSecondaryAddressID(): Int {
         return storage.getInt(SHARED_SECONDARYID, 0)!!
+    }
+
+    fun savePrimaryAddressName(primaryAddName: String) {
+        storage.edit().putString(SHARED_PRIMARYNAME, primaryAddName).apply()
+    }
+
+    fun getPrimaryAddressName(): String {
+        return storage.getString(SHARED_PRIMARYNAME, "")!!
+    }
+
+    fun saveSecondaryAddressName(secondaryAddName: String) {
+        storage.edit().putString(SHARED_SECONDARYNAME, secondaryAddName).apply()
+    }
+
+    fun getSecondaryAddressName(): String {
+        return storage.getString(SHARED_SECONDARYNAME, "")!!
+    }
+
+    fun saveTrackingCount(count: Int) {
+        storage.edit().putInt(SHARED_TRACKINGCOUNT, count).apply()
+    }
+
+    fun getTrackingCount(): Int {
+        return storage.getInt(SHARED_TRACKINGCOUNT, 0)!!
+    }
+
+    fun resetTrackingCounter() {
+        storage.edit().remove(SHARED_TRACKINGCOUNT).apply()
     }
 
     fun wipe() {

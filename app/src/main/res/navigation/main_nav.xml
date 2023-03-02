@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_mainMenu_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_mainMenu_to_statistics"
+            app:destination="@id/statistics" />
     </fragment>
     <fragment
         android:id="@+id/manageAddress"
@@ -64,5 +67,14 @@
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statistics"
+        android:name="com.dam.entregapp.ui.fragments.Statistics.Statistics"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics">
+        <action
+            android:id="@+id/action_statistics_to_mainMenu"
+            app:destination="@id/mainMenu" />
     </fragment>
 </navigation>

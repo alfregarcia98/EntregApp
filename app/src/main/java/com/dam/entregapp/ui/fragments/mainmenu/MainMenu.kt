@@ -49,6 +49,10 @@ class MainMenu : Fragment(R.layout.fragment_main_menu) {
         binding.btnRegister.setOnClickListener {
             findNavController().navigate(R.id.action_mainMenu_to_registerFragment)
         }
+
+        binding.btnEstadisticas.setOnClickListener {
+            findNavController().navigate(R.id.action_mainMenu_to_statistics)
+        }
     }
 
 }

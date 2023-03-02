@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.dam.entregapp.data.database.UserDB
 import com.dam.entregapp.data.model.Address
+import com.dam.entregapp.data.model.TrackingData
 import com.dam.entregapp.data.model.User
 import com.dam.entregapp.logic.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
@@ -66,4 +67,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
     //TrackingData
+
+    suspend fun deleteAllTrackingData() {
+        repository.deleteAllTrackingData()
+    }
+
+    suspend fun getTrackingWithAddrID(id: Int): List<TrackingData> {
+        return repository.getTrackingWithAddrID(id)
+    }
 }
