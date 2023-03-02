@@ -1,9 +1,11 @@
 package com.dam.entregapp.ui
 
 import android.Manifest
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
@@ -11,11 +13,12 @@ import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.LocationService
 import com.dam.entregapp.databinding.ActivityMainBinding
 import com.dam.entregapp.ui.viewmodels.MainViewModel
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -63,6 +66,9 @@ class MainActivity : AppCompatActivity() {
             checkUser()
         }
 
+        //Notificaciones
+        getToken()
+
         //Setup en caso de querer los extras desde login y register
         //val bundle = intent.extras
         //val email: String? = bundle?.getString("email")
@@ -101,6 +107,23 @@ class MainActivity : AppCompatActivity() {
     }
      */
 
+    fun getToken() {
+        //Notificaciones
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            Log.d(TAG, token)
+            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+        })
+    }
+
     suspend fun checkUser() {
         //val user = Firebase.auth.currentUser
         if (user != null) {
@@ -108,6 +131,7 @@ class MainActivity : AppCompatActivity() {
                 // Name, email address, and profile photo Url
                 val email = it!!.email!!
                 val userID = mainViewModel.getUserID(email)
+                prefs.saveEmail(email)
                 setup(email, userID)
                 prueba(userID)
                 //binding.txtEmail.text = email
@@ -189,7 +213,7 @@ class MainActivity : AppCompatActivity() {
                 )
             )
 
-            db.collection("users").document(userEmail).collection("location")
+            /*db.collection("users").document(userEmail).collection("location")
                 .document("coordenadas")
                 .set(
                     hashMapOf(
@@ -197,7 +221,7 @@ class MainActivity : AppCompatActivity() {
                         "lat" to LocationService.lat,
                         "long" to LocationService.long
                     )
-                )
+                )*/
         }
         binding.btnRecuperar.setOnClickListener {
             db.collection("users").document(userEmail).get().addOnSuccessListener {

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.dam.entregapp.LocationApp
 import com.dam.entregapp.R
 import com.dam.entregapp.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -55,9 +54,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     binding.password.text.toString()
                 ).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        //Guardamos el nombre en SharedPreferences para mantener la sesion posteriormente
-                        LocationApp.prefs.saveName(emailText)
-                        LocationApp.prefs.savePassword(passwordText)
                         showHome()
                     } else {
                         showAlert(requireView())

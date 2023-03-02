@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -44,9 +43,6 @@ class LoginActivity : AppCompatActivity() {
                     binding.password.text.toString()
                 ).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        //Guardamos el nombre en SharedPreferences para mantener la sesion posteriormente
-                        prefs.saveName(emailText)
-                        prefs.savePassword(passwordText)
                         showHome(it.result?.user?.email.toString())
                     } else {
                         showAlert()

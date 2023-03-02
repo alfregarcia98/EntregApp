@@ -10,6 +10,9 @@ import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.R
 import com.dam.entregapp.databinding.FragmentStatisticsBinding
 import com.dam.entregapp.ui.viewmodels.UserViewModel
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +21,7 @@ import kotlinx.coroutines.launch
 class Statistics : Fragment(R.layout.fragment_statistics) {
 
     private lateinit var userViewModel: UserViewModel
+    val db = Firebase.firestore
     var porcentajePrincipal = 0f
     var porcentajeSecundario = 0f
 
@@ -86,6 +90,15 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
     }
 
     private fun submitStatistics() {
+
+        var email = prefs.getEmail()
+        db.collection("users").document(prefs.getEmail()).collection("Statistics")
+            .document("Tracking")
+            .set(
+                hashMapOf(
+                    "time" to FieldValue.serverTimestamp()
+                )
+            )
 
     }
 
