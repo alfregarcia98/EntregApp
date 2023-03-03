@@ -9,6 +9,7 @@ class Prefs(val context: Context) {
     val SHARED_EMAIL = "email"
     val SHARED_PASSWORD = "password"
     val SHARED_USERID = "userID"
+    val SHARED_DEVICEID = "deviceID"
     val SHARED_PRIMARYLAT = "primarylat"
     val SHARED_PRIMARYLON = "primarylon"
     val SHARED_SECONDARYLAT = "secondarylat"
@@ -28,6 +29,14 @@ class Prefs(val context: Context) {
 
     fun getName(): String {
         return storage.getString(SHARED_USERNAME, "")!!
+    }
+
+    fun saveDeviceID(token: String) {
+        storage.edit().putString(SHARED_DEVICEID, token).apply()
+    }
+
+    fun getDeviceID(): String {
+        return storage.getString(SHARED_DEVICEID, "")!!
     }
 
     fun saveEmail(email: String) {

@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        val user = Firebase.auth.currentUser
 
         val thread: Thread = object : Thread() {
             override fun run() {
@@ -117,6 +118,14 @@ class MainActivity : AppCompatActivity() {
 
             // Get new FCM registration token
             val token = task.result
+
+            val tokenGuardado = prefs.getDeviceID()
+            if (token != null) {
+                if (tokenGuardado.isEmpty() || token != tokenGuardado) {
+                    //registramos el token en el servidor
+                    prefs.saveDeviceID(token)
+                }
+            }
 
             // Log and toast
             Log.d(TAG, token)
@@ -206,22 +215,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnGuardar.setOnClickListener {
-            db.collection("users").document(userEmail).set(
+            /*db.collection("users").document(userEmail).set(
                 hashMapOf(
                     "phone" to binding.txtTelefono.text.toString(),
                     "name" to binding.txtNombre.text.toString()
                 )
-            )
+            )*/
 
-            /*db.collection("users").document(userEmail).collection("location")
-                .document("coordenadas")
-                .set(
-                    hashMapOf(
-                        "time" to FieldValue.serverTimestamp(),
-                        "lat" to LocationService.lat,
-                        "long" to LocationService.long
-                    )
-                )*/
+            db.collection("users").document(userEmail).set(
+                hashMapOf(
+                    "token" to prefs.getDeviceID()
+                )
+            )
+            
         }
         binding.btnRecuperar.setOnClickListener {
             db.collection("users").document(userEmail).get().addOnSuccessListener {

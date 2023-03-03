@@ -43,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
                     binding.password.text.toString()
                 ).addOnCompleteListener {
                     if (it.isSuccessful) {
+                        //TODO Hacer que al iniciar sesion tamien se cree en local el usuario
                         showHome(it.result?.user?.email.toString())
                     } else {
                         showAlert()
@@ -73,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
     }
     }
     }*/
+
 
     private fun showAlert() {
         val builder = AlertDialog.Builder(this)
