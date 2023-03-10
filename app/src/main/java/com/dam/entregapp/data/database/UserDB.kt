@@ -12,7 +12,7 @@ import com.dam.entregapp.logic.dao.UserDAO
 @Database(
     entities = [User::class, Address::class, TrackingData::class],
     version = 8,
-    exportSchema = true
+    exportSchema = false
 )
 abstract class UserDB : RoomDatabase() {
 

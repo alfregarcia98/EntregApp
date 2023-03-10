@@ -139,14 +139,12 @@ class LocationService : Service() {
                 prefs.saveTrackingCount(trackingCounter)
 
 
-                /*lat = currentLocation.latitude
+                lat = currentLocation.latitude
                 long = currentLocation.longitude
                 val updatedNotification = notification.setContentText("Location: ($lat, $long)")
                 Log.d("LOCATION_UPDATE", "Ubicacion: $lat, $long")
 
                 notificationManager.notify(1, updatedNotification.build())
-                var dist = DistanceCalculator.distanceBetweenLocations(lat, long)
-                Log.d("LOCATION_UPDATE", "Disctancia: $dist")*/
             }
             .launchIn(serviceScope)
 

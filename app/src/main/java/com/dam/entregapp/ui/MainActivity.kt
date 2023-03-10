@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         val user = Firebase.auth.currentUser
+        title = "Inicio"
 
         val thread: Thread = object : Thread() {
             override fun run() {
@@ -190,7 +191,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setup(userEmail: String, userID: Int) {
         val db = Firebase.firestore
-        title = "Inicio"
+
         /**user?.let {
         // Name, email address, and profile photo Url
         val id = it.tenantId
@@ -227,7 +228,7 @@ class MainActivity : AppCompatActivity() {
                     "token" to prefs.getDeviceID()
                 )
             )
-            
+
         }
         binding.btnRecuperar.setOnClickListener {
             db.collection("users").document(userEmail).get().addOnSuccessListener {
