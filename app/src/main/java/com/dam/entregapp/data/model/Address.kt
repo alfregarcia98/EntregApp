@@ -12,7 +12,8 @@ data class Address(
     var id: Int,
     val user_id: Int,
     val name: String,
-    val hour: String,
+    val start_hour: String,
+    val end_hour: String,
     val lon: Double,
     val lat: Double
 ) : Parcelable

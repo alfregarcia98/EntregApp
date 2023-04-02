@@ -18,13 +18,29 @@
             android:inputType="text" />
 
         <Button
-            android:id="@+id/bt_hour1"
-            android:layout_width="match_parent"
+            android:id="@+id/bt_hour_primary_start"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Seleccione una hora" />
+            android:text="Hora inicio" />
 
         <TextView
-            android:id="@+id/tx_hour1"
+            android:id="@+id/tx_hour_primary_start"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="--:--" />
+
+        <Button
+            android:id="@+id/bt_hour_primary_end"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hora final" />
+
+        <TextView
+            android:id="@+id/tx_hour_primary_end"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="--:--" />
@@ -37,13 +53,29 @@
             android:inputType="text" />
 
         <Button
-            android:id="@+id/bt_hour2"
-            android:layout_width="match_parent"
+            android:id="@+id/bt_hour_secondary_start"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Seleccione una hora" />
+            android:text="Hora inicio" />
 
         <TextView
-            android:id="@+id/tx_hour2"
+            android:id="@+id/tx_hour_secondary_start"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="--:--" />
+
+        <Button
+            android:id="@+id/bt_hour_secondary_end"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hora final" />
+
+        <TextView
+            android:id="@+id/tx_hour_secondary_end"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="--:--" />

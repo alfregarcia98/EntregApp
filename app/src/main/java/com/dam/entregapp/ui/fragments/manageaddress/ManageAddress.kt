@@ -31,10 +31,13 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
 
     private var hour = 0
     private var minute = 0
-    private var selectingPrimaryTime = true
 
-    private var cleanTimePrimary = ""
-    private var cleanTimeSecondary = ""
+    private var timeSelector = ""
+
+    private var cleanTimePrimaryStart = ""
+    private var cleanTimePrimaryEnd = ""
+    private var cleanTimeSecondaryStart = ""
+    private var cleanTimeSecondaryEnd = ""
 
     private var _binding: FragmentManageAddressBinding? = null
     private val binding get() = _binding!!
@@ -72,14 +75,29 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
     @RequiresApi(Build.VERSION_CODES.N)
     //set on click listeners for our data and time pickers
     private fun pickTime() {
-        binding.btHour1.setOnClickListener {
-            selectingPrimaryTime = true
+        binding.btHourPrimaryStart.setOnClickListener {
+            timeSelector = "PrimaryStart"
             getTimeCalendar()
             TimePickerDialog(context, this, hour, minute, true).show()
 
         }
-        binding.btHour2.setOnClickListener {
-            selectingPrimaryTime = false
+
+        binding.btHourPrimaryEnd.setOnClickListener {
+            timeSelector = "PrimaryEnd"
+            getTimeCalendar()
+            TimePickerDialog(context, this, hour, minute, true).show()
+
+        }
+
+        binding.btHourSecondaryStart.setOnClickListener {
+            timeSelector = "SecondaryStart"
+            getTimeCalendar()
+            TimePickerDialog(context, this, hour, minute, true).show()
+
+        }
+
+        binding.btHourSecondaryEnd.setOnClickListener {
+            timeSelector = "SecondaryEnd"
             getTimeCalendar()
             TimePickerDialog(context, this, hour, minute, true).show()
 
@@ -96,7 +114,15 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
                 address = addr1,
                 onResult = { (lon, lat) ->
                     val primaryAddress =
-                        Address(0, prefs.getCurrentUserID(), addr1, cleanTimePrimary, lon, lat)
+                        Address(
+                            0,
+                            prefs.getCurrentUserID(),
+                            addr1,
+                            cleanTimePrimaryStart,
+                            cleanTimePrimaryEnd,
+                            lon,
+                            lat
+                        )
                     userViewModel.addAddress(primaryAddress)
                 }
             )
@@ -105,7 +131,15 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
                 address = addr2,
                 onResult = { (lon, lat) ->
                     val secondaryAddress =
-                        Address(0, prefs.getCurrentUserID(), addr2, cleanTimeSecondary, lon, lat)
+                        Address(
+                            0,
+                            prefs.getCurrentUserID(),
+                            addr2,
+                            cleanTimeSecondaryStart,
+                            cleanTimeSecondaryEnd,
+                            lon,
+                            lat
+                        )
                     userViewModel.addAddress(secondaryAddress)
                 }
             )
@@ -123,12 +157,26 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
     override fun onTimeSet(TimePicker: TimePicker?, p1: Int, p2: Int) {
         Log.d("Fragment", "Time: $p1:$p2")
 
-        if (selectingPrimaryTime) {
-            cleanTimePrimary = Calculations.cleanTime(p1, p2)
-            binding.txHour1.text = "Time: $cleanTimePrimary"
-        } else {
-            cleanTimeSecondary = Calculations.cleanTime(p1, p2)
-            binding.txHour2.text = "Time: $cleanTimeSecondary"
+        when (timeSelector) {
+            "PrimaryStart" -> {
+                cleanTimePrimaryStart = Calculations.cleanTime(p1, p2)
+                binding.txHourPrimaryStart.text = "Time: $cleanTimePrimaryStart"
+            }
+
+            "PrimaryEnd" -> {
+                cleanTimePrimaryEnd = Calculations.cleanTime(p1, p2)
+                binding.txHourPrimaryEnd.text = "Time: $cleanTimePrimaryEnd"
+            }
+
+            "SecondaryStart" -> {
+                cleanTimeSecondaryStart = Calculations.cleanTime(p1, p2)
+                binding.txHourSecondaryStart.text = "Time: $cleanTimeSecondaryStart"
+            }
+
+            "SecondaryEnd" -> {
+                cleanTimeSecondaryEnd = Calculations.cleanTime(p1, p2)
+                binding.txHourSecondaryEnd.text = "Time: $cleanTimeSecondaryEnd"
+            }
         }
     }
 
