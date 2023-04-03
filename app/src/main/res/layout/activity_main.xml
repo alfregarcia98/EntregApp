@@ -45,13 +45,6 @@
         android:text="Cerrar sesión" />
 
     <EditText
-        android:id="@+id/txt_telefono"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Número de telefono"
-        android:inputType="phone" />
-
-    <EditText
         android:id="@+id/txt_nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -94,5 +87,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView" />
+
+    <Button
+        android:id="@+id/btn_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chart" />
 
 </LinearLayout>

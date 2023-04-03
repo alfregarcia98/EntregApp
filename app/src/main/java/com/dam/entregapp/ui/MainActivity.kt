@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import com.dam.entregapp.ChartActivity
 import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.LocationService
 import com.dam.entregapp.databinding.ActivityMainBinding
@@ -216,15 +217,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnGuardar.setOnClickListener {
-            /*db.collection("users").document(userEmail).set(
-                hashMapOf(
-                    "phone" to binding.txtTelefono.text.toString(),
-                    "name" to binding.txtNombre.text.toString()
-                )
-            )*/
 
             db.collection("users").document(userEmail).set(
                 hashMapOf(
+                    "name" to binding.txtNombre.text.toString(),
                     "token" to prefs.getDeviceID()
                 )
             )
@@ -232,7 +228,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnRecuperar.setOnClickListener {
             db.collection("users").document(userEmail).get().addOnSuccessListener {
-                binding.txtTelefono.setText(it.get("phone") as String?)
                 binding.txtNombre.setText(it.get("name") as String?)
             }
         }
@@ -271,6 +266,11 @@ class MainActivity : AppCompatActivity() {
                 mainViewModel.deleteAllTrackingData()
             }
             //}
+        }
+
+        binding.btnChart.setOnClickListener {
+            val a = Intent(this, ChartActivity::class.java)
+            startActivity(a)
         }
     }
 }

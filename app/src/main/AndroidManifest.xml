@@ -77,6 +77,10 @@
         <activity
             android:name=".ui.AuthActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".ChartActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
