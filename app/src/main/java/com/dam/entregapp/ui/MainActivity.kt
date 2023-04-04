@@ -1,14 +1,19 @@
 package com.dam.entregapp.ui
 
 import android.Manifest
+import android.app.AlertDialog
+import android.content.BroadcastReceiver
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.dam.entregapp.ChartActivity
 import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.LocationService
@@ -60,6 +65,26 @@ class MainActivity : AppCompatActivity() {
 
         thread.start()
 
+        //Al hacer click en la notificacion se habre la app con los parametros en el intent
+        val bundle = intent.extras
+        if (bundle != null) {
+            //Si este parametro está quiere decir que el bundle tiene parametros de una noificacion
+            if (bundle.getString("from") != null)
+                alertCreator("Confirme si estará disponible para la entrega en la dirección X")
+            for (key in bundle.keySet()) {
+                Log.d(TAG, "$key is a key in the bundle")
+            }
+            var mensaje1 = bundle.getString("text")
+            if (mensaje1 != null) {
+                Log.d(TAG, "Bundle: ${bundle.getString("text")}")
+                binding.ubicacion.text = mensaje1
+                alertCreator(mensaje1)
+
+
+            }
+        }
+
+
         //Compruebo usuario
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
             throwable.printStackTrace()
@@ -109,6 +134,79 @@ class MainActivity : AppCompatActivity() {
     }
     }
      */
+    //Para la notificacion
+    override fun onStart() {
+        super.onStart()
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(messageReceiver, IntentFilter("MyData"))
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver)
+
+    }
+
+    //Para la confirmacion de la notificacion in-app
+    private val messageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            val mensaje = intent.extras?.getString("message")
+            if (mensaje != null) {
+                alertCreator(mensaje)
+            }
+
+
+//            val builder = AlertDialog.Builder(this@MainActivity)
+//
+//            with(builder) {
+//                setTitle("EntregApp")
+//                setMessage(mensaje)
+////builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+//                setPositiveButton("Si") { dialog, which ->
+//                    Toast.makeText(
+//                        applicationContext,
+//                        "Confirmado", Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//
+//                setNegativeButton("No") { dialog, which ->
+//                    Toast.makeText(
+//                        applicationContext,
+//                        "Denegado", Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//
+//                show()
+
+//            }
+        }
+    }
+
+    fun alertCreator(mensaje: String) {
+        val builder = AlertDialog.Builder(this@MainActivity)
+
+        with(builder) {
+            setTitle("EntregApp")
+            setMessage(mensaje)
+//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+            setPositiveButton("Si") { dialog, which ->
+                Toast.makeText(
+                    applicationContext,
+                    "Confirmado", Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            setNegativeButton("No") { dialog, which ->
+                Toast.makeText(
+                    applicationContext,
+                    "Denegado", Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            show()
+        }
+    }
 
     fun getToken() {
         //Notificaciones
@@ -131,7 +229,7 @@ class MainActivity : AppCompatActivity() {
 
             // Log and toast
             Log.d(TAG, token)
-            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+            //Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
         })
     }
 

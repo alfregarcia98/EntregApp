@@ -1,29 +1,77 @@
 package com.dam.entregapp
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.dam.entregapp.LocationApp.Companion.prefs
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
+
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     private val db = Firebase.firestore
 
-    override fun onMessageReceived(message: RemoteMessage) {
+    private var broadcaster: LocalBroadcastManager? = null
 
-        Looper.prepare()
-        Handler().post() {
-            Toast.makeText(baseContext, message.notification?.title, Toast.LENGTH_LONG).show()
+    override fun onCreate() {
+        broadcaster = LocalBroadcastManager.getInstance(this)
+    }
+
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        // TODO(developer): Handle FCM messages here.
+        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
+        Log.d(TAG, "From: ${remoteMessage.from}")
+
+        // Check if message contains a data payload.
+        if (remoteMessage.data.isNotEmpty()) {
+            Log.d(TAG, "Message data payload: ${remoteMessage.data}")
+
+            if (/* Check if data needs to be processed by long running job */ true) {
+                // For long-running tasks (10 seconds or more) use WorkManager.
+
+            } else {
+                // Handle message within 10 seconds
+            }
         }
 
-        Looper.loop()
+        // Check if message contains a notification payload.
+        remoteMessage.notification?.let {
+            Log.d(TAG, "Message Notification Body: ${it.body}")
+            handleMessage(remoteMessage)
+        }
 
+        // Also if you intend on generating your own notifications as a result of a received FCM
+        // message, here is where that should be initiated. See sendNotification method below.
     }
+
+    private fun handleMessage(remoteMessage: RemoteMessage) {
+        //1
+        val handler = Handler(Looper.getMainLooper())
+
+        //2
+        handler.post(Runnable {
+            Toast.makeText(baseContext, remoteMessage.notification?.title, Toast.LENGTH_LONG).show()
+//            Toast.makeText(
+//                baseContext, getString(R.string.handle_notification_now),
+//                Toast.LENGTH_LONG
+//            ).show()
+
+            remoteMessage.notification?.let {
+                val intent = Intent("MyData")
+                intent.putExtra("message", it.body);
+                broadcaster?.sendBroadcast(intent);
+            }
+
+        }
+        )
+    }
+
 
     /**
      * Called if the FCM registration token is updated. This may occur if the security of

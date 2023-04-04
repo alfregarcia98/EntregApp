@@ -10,6 +10,7 @@ import com.anychart.chart.common.dataentry.HeatDataEntry
 import com.anychart.enums.SelectionMode
 import com.anychart.graphics.vector.SolidFill
 
+//TODO Como rellenarlo de manera dinamica con la informacion del usuario - Primero solucionar lo de estadisticas
 class ChartActivity() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

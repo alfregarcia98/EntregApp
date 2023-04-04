@@ -68,6 +68,7 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
         binding.addr1Name.text = prefs.getPrimaryAddressName()
         binding.addr2Name.text = prefs.getSecondaryAddressName()
         CoroutineScope(Dispatchers.IO).launch {
+            //TODO Lo puedo hacer con un count query y así es mas eficiente
             val count1 =
                 userViewModel.getTrackingWithAddrID(prefs.getPrimaryAddressID()).size
             val count2 =
@@ -77,6 +78,7 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
                 porcentajePrincipal = ((count1.toFloat() / count3.toFloat()) * 100)
                 porcentajeSecundario = ((count2.toFloat() / count3.toFloat()) * 100)
             }
+            //TODO Como añado la funcionalidad de las horas
             runOnUiThread {
                 binding.count1Txt.text = count1.toString()
                 binding.count2Txt.text = count2.toString()
