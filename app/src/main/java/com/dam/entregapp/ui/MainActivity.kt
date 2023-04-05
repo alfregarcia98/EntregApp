@@ -17,6 +17,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.dam.entregapp.ChartActivity
 import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.LocationService
+import com.dam.entregapp.alarm.AlarmItem
+import com.dam.entregapp.alarm.AlarmScheduler
+import com.dam.entregapp.alarm.AndroidAlarmScheduler
 import com.dam.entregapp.databinding.ActivityMainBinding
 import com.dam.entregapp.ui.viewmodels.MainViewModel
 import com.google.android.gms.tasks.OnCompleteListener
@@ -65,6 +68,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         thread.start()
+
+        //AlarmScheduler
+        val scheduler = AndroidAlarmScheduler(this)
+        var alarmItem: AlarmItem? = null
+        alarmItem = AlarmItem("Alarma de detencion")
+        alarmItem?.let(scheduler::schedule)
 
         //Al hacer click en la notificacion se habre la app con los parametros en el intent
         val bundle = intent.extras

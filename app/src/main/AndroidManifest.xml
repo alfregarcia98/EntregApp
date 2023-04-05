@@ -98,6 +98,14 @@
             android:exported="false" />
 
         <!--Para programar el servicio de tracking -->
+        <receiver android:name=".alarm.AlarmReceiver"
+            android:exported="false">
+        <intent-filter>
+            <action android:name="STOP_TEST_SERVICE" />
+            <action android:name="START_TEST_SERVICE" />
+
+        </intent-filter>
+        </receiver>
 
 
         <!-- Para enviar notificaciones -->
