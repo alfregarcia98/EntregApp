@@ -22,6 +22,7 @@ import com.dam.entregapp.ui.viewmodels.MainViewModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
@@ -155,49 +156,49 @@ class MainActivity : AppCompatActivity() {
             if (mensaje != null) {
                 alertCreator(mensaje)
             }
-
-
-//            val builder = AlertDialog.Builder(this@MainActivity)
-//
-//            with(builder) {
-//                setTitle("EntregApp")
-//                setMessage(mensaje)
-////builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
-//                setPositiveButton("Si") { dialog, which ->
-//                    Toast.makeText(
-//                        applicationContext,
-//                        "Confirmado", Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//
-//                setNegativeButton("No") { dialog, which ->
-//                    Toast.makeText(
-//                        applicationContext,
-//                        "Denegado", Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//
-//                show()
-
-//            }
         }
     }
 
     fun alertCreator(mensaje: String) {
-        val builder = AlertDialog.Builder(this@MainActivity)
+        val db = Firebase.firestore
+        val builder = AlertDialog.Builder(this)
 
         with(builder) {
             setTitle("EntregApp")
             setMessage(mensaje)
 //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
-            setPositiveButton("Si") { dialog, which ->
+            setPositiveButton("Si") { _, _ ->
                 Toast.makeText(
                     applicationContext,
                     "Confirmado", Toast.LENGTH_SHORT
                 ).show()
             }
 
-            setNegativeButton("No") { dialog, which ->
+            setPositiveButton("OK") { _, _ ->
+                val confirmacion = hashMapOf(
+                    "disponibilidad" to "Si",
+                    "fecha" to FieldValue.serverTimestamp()
+                )
+                db.collection("users").document(prefs.getEmail()).collection("Entregas")
+                    .document("Disponibilidad")
+                    .set(confirmacion)
+                    .addOnSuccessListener { documentReference ->
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Confirmación guardada",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Error al guardar confirmación: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+            }
+
+            setNegativeButton("No") { _, _ ->
                 Toast.makeText(
                     applicationContext,
                     "Denegado", Toast.LENGTH_SHORT
@@ -207,6 +208,7 @@ class MainActivity : AppCompatActivity() {
             show()
         }
     }
+
 
     fun getToken() {
         //Notificaciones
@@ -316,12 +318,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnGuardar.setOnClickListener {
 
-            db.collection("users").document(userEmail).set(
-                hashMapOf(
-                    "name" to binding.txtNombre.text.toString(),
-                    "token" to prefs.getDeviceID()
+            db.collection("users").document(userEmail).collection("Informacion").document("Datos")
+                .set(
+                    hashMapOf(
+                        "name" to binding.txtNombre.text.toString(),
+                        "token" to prefs.getDeviceID()
+                    )
                 )
-            )
 
         }
         binding.btnRecuperar.setOnClickListener {
