@@ -14,12 +14,12 @@ class AndroidAlarmScheduler(
     private val context: Context
 ) : AlarmScheduler {
 
-    val calendar: Calendar = Calendar.getInstance().apply {
+    /*val calendar: Calendar = Calendar.getInstance().apply {
         timeInMillis = System.currentTimeMillis()
         set(Calendar.HOUR_OF_DAY, 21)
         set(Calendar.MINUTE, 0)
         set(Calendar.SECOND, 0)
-    }
+    }*/
 
     private val alarmManager = context.getSystemService(AlarmManager::class.java)
 
@@ -28,6 +28,14 @@ class AndroidAlarmScheduler(
             putExtra("EXTRA_MESSAGE", item.message)
             action = "STOP_TEST_SERVICE"
         }
+
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, item.time)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+        }
+
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY,
@@ -38,6 +46,7 @@ class AndroidAlarmScheduler(
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
+        Log.d(TAG, "Alarma establecida correctamente a las ${item.time}")
         /*alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             item.time.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000,

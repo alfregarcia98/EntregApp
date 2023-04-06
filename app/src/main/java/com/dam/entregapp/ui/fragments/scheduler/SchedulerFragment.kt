@@ -37,14 +37,18 @@ class SchedulerFragment : Fragment(R.layout.fragment_scheduler) {
         val scheduler = context?.let { AndroidAlarmScheduler(it) }
         var alarmItem: AlarmItem? = null
 
+        //TODO Comprobar que se introduce un numero
         binding.btnActivar.setOnClickListener {
             //AlarmScheduler
 
-            alarmItem = AlarmItem("Alarma de detencion")
+            var stopHour = binding.hora.text.toString()
+            var stopHourInt = Integer.parseInt(stopHour)
+            alarmItem = AlarmItem(stopHourInt,"Alarma de detencion")
             scheduler!!::schedule?.let { it1 -> alarmItem?.let(it1) }
 
         }
 
+        //TODO No cancela si salimos y volvemos a entrar en el fragment
         binding.btnDesactivar.setOnClickListener {
             scheduler!!::cancel?.let { it1 -> alarmItem?.let(it1) }
         }
