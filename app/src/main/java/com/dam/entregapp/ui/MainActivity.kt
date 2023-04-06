@@ -69,11 +69,13 @@ class MainActivity : AppCompatActivity() {
 
         thread.start()
 
+/*
         //AlarmScheduler
         val scheduler = AndroidAlarmScheduler(this)
         var alarmItem: AlarmItem? = null
         alarmItem = AlarmItem("Alarma de detencion")
         alarmItem?.let(scheduler::schedule)
+*/
 
         //Al hacer click en la notificacion se habre la app con los parametros en el intent
         val bundle = intent.extras

@@ -25,6 +25,10 @@
         <action
             android:id="@+id/action_mainMenu_to_statistics"
             app:destination="@id/statistics" />
+        <action
+            android:id="@+id/action_mainMenu_to_schedulerFragment"
+            app:destination="@id/schedulerFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/manageAddress"
@@ -75,6 +79,15 @@
         tools:layout="@layout/fragment_statistics">
         <action
             android:id="@+id/action_statistics_to_mainMenu"
+            app:destination="@id/mainMenu" />
+    </fragment>
+    <fragment
+        android:id="@+id/schedulerFragment"
+        android:name="com.dam.entregapp.ui.fragments.scheduler.SchedulerFragment"
+        android:label="fragment_scheduler"
+        tools:layout="@layout/fragment_scheduler" >
+        <action
+            android:id="@+id/action_schedulerFragment_to_mainMenu"
             app:destination="@id/mainMenu" />
     </fragment>
 </navigation>

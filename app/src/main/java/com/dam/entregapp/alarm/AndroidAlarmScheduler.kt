@@ -2,8 +2,11 @@ package com.dam.entregapp.alarm
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import java.util.*
 
 
@@ -25,7 +28,7 @@ class AndroidAlarmScheduler(
             putExtra("EXTRA_MESSAGE", item.message)
             action = "STOP_TEST_SERVICE"
         }
-        alarmManager.setRepeating(
+        alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY,
             PendingIntent.getBroadcast(
@@ -56,6 +59,7 @@ class AndroidAlarmScheduler(
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
+        Log.d(TAG, "Alarma cancelada correctamente")
     }
 }
 
