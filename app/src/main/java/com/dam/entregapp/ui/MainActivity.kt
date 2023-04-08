@@ -33,6 +33,12 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.sql.Time
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -384,5 +390,16 @@ class MainActivity : AppCompatActivity() {
             val a = Intent(this, ChartActivity::class.java)
             startActivity(a)
         }
+
+        val timeStamp = 1680879985025
+        val timeStamp1 = Timestamp(timeStamp)
+        val date = Date(timeStamp1.time)
+        val time = Time(timeStamp1.time)
+        Log.d(TAG, "TimeStamp inicial: $timeStamp1 y este el date $date y hora $time")
+
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        val current = LocalDateTime.now()
+        val current2 = LocalDateTime.now().format(formatter)
+        Log.d(TAG, "Este es sin formato: $current y este con $current2")
     }
 }

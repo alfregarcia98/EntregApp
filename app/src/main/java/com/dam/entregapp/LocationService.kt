@@ -2,6 +2,7 @@ package com.dam.entregapp
 
 import android.app.NotificationManager
 import android.app.Service
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.location.Location
@@ -22,6 +23,8 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.sql.Time
+import java.sql.Timestamp
 import java.util.*
 
 class LocationService : Service() {
@@ -114,8 +117,12 @@ class LocationService : Service() {
                     )
                 ) {
                     // save this datapoint to the db with primary location id
-                    val currentTime =
-                        currentLocation.time.toString() //TODO dejarlo en long para luego operar con el
+//                    val currentTime =
+//                        Time(currentLocation.time).toString() //TODO dejarlo en long para luego operar con el
+                    val currentTime = Date(currentLocation.time)
+                    val date = Date(currentLocation.time)
+                    val time = Time(currentLocation.time)
+                    Log.d("Hora", "TimeStamp inicial: ${currentLocation.time} y este el date $date y hora $time")
                     val tracking = TrackingData(0, userID, userPrimaryAddressID, currentTime)
                     repository.addTrackingData(tracking)
 
@@ -126,8 +133,9 @@ class LocationService : Service() {
                     )
                 ) {
                     // save this datapoint to the db with secondary location id
-                    val currentTime =
-                        currentLocation.time.toString() //TODO dejarlo en long para luego operar con el
+//                    val currentTime =
+//                        currentLocation.time.toString() //TODO dejarlo en long para luego operar con el
+                    val currentTime = Date(currentLocation.time)
                     val tracking = TrackingData(0, userID, userSecondaryAddressID, currentTime)
                     repository.addTrackingData(tracking)
                 } else {

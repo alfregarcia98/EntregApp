@@ -16,6 +16,8 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class Statistics : Fragment(R.layout.fragment_statistics) {
@@ -110,4 +112,15 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
         }
         prefs.resetTrackingCounter()
     }
+
+    //Para pasar de timeStamp a DateTime
+    /*private fun getDateTime(s: String): String? {
+        try {
+            val sdf = SimpleDateFormat("MM/dd/yyyy")
+            val netDate = Date(Long.parseLong(s) * 1000)
+            return sdf.format(netDate)
+        } catch (e: Exception) {
+            return e.toString()
+        }
+    }*/
 }
