@@ -5,6 +5,7 @@ import com.dam.entregapp.data.database.relations.UserWithAddress
 import com.dam.entregapp.data.model.Address
 import com.dam.entregapp.data.model.TrackingData
 import com.dam.entregapp.data.model.User
+import com.dam.entregapp.logic.dao.TrackingDataResult
 import com.dam.entregapp.logic.dao.UserDAO
 
 class UserRepository(private val userDAO: UserDAO) {
@@ -56,8 +57,8 @@ class UserRepository(private val userDAO: UserDAO) {
         userDAO.addTrackingData(tracking)
     }
 
-    suspend fun getTrackingWithAddrID(id: Int): List<TrackingData> {
-        return userDAO.getTrackingWithAddrID(id)
+    suspend fun getTrackingData(): List<TrackingDataResult> {
+        return userDAO.getTrackingData()
     }
 
     suspend fun deleteAllTrackingData() {

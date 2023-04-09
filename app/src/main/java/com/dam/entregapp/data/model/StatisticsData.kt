@@ -4,14 +4,13 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import java.util.*
 
 @Parcelize
-@Entity(tableName = "tracking_data_table")
-data class TrackingData(
+@Entity(tableName = "statistics_data_table")
+data class StatisticsData(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
-    val user_id: Int,
-    val address_id: Int?,
-    val date: Date?
+    val hora: Int,
+    val address_id: Int,
+    val count: Int
 ) : Parcelable

@@ -8,6 +8,7 @@ import com.dam.entregapp.data.database.UserDB
 import com.dam.entregapp.data.model.Address
 import com.dam.entregapp.data.model.TrackingData
 import com.dam.entregapp.data.model.User
+import com.dam.entregapp.logic.dao.TrackingDataResult
 import com.dam.entregapp.logic.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -72,7 +73,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         repository.deleteAllTrackingData()
     }
 
-    suspend fun getTrackingWithAddrID(id: Int): List<TrackingData> {
-        return repository.getTrackingWithAddrID(id)
+    suspend fun getTrackingData(): List<TrackingDataResult> {
+        return repository.getTrackingData()
     }
 }

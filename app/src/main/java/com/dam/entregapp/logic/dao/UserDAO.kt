@@ -54,8 +54,8 @@ interface UserDAO {
     @Query("SELECT * FROM tracking_data_table ORDER BY id DESC")
     fun getAllTrackingData(): LiveData<List<TrackingData>>
 
-    @Query("SELECT * FROM tracking_data_table WHERE address_id = :id")
-    suspend fun getTrackingWithAddrID(id: Int): List<TrackingData>
+    @Query("SELECT address_id,  strftime('%H',date/1000, 'unixepoch','localtime') as hour, count(id) as data_count from tracking_data_table group by hour,address_id;")
+    suspend fun getTrackingData(): List<TrackingDataResult>
 
     @Query("DELETE FROM tracking_data_table")
     suspend fun deleteAllTrackingData()

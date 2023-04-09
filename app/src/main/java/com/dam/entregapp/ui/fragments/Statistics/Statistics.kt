@@ -1,6 +1,7 @@
 package com.dam.entregapp.ui.fragments.Statistics
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -64,6 +64,11 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
                 submitStatistics()
             }
 
+            //TODO Query para agrupar por horas las ubicaciones
+            //SELECT count(id), strftime('%H',date/1000, 'unixepoch','localtime') as hour from tracking_data_table group by hour;
+            //TODO Query para agrupar por horas y por address_id las ubicaciones
+            //SELECT address_id,  strftime('%H',date/1000, 'unixepoch','localtime') as hour, count(id) from tracking_data_table group by hour,address_id;
+
 
         }
 
@@ -71,10 +76,15 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
         binding.addr2Name.text = prefs.getSecondaryAddressName()
         CoroutineScope(Dispatchers.IO).launch {
             //TODO Lo puedo hacer con un count query y así es mas eficiente
-            val count1 =
-                userViewModel.getTrackingWithAddrID(prefs.getPrimaryAddressID()).size
+
+            val trackingData = userViewModel.getTrackingData()
+
+            Log.d("Estadisticas","TrackingData: $trackingData")
+
+            /*val count1 =
+                userViewModel.getTrackingData(prefs.getPrimaryAddressID()).size
             val count2 =
-                userViewModel.getTrackingWithAddrID(prefs.getSecondaryAddressID()).size
+                userViewModel.getTrackingData(prefs.getSecondaryAddressID()).size
             val count3 = prefs.getTrackingCount()
             if (count3 != 0) {
                 porcentajePrincipal = ((count1.toFloat() / count3.toFloat()) * 100)
@@ -88,7 +98,7 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
 
                 binding.porcentaje1Txt.text = porcentajePrincipal.toString()
                 binding.porcentaje2Txt.text = porcentajeSecundario.toString()
-            }
+            }*/
         }
 
     }
@@ -110,17 +120,5 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
         CoroutineScope(Dispatchers.IO).launch {
             userViewModel.deleteAllTrackingData()
         }
-        prefs.resetTrackingCounter()
     }
-
-    //Para pasar de timeStamp a DateTime
-    /*private fun getDateTime(s: String): String? {
-        try {
-            val sdf = SimpleDateFormat("MM/dd/yyyy")
-            val netDate = Date(Long.parseLong(s) * 1000)
-            return sdf.format(netDate)
-        } catch (e: Exception) {
-            return e.toString()
-        }
-    }*/
 }

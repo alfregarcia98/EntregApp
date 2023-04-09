@@ -121,18 +121,6 @@ class Prefs(val context: Context) {
         return storage.getString(SHARED_SECONDARYNAME, "")!!
     }
 
-    fun saveTrackingCount(count: Int) {
-        storage.edit().putInt(SHARED_TRACKINGCOUNT, count).apply()
-    }
-
-    fun getTrackingCount(): Int {
-        return storage.getInt(SHARED_TRACKINGCOUNT, 0)!!
-    }
-
-    fun resetTrackingCounter() {
-        storage.edit().remove(SHARED_TRACKINGCOUNT).apply()
-    }
-
     fun wipe() {
         storage.edit().clear().apply()
     }

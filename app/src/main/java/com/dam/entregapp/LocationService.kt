@@ -33,7 +33,6 @@ class LocationService : Service() {
     private lateinit var locationClient: LocationClient
 
     private val MIN_PROXIMITY = 100.0
-    var trackingCounter = 0
 
     //Probando
     // Binder given to clients
@@ -102,9 +101,7 @@ class LocationService : Service() {
         val secondaryLocation = Location("secondaryLocation")
         secondaryLocation.latitude = prefs.getSecondaryAddressLat().toDouble()
         secondaryLocation.longitude = prefs.getSecondaryAddressLon().toDouble()
-        if (trackingCounter == 0) {
-            trackingCounter = prefs.getTrackingCount()
-        }
+
 
         locationClient
             .getLocationUpdates(5000L)
@@ -117,12 +114,7 @@ class LocationService : Service() {
                     )
                 ) {
                     // save this datapoint to the db with primary location id
-//                    val currentTime =
-//                        Time(currentLocation.time).toString() //TODO dejarlo en long para luego operar con el
                     val currentTime = Date(currentLocation.time)
-                    val date = Date(currentLocation.time)
-                    val time = Time(currentLocation.time)
-                    Log.d("Hora", "TimeStamp inicial: ${currentLocation.time} y este el date $date y hora $time")
                     val tracking = TrackingData(0, userID, userPrimaryAddressID, currentTime)
                     repository.addTrackingData(tracking)
 
@@ -133,19 +125,16 @@ class LocationService : Service() {
                     )
                 ) {
                     // save this datapoint to the db with secondary location id
-//                    val currentTime =
-//                        currentLocation.time.toString() //TODO dejarlo en long para luego operar con el
                     val currentTime = Date(currentLocation.time)
                     val tracking = TrackingData(0, userID, userSecondaryAddressID, currentTime)
                     repository.addTrackingData(tracking)
                 } else {
-                    // log out
+                    // save this datapoint to the db with location id=null
+                    val currentTime = Date(currentLocation.time)
+                    val tracking = TrackingData(0, userID, null, currentTime)
+                    repository.addTrackingData(tracking)
                     Log.d("LOCATION_UPDATE", "No esta disponible")
                 }
-
-                trackingCounter++
-                prefs.saveTrackingCount(trackingCounter)
-
 
                 lat = currentLocation.latitude
                 long = currentLocation.longitude
