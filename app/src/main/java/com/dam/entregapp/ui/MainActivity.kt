@@ -274,6 +274,7 @@ class MainActivity : AppCompatActivity() {
     suspend fun prueba(userID: Int) {
         val lista = mainViewModel.getUserWithAddress(userID)
         if (lista.isNotEmpty()) {
+            Log.d("Prueba", "Lista: $lista")
             if (lista[0].addresses.isNotEmpty()) {
                 if (lista[0].addresses.size == 2) {
 

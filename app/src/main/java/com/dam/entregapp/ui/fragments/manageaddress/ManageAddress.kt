@@ -20,6 +20,9 @@ import com.dam.entregapp.databinding.FragmentManageAddressBinding
 import com.dam.entregapp.logic.utils.Calculations
 import com.dam.entregapp.logic.utils.Geocoder
 import com.dam.entregapp.ui.viewmodels.UserViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ManageAddress : Fragment(R.layout.fragment_manage_address),
@@ -67,6 +70,10 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
 
         binding.btnUpdate.setOnClickListener {
             addAddress()
+        }
+
+        binding.btnErase.setOnClickListener {
+            eraseAddress()
         }
 
         pickTime()
@@ -150,6 +157,12 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
             findNavController().navigate(R.id.action_manageAddress_to_mainMenu)
         } else {
             Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun eraseAddress() {
+        CoroutineScope(Dispatchers.IO).launch {
+            userViewModel.deleteAllAddress()
         }
     }
 
