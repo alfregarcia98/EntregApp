@@ -67,7 +67,7 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
             //TODO Query para agrupar por horas las ubicaciones
             //SELECT count(id), strftime('%H',date/1000, 'unixepoch','localtime') as hour from tracking_data_table group by hour;
             //TODO Query para agrupar por horas y por address_id las ubicaciones
-            //SELECT address_id,  strftime('%H',date/1000, 'unixepoch','localtime') as hour, count(id) from tracking_data_table group by hour,address_id;
+            //SELECT address_id,  strftime('%H',date/1000, 'unixepoch','localtime') as hour, count(id) from tracking_data_table group by hour,address_id order by hour;
 
 
         }
@@ -75,38 +75,45 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
         binding.addr1Name.text = prefs.getPrimaryAddressName()
         binding.addr2Name.text = prefs.getSecondaryAddressName()
         CoroutineScope(Dispatchers.IO).launch {
-            //TODO Lo puedo hacer con un count query y así es mas eficiente
 
             val trackingData = userViewModel.getTrackingData()
 
-            Log.d("Estadisticas","TrackingData: $trackingData")
+            Log.d("Estadisticas", "TrackingData: $trackingData")
 
-            /*val count1 =
-                userViewModel.getTrackingData(prefs.getPrimaryAddressID()).size
-            val count2 =
-                userViewModel.getTrackingData(prefs.getSecondaryAddressID()).size
-            val count3 = prefs.getTrackingCount()
-            if (count3 != 0) {
-                porcentajePrincipal = ((count1.toFloat() / count3.toFloat()) * 100)
-                porcentajeSecundario = ((count2.toFloat() / count3.toFloat()) * 100)
+
+            for (data in trackingData) {
+                Log.d(
+                    "Estadisticas",
+                    "Address ID: ${data.address_id}, Hour: ${data.hour}, Data Count: ${data.data_count}"
+                )
             }
-            //TODO Como añado la funcionalidad de las horas
-            runOnUiThread {
-                binding.count1Txt.text = count1.toString()
-                binding.count2Txt.text = count2.toString()
-                binding.count3Txt.text = count3.toString()
+            var main_count = trackingData[1].data_count
+            var second_count = trackingData[2].data_count
+            var total_count =
+                trackingData[0].data_count + trackingData[1].data_count + trackingData[2].data_count
 
+            if (total_count>0) {
+                porcentajePrincipal = ((main_count.toFloat() / total_count.toFloat()) * 100)
+                porcentajeSecundario = ((second_count.toFloat() / total_count.toFloat()) * 100)
+            }
+
+
+            runOnUiThread {
+                binding.count1Txt.text = main_count.toString()
+                binding.count2Txt.text = second_count.toString()
+                binding.count3Txt.text = total_count.toString()
                 binding.porcentaje1Txt.text = porcentajePrincipal.toString()
                 binding.porcentaje2Txt.text = porcentajeSecundario.toString()
-            }*/
-        }
+            }
 
+
+        }
     }
 
     private fun submitStatistics() {
 
         var email = prefs.getEmail()
-        db.collection("users").document(prefs.getEmail()).collection("Statistics")
+        db.collection("users").document(email).collection("Statistics")
             .document("Tracking")
             .set(
                 hashMapOf(

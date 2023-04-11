@@ -62,7 +62,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         binding.btnGuardar.setOnClickListener {
             addAddress()
