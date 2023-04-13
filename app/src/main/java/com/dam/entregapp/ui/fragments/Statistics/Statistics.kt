@@ -69,6 +69,7 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
             //TODO Query para agrupar por horas y por address_id las ubicaciones
             //SELECT address_id,  strftime('%H',date/1000, 'unixepoch','localtime') as hour, count(id) from tracking_data_table group by hour,address_id order by hour;
 
+            //SELECT address_id,  strftime('%H',date/1000, 'unixepoch','localtime') as hour, count(id) as data_count from tracking_data_table group by hour,address_id order by hour;
 
         }
 

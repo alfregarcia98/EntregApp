@@ -28,20 +28,6 @@ class ChartActivity() : AppCompatActivity() {
 
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        CoroutineScope(Dispatchers.IO).launch {
-
-            val trackingData = userViewModel.getTrackingData()
-
-            Log.d("Chart", "TrackingData: $trackingData")
-
-            for (data in trackingData) {
-                Log.d(
-                    "Chart",
-                    "Address ID: ${data.address_id}, Hour: ${data.hour}, Data Count: ${data.data_count}"
-                )
-            }
-        }
-
         val anyChartView = findViewById<AnyChartView>(R.id.any_chart_view)
         anyChartView.setProgressBar(findViewById<View>(R.id.progress_bar))
         val riskMap = AnyChart.heatMap()
@@ -86,92 +72,7 @@ class ChartActivity() : AppCompatActivity() {
             )
 
 
-        val data = mutableListOf<DataEntry>()
-        val hours = listOf(
-            "8:00-9:00",
-            "9:00-10:00",
-            "10:00-11:00",
-            "11:00-12:00",
-            "12:00-13:00",
-            "13:00-14:00",
-            "14:00-15:00",
-            "15:00-16:00",
-            "16:00-17:00",
-            "17:00-18:00",
-            "18:00-19:00",
-            "19:00-20:00",
-            "20:00-21:00",
-            "21:00-22:00"
-        )
-
-        val subjects = listOf(
-            "Principal",
-            "Secundaria"
-        )
-
-        val colors = listOf(
-            "#ef6c00",
-            "#90caf9",
-            "#ffb74d",
-            "#d84315"
-        )
-
-        for (subject in subjects) {
-            for (hour in hours) {
-                var color = ""
-                var value = 0
-
-                when (subject) {
-                    "Principal" -> {
-                        when (hour) {
-                            "8:00-9:00", "17:00-18:00", "18:00-19:00" -> {
-                                value = 2
-                                color = colors[0]
-                            }
-                            "16:00-17:00" -> {
-                                value = 1
-                                color = colors[2]
-                            }
-                            "19:00-20:00", "20:00-21:00", "21:00-22:00" -> {
-                                value = 3
-                                color = colors[3]
-                            }
-                            else -> {
-                                color = colors[1]
-                            }
-                        }
-                    }
-                    "Secundaria" -> {
-                        when (hour) {
-                            "8:00-9:00" -> {
-                                value = 1
-                                color = colors[2]
-                            }
-                            "9:00-10:00", "10:00-11:00", "11:00-12:00", "12:00-13:00", "13:00-14:00", "14:00-15:00" -> {
-                                value = 3
-                                color = colors[3]
-                            }
-                            "15:00-16:00", "16:00-17:00" -> {
-                                value = 2
-                                color = colors[0]
-                            }
-                            "17:00-18:00" -> {
-                                value = 1
-                                color = colors[2]
-                            }
-                            else -> {
-                                color = colors[1]
-                            }
-                        }
-                    }
-                }
-
-                data.add(CustomHeatDataEntry(subject, hour, value, color))
-            }
-        }
-
-
-/*
+/*      Forma antigua
         val data: MutableList<DataEntry> = ArrayList()
         data.add(CustomHeatDataEntry("Principal", "8:00-9:00", 2, "#ef6c00"))
         data.add(CustomHeatDataEntry("Principal", "9:00-10:00", 0, "#90caf9"))
@@ -201,62 +102,67 @@ class ChartActivity() : AppCompatActivity() {
         data.add(CustomHeatDataEntry("Secundaria", "19:00-20:00", 0, "#90caf9"))
         data.add(CustomHeatDataEntry("Secundaria", "20:00-21:00", 0, "#90caf9"))
         data.add(CustomHeatDataEntry("Secundaria", "21:00-22:00", 0, "#90caf9"))
-*/
-//        data.add(CustomHeatDataEntry("Possible", "Insignificant", 0, "#90caf9"))
-//        data.add(CustomHeatDataEntry("Possible", "Minor", 0, "#90caf9"))
-//        data.add(CustomHeatDataEntry("Possible", "Moderate", 1, "#ffb74d"))
-//        data.add(CustomHeatDataEntry("Possible", "Major", 1, "#ffb74d"))
-//        data.add(CustomHeatDataEntry("Possible", "Extreme", 1, "#ffb74d"))
-//        data.add(CustomHeatDataEntry("Likely", "Insignificant", 0, "#90caf9"))
-//        data.add(CustomHeatDataEntry("Likely", "Minor", 1, "#ffb74d"))
-//        data.add(CustomHeatDataEntry("Likely", "Moderate", 1, "#ffb74d"))
-//        data.add(CustomHeatDataEntry("Likely", "Major", 2, "#ef6c00"))
-//        data.add(CustomHeatDataEntry("Likely", "Extreme", 2, "#ef6c00"))
-//        data.add(CustomHeatDataEntry("Almost\\nCertain", "Insignificant", 0, "#90caf9"))
-//        data.add(CustomHeatDataEntry("Almost\\nCertain", "Minor", 1, "#ffb74d"))
-//        data.add(CustomHeatDataEntry("Almost\\nCertain", "Moderate", 1, "#ffb74d"))
-//        data.add(CustomHeatDataEntry("Almost\\nCertain", "Major", 2, "#ef6c00"))
-//        data.add(CustomHeatDataEntry("Almost\\nCertain", "Extreme", 3, "#d84315"))
         riskMap.data(data)
-        anyChartView.setChart(riskMap)
+        anyChartView.setChart(riskMap)*/
 
         CoroutineScope(Dispatchers.IO).launch {
 
             val trackingData = userViewModel.getTrackingData()
 
+            //val result = trackingData.filter { data -> (data.address_id == 1 && data.hour == 14) }.first()
+
             Log.d("Chart", "TrackingData: $trackingData")
 
+            for (data in trackingData) {
+                Log.d(
+                    "Estadisticas",
+                    "Address ID: ${data.address_id}, Hour: ${data.hour}, Data Count: ${data.data_count}"
+                )
+            }
 
             val data: MutableList<DataEntry> = ArrayList()
-            val test = trackingData[0].hour.toString()
-            data.add(CustomHeatDataEntry(test, "8:00-9:00", 2, "#ef6c00"))
-            data.add(CustomHeatDataEntry(test, "9:00-10:00", 0, "#90caf9"))
-            data.add(CustomHeatDataEntry(test, "10:00-11:00", 0, "#90caf9"))
-            data.add(CustomHeatDataEntry(test, "11:00-12:00", 0, "#90caf9"))
-            data.add(CustomHeatDataEntry(test, "12:00-13:00", 0, "#90caf9"))
-            data.add(CustomHeatDataEntry(test, "13:00-14:00", 0, "#90caf9"))
-            data.add(CustomHeatDataEntry(test, "14:00-15:00", 0, "#90caf9"))
-            data.add(CustomHeatDataEntry(test, "15:00-16:00", 0, "#90caf9"))
-            data.add(CustomHeatDataEntry(test, "16:00-17:00", 1, "#ffb74d"))
-            data.add(CustomHeatDataEntry(test, "17:00-18:00", 2, "#ef6c00"))
-            data.add(CustomHeatDataEntry(test, "18:00-19:00", 2, "#ef6c00"))
-            data.add(CustomHeatDataEntry(test, "19:00-20:00", 3, "#d84315"))
-            data.add(CustomHeatDataEntry(test, "20:00-21:00", 3, "#d84315"))
-            data.add(CustomHeatDataEntry(test, "21:00-22:00", 3, "#d84315"))
-            data.add(CustomHeatDataEntry("Secundaria", "8:00-9:00", 1, "#ffb74d"))
-            data.add(CustomHeatDataEntry("Secundaria", "9:00-10:00", 3, "#d84315"))
-            data.add(CustomHeatDataEntry("Secundaria", "10:00-11:00", 3, "#d84315"))
-            data.add(CustomHeatDataEntry("Secundaria", "11:00-12:00", 3, "#d84315"))
-            data.add(CustomHeatDataEntry("Secundaria", "12:00-13:00", 3, "#d84315"))
-            data.add(CustomHeatDataEntry("Secundaria", "13:00-14:00", 3, "#d84315"))
-            data.add(CustomHeatDataEntry("Secundaria", "14:00-15:00", 3, "#d84315"))
-            data.add(CustomHeatDataEntry("Secundaria", "15:00-16:00", 2, "#ef6c00"))
-            data.add(CustomHeatDataEntry("Secundaria", "16:00-17:00", 2, "#ef6c00"))
-            data.add(CustomHeatDataEntry("Secundaria", "17:00-18:00", 1, "#ffb74d"))
-            data.add(CustomHeatDataEntry("Secundaria", "18:00-19:00", 0, "#90caf9"))
-            data.add(CustomHeatDataEntry("Secundaria", "19:00-20:00", 0, "#90caf9"))
-            data.add(CustomHeatDataEntry("Secundaria", "20:00-21:00", 0, "#90caf9"))
-            data.add(CustomHeatDataEntry("Secundaria", "21:00-22:00", 0, "#90caf9"))
+
+            val startHour = 8
+            val endHour = 22
+            var total_count = 0
+
+            //Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().
+            //Por cada franja horaria
+            for (hour in startHour until endHour) {
+                val time_slot = "${hour}:00-${hour + 1}:00"
+
+                //Por cada una de las direcciones
+                for (address in 0..2) {
+
+                    Log.d("loop", "Hora: $hour y Address: $address")
+
+                    try {
+                        val result =
+                            trackingData.filter { data -> (data.address_id == address && data.hour.toInt() == hour) }
+                                .first()
+
+                        var count = result.data_count
+                        Log.d("Result", "count: $count")
+
+                        var heat = 0
+                        var main_count = result.data_count
+                        total_count += result.data_count
+                        var porcentaje = (main_count/total_count)*100
+
+                        Log.d("Porcentaje", "count: $porcentaje")
+                        if (result.address_id == 1) {
+                            data.add(CustomHeatDataEntry("Principal", time_slot, heat, "#ef6c00"))
+                        } else if (result.address_id == 2) {
+                            data.add(CustomHeatDataEntry("Secundaria", time_slot, heat, "#ffb74d"))
+                        }
+                    } catch (e: NoSuchElementException) {
+                        // Handle the exception here
+                        println("Caught NoSuchElementException: ${e.message}")
+                    }
+                }
+            }
+
+
 
             riskMap.data(data)
 
