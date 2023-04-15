@@ -22,6 +22,20 @@ class ChartActivity() : AppCompatActivity() {
 
     private lateinit var userViewModel: UserViewModel
 
+    private val colorMap = mapOf(
+        0 to "#ffffff",
+        1 to "#cce7c9",
+        2 to "#acd8a7",
+        3 to "#8bca84",
+        4 to "#72bf6a",
+        5 to "#5bb450",
+        6 to "#52a447",
+        7 to "#46923c",
+        8 to "#3b8132",
+        9 to "#276221",
+        10 to "#19362d"
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart)
@@ -119,18 +133,23 @@ class ChartActivity() : AppCompatActivity() {
 
                         var main_count = result.data_count
                         var porcentaje = (main_count.toDouble()/data_point_count)*100
+                        val label = porcentaje.toInt() / 10 + 1
 
                         Log.d("Porcentaje", "count: $porcentaje")
+
+                        val color = getLinearColorHex(porcentaje)
+
                         if (result.address_id == 1) {
-                            data.add(CustomHeatDataEntry("Principal", time_slot, 1, "#ef6c00"))
+                            data.add(CustomHeatDataEntry("Principal", time_slot, label, color))
                         } else if (result.address_id == 2) {
-                            data.add(CustomHeatDataEntry("Secundaria", time_slot, 1, "#ffb74d"))
+                            data.add(CustomHeatDataEntry("Secundaria", time_slot, label, color))
                         }
                     } catch (e: NoSuchElementException) {
+                        val color = getLinearColorHex(0.0)
                         if (address == 1) {
-                            data.add(CustomHeatDataEntry("Principal", time_slot, 0, "purple"))
+                            data.add(CustomHeatDataEntry("Principal", time_slot, 0, color))
                         } else if (address == 2) {
-                            data.add(CustomHeatDataEntry("Secundaria", time_slot, 0, "purple"))
+                            data.add(CustomHeatDataEntry("Secundaria", time_slot, 0, color))
                         }
 
                         println("Caught NoSuchElementException: ${e.message}")
@@ -144,6 +163,11 @@ class ChartActivity() : AppCompatActivity() {
                 anyChartView.setChart(riskMap)
             }
         }
+    }
+
+    fun getLinearColorHex(percent: Double): String {
+        return colorMap[percent.toInt() / 10]!!
+
     }
 
     private inner class CustomHeatDataEntry internal constructor(
