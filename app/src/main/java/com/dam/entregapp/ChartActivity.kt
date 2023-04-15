@@ -11,6 +11,7 @@ import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.HeatDataEntry
 import com.anychart.enums.SelectionMode
 import com.anychart.graphics.vector.SolidFill
+import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.ui.viewmodels.MainViewModel
 import com.dam.entregapp.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -33,7 +34,7 @@ class ChartActivity() : AppCompatActivity() {
         7 to "#46923c",
         8 to "#3b8132",
         9 to "#276221",
-        10 to "#19362d"
+        10 to "#224A3E"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +59,7 @@ class ChartActivity() : AppCompatActivity() {
         riskMap.labels().enabled(true)
 
         val labelListFunction = "function() {\n" +
-                "      var namesList = [\"Sin datos\", \"10\", \"20\", \"30\", \"40\", \"50\", \"60\", \"70\", \"80\", \"90\", \"100\"];\n" +
+                "      var namesList = [\"Sin datos\", \"0-10%\", \"10-20%\", \"20-30%\", \"30-40%\", \"40-50%\", \"50-60%\", \"60-70%\", \"70-80%\", \"80-90%\", \"90-100%\"];\n" +
                 "      return namesList[this.heat];\n" +
                 "    }"
 
@@ -85,6 +86,8 @@ class ChartActivity() : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
 
             val trackingData = userViewModel.getTrackingData()
+            var principal = prefs.getPrimaryAddressName()
+            var secundaria = prefs.getSecondaryAddressName()
 
             //val result = trackingData.filter { data -> (data.address_id == 1 && data.hour == 14) }.first()
 

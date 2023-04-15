@@ -46,7 +46,7 @@ class AndroidAlarmScheduler(
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
-        Log.d(TAG, "Alarma establecida correctamente a las ${item.time}")
+        Log.d("Alarma", "Alarma establecida correctamente a las ${item.time}")
         /*alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             item.time.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000,
@@ -68,7 +68,7 @@ class AndroidAlarmScheduler(
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
-        Log.d(TAG, "Alarma cancelada correctamente")
+        Log.d("Alarma", "Alarma cancelada correctamente")
     }
 }
 

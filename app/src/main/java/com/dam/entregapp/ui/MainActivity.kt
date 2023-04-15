@@ -79,9 +79,9 @@ class MainActivity : AppCompatActivity() {
         //AlarmScheduler
         val scheduler = AndroidAlarmScheduler(this)
         var alarmItem: AlarmItem? = null
-        alarmItem = AlarmItem("Alarma de detencion")
-        alarmItem?.let(scheduler::schedule)
-*/
+        alarmItem = AlarmItem(10,"Alarma de detencion")
+        alarmItem?.let(scheduler::schedule)*/
+
 
         //Al hacer click en la notificacion se habre la app con los parametros en el intent
         val bundle = intent.extras
@@ -247,7 +247,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             // Log and toast
-            Log.d(TAG, token)
+            Log.d("Token", token)
             //Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
         })
     }
@@ -318,9 +318,10 @@ class MainActivity : AppCompatActivity() {
         binding.txtEmail.text = email
         binding.txtProvider.text = id
         }*/
-        binding.txtEmail.text = userEmail
-        binding.txtProvider.text = userID.toString()
-
+        runOnUiThread {
+            binding.txtEmail.text = userEmail
+            binding.txtProvider.text = userID.toString()
+        }
         prefs.saveCurrentUserID(userID)
 
         binding.btLogout.setOnClickListener {
@@ -391,16 +392,5 @@ class MainActivity : AppCompatActivity() {
             val a = Intent(this, ChartActivity::class.java)
             startActivity(a)
         }
-
-        val timeStamp = 1680879985025
-        val timeStamp1 = Timestamp(timeStamp)
-        val date = Date(timeStamp1.time)
-        val time = Time(timeStamp1.time)
-        Log.d(TAG, "TimeStamp inicial: $timeStamp1 y este el date $date y hora $time")
-
-        val formatter = DateTimeFormatter.ofPattern("HH:mm")
-        val current = LocalDateTime.now()
-        val current2 = LocalDateTime.now().format(formatter)
-        Log.d(TAG, "Este es sin formato: $current y este con $current2")
     }
 }
