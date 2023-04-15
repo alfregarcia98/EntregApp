@@ -42,14 +42,15 @@ class ChartActivity() : AppCompatActivity() {
             .text("Estadísticas usuario")
             .padding(0.0, 0.0, 20.0, 0.0)
         riskMap.labels().enabled(true)
+
+        val labelListFunction = "function() {\n" +
+                "      var namesList = [\"Sin datos\", \"10\", \"20\", \"30\", \"40\", \"50\", \"60\", \"70\", \"80\", \"90\", \"100\"];\n" +
+                "      return namesList[this.heat];\n" +
+                "    }"
+
         riskMap.labels()
             .minFontSize(14.0)
-            .format(
-                "function() {\n" +
-                        "      var namesList = [\"Sin datos\", \"Baja\", \"Media\", \"Alta\", \"Muy alta\"];\n" +
-                        "      return namesList[this.heat];\n" +
-                        "    }"
-            )
+            .format(labelListFunction)
         riskMap.yAxis(0).stroke(null)
         riskMap.yAxis(0).labels().padding(0.0, 15.0, 0.0, 0.0)
         riskMap.yAxis(0).ticks(false)
@@ -58,12 +59,7 @@ class ChartActivity() : AppCompatActivity() {
         riskMap.tooltip().title().useHtml(true)
         riskMap.tooltip()
             .useHtml(true)
-            .titleFormat(
-                ("function() {\n" +
-                        "      var namesList = [\"Sin datos\", \"Baja\", \"Media\", \"Alta\", \"Muy alta\"];\n" +
-                        "      return '<b>' + namesList[this.heat] + '</b> Probability';\n" +
-                        "    }")
-            )
+            .titleFormat((labelListFunction))
             .format(
                 ("function () {\n" +
                         "       return '<span style=\"color: #CECECE\">Dirección: </span>' + this.x + '<br/>' +\n" +
@@ -91,12 +87,22 @@ class ChartActivity() : AppCompatActivity() {
 
             val startHour = 8
             val endHour = 22
-            var total_count = 0
 
             //Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().
             //Por cada franja horaria
             for (hour in startHour until endHour) {
                 val time_slot = "${hour}:00-${hour + 1}:00"
+
+                // calculate total number of datapoints per timeslot
+                var data_point_count = 0
+                for (address in 0..2) {
+                    try {
+                        val result =
+                            trackingData.filter { data -> (data.address_id == address && data.hour.toInt() == hour) }
+                                .first()
+                        data_point_count += result.data_count
+                    } catch (e: NoSuchElementException) { }
+                }
 
                 //Por cada una de las direcciones
                 for (address in 0..2) {
@@ -111,10 +117,8 @@ class ChartActivity() : AppCompatActivity() {
                         var count = result.data_count
                         Log.d("Result", "count: $count")
 
-                        var heat = 0
                         var main_count = result.data_count
-                        total_count += main_count
-                        var porcentaje = (main_count/total_count)*100
+                        var porcentaje = (main_count.toDouble()/data_point_count)*100
 
                         Log.d("Porcentaje", "count: $porcentaje")
                         if (result.address_id == 1) {
