@@ -13,6 +13,7 @@ import com.anychart.enums.SelectionMode
 import com.anychart.graphics.vector.SolidFill
 import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.logic.utils.ProcessedStatistics
+import com.dam.entregapp.service.StatisticsService
 import com.dam.entregapp.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,7 @@ import kotlinx.serialization.json.Json
 class ChartActivity() : AppCompatActivity() {
 
     private lateinit var userViewModel: UserViewModel
+    private lateinit var statisticsService: StatisticsService
 
     private val colorMap = mapOf(
         0 to "#ffffff",
@@ -44,6 +46,7 @@ class ChartActivity() : AppCompatActivity() {
         setContentView(R.layout.activity_chart)
 
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        statisticsService = StatisticsService(userViewModel)
 
         val anyChartView = findViewById<AnyChartView>(R.id.any_chart_view)
         anyChartView.setProgressBar(findViewById<View>(R.id.progress_bar))
@@ -119,8 +122,8 @@ class ChartActivity() : AppCompatActivity() {
             val startHour = 8
             val endHour = 22
 
-            val statistics = ProcessedStatistics(startHour, endHour, 60)
-            statistics.addressIds = nonZeroAddresses
+//            val statistics = ProcessedStatistics(startHour, endHour, 60)
+//            statistics.addressIds = nonZeroAddresses
 
             //Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().
             //Por cada franja horaria
@@ -156,7 +159,7 @@ class ChartActivity() : AppCompatActivity() {
                         var porcentaje = (main_count.toDouble()/data_point_count)*100
                         val label = porcentaje.toInt() / 10 + 1
 
-                        addDataPoint(statistics, porcentaje)
+//                        addDataPoint(statistics, porcentaje)
 
                         Log.d("Porcentaje", "count: $porcentaje")
 
@@ -167,13 +170,14 @@ class ChartActivity() : AppCompatActivity() {
                         val color = getLinearColorHex(0.0)
                         data.add(CustomHeatDataEntry(addressLabels.get(address), time_slot, 0, color))
 
-                        addDataPoint(statistics, -1.0)
+//                        addDataPoint(statistics, -1.0)
 
                         println("Caught NoSuchElementException: ${e.message}")
                     }
                 }
             }
 
+            val statistics = statisticsService.getProcessedStatistics()
             Log.d("Chart", "${Json.encodeToString(statistics)}")
 
             riskMap.data(data)
@@ -196,6 +200,10 @@ class ChartActivity() : AppCompatActivity() {
 
     fun getLinearColorHex(percent: Double): String {
         return colorMap[percent.toInt() / 10]!!
+
+    }
+
+    private fun redrawChart(stats: ProcessedStatistics) {
 
     }
 
