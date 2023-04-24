@@ -41,6 +41,8 @@ class ChartActivity() : AppCompatActivity() {
         10 to "#224A3E"
     )
 
+    private val addressLabels = listOf("Principal", "Secundaria")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart)
@@ -89,96 +91,22 @@ class ChartActivity() : AppCompatActivity() {
 
 
         CoroutineScope(Dispatchers.IO).launch {
-
-            val trackingData = userViewModel.getTrackingData()
-            var principal = prefs.getPrimaryAddressName()
-            var secundaria = prefs.getSecondaryAddressName()
-
-            //val result = trackingData.filter { data -> (data.address_id == 1 && data.hour == 14) }.first()
-
-            Log.d("Chart", "TrackingData: $trackingData")
-
-            for (data in trackingData) {
-                Log.d(
-                    "Estadisticas",
-                    "Address ID: ${data.address_id}, Hour: ${data.hour}, Data Count: ${data.data_count}"
-                )
-            }
-
-            val addressIds = trackingData.map { data -> data.address_id }
-            Log.d("Chart", "Addresses: $addressIds")
-            val uniqueAddressIds = addressIds.distinct()
-            Log.d("Chart", "Unique addresses: $uniqueAddressIds")
-
-            // since we only have 2 addresses for now
-            val nonZeroAddresses = uniqueAddressIds.filter { address -> address != 0 }
-            val addressLabels = mapOf<Int, String>(
-                nonZeroAddresses.get(0) to "Principal",
-                nonZeroAddresses.get(1) to "Secundaria")
-
+            val statistics = statisticsService.getProcessedStatistics()
 
             val data: MutableList<DataEntry> = ArrayList()
 
-            val startHour = 8
-            val endHour = 22
+            var idx = 0
+            for (hour in statistics.startHour until statistics.endHour) {
+                // todo: use resolutionMin to construct time_slot string
+                val timeSlot = "${hour}:00-${hour + 1}:00"
 
-//            val statistics = ProcessedStatistics(startHour, endHour, 60)
-//            statistics.addressIds = nonZeroAddresses
+                val dataPointsForSlot = statistics.data.get(idx)
 
-            //Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().
-            //Por cada franja horaria
-            for (hour in startHour until endHour) {
-                val time_slot = "${hour}:00-${hour + 1}:00"
+                addHeatDataEntry(dataPointsForSlot, 0, data, timeSlot)
+                addHeatDataEntry(dataPointsForSlot, 1, data, timeSlot)
 
-                // calculate total number of datapoints per timeslot
-                var data_point_count = 0
-                for (address in uniqueAddressIds) {
-                    try {
-                        val result =
-                            trackingData.filter { data -> (data.address_id == address && data.hour.toInt() == hour) }
-                                .first()
-                        data_point_count += result.data_count
-                    } catch (e: NoSuchElementException) { }
-                }
-
-
-                //Por cada una de las direcciones
-                for (address in nonZeroAddresses) {
-
-                    Log.d("loop", "Hora: $hour y Address: $address")
-
-                    try {
-                        val result =
-                            trackingData.filter { data -> (data.address_id == address && data.hour.toInt() == hour) }
-                                .first()
-
-                        var count = result.data_count
-                        Log.d("Result", "count: $count")
-
-                        var main_count = result.data_count
-                        var porcentaje = (main_count.toDouble()/data_point_count)*100
-                        val label = porcentaje.toInt() / 10 + 1
-
-//                        addDataPoint(statistics, porcentaje)
-
-                        Log.d("Porcentaje", "count: $porcentaje")
-
-                        val color = getLinearColorHex(porcentaje)
-
-                        data.add(CustomHeatDataEntry(addressLabels.get(result.address_id), time_slot, label, color))
-                    } catch (e: NoSuchElementException) {
-                        val color = getLinearColorHex(0.0)
-                        data.add(CustomHeatDataEntry(addressLabels.get(address), time_slot, 0, color))
-
-//                        addDataPoint(statistics, -1.0)
-
-                        println("Caught NoSuchElementException: ${e.message}")
-                    }
-                }
+                ++idx
             }
-
-            val statistics = statisticsService.getProcessedStatistics()
-            Log.d("Chart", "${Json.encodeToString(statistics)}")
 
             riskMap.data(data)
 
@@ -188,22 +116,27 @@ class ChartActivity() : AppCompatActivity() {
         }
     }
 
-    private fun addDataPoint(
-        statistics: ProcessedStatistics,
-        porcentaje: Double
+    private fun addHeatDataEntry(
+        dataPointsForSlot: java.util.ArrayList<Double>,
+        dataPointIndex: Int,
+        data: MutableList<DataEntry>,
+        timeSlot: String
     ) {
-        if (statistics.data.last().size == 2) {
-            statistics.data.add(ArrayList())
+        val dataPoint = dataPointsForSlot.get(dataPointIndex)
+
+        if (dataPoint == -1.0) {
+            data.add(CustomHeatDataEntry(addressLabels.get(dataPointIndex), timeSlot, 0, getLinearColorHex(0.0)))
+        } else {
+            val color = getLinearColorHex(dataPoint)
+            val label = dataPoint.toInt() / 10 + 1
+
+            data.add(CustomHeatDataEntry(addressLabels.get(dataPointIndex), timeSlot, label, color))
         }
-        statistics.data.last().add(porcentaje)
+
     }
 
     fun getLinearColorHex(percent: Double): String {
         return colorMap[percent.toInt() / 10]!!
-
-    }
-
-    private fun redrawChart(stats: ProcessedStatistics) {
 
     }
 
