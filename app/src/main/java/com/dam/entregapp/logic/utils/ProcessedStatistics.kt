@@ -4,7 +4,7 @@ data class ProcessedStatistics(
     val startHour: Int,
     val endHour: Int,
     val resolutionMin: Int,
-    var address_id: ArrayList<Int> = ArrayList(),
-    var data: ArrayList<ArrayList<Double>> = ArrayList()
+    var addressIds: List<Int> = emptyList(),
+    var data: ArrayList<ArrayList<Double>> = ArrayList(listOf(ArrayList()))
 )
 

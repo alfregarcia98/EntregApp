@@ -12,7 +12,7 @@ import com.anychart.chart.common.dataentry.HeatDataEntry
 import com.anychart.enums.SelectionMode
 import com.anychart.graphics.vector.SolidFill
 import com.dam.entregapp.LocationApp.Companion.prefs
-import com.dam.entregapp.ui.viewmodels.MainViewModel
+import com.dam.entregapp.logic.utils.ProcessedStatistics
 import com.dam.entregapp.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -110,7 +110,8 @@ class ChartActivity() : AppCompatActivity() {
             val startHour = 8
             val endHour = 22
 
-//            val statistics = ProcessedStatistics(startHour, endHour, 60)
+            val statistics = ProcessedStatistics(startHour, endHour, 60)
+            statistics.addressIds = uniqueAddressIds
 
             //Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().
             //Por cada franja horaria
@@ -151,6 +152,8 @@ class ChartActivity() : AppCompatActivity() {
                         var porcentaje = (main_count.toDouble()/data_point_count)*100
                         val label = porcentaje.toInt() / 10 + 1
 
+                        addDataPoint(statistics, porcentaje)
+
                         Log.d("Porcentaje", "count: $porcentaje")
 
                         val color = getLinearColorHex(porcentaje)
@@ -160,10 +163,14 @@ class ChartActivity() : AppCompatActivity() {
                         val color = getLinearColorHex(0.0)
                         data.add(CustomHeatDataEntry(addressLabels.get(address), time_slot, 0, color))
 
+                        addDataPoint(statistics, -1.0)
+
                         println("Caught NoSuchElementException: ${e.message}")
                     }
                 }
             }
+
+            Log.d("Chart", "$statistics")
 
             riskMap.data(data)
 
@@ -171,6 +178,16 @@ class ChartActivity() : AppCompatActivity() {
                 anyChartView.setChart(riskMap)
             }
         }
+    }
+
+    private fun addDataPoint(
+        statistics: ProcessedStatistics,
+        porcentaje: Double
+    ) {
+        if (statistics.data.last().size == 2) {
+            statistics.data.add(ArrayList())
+        }
+        statistics.data.last().add(porcentaje)
     }
 
     fun getLinearColorHex(percent: Double): String {
