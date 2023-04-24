@@ -378,15 +378,10 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
-        binding.btnBorrar.setOnClickListener {
-            /**if (mBound) {
-            val num: Int = mService.randomNumber
-            Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()*/
-            CoroutineScope(Dispatchers.IO).launch {
-                mainViewModel.deleteAllTrackingData()
-            }
-            //}
-        }
+
+        /**if (mBound) {
+        val num: Int = mService.randomNumber
+        Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()*/
 
         binding.btnChart.setOnClickListener {
             val a = Intent(this, ChartActivity::class.java)

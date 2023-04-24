@@ -100,10 +100,17 @@ class ChartActivity() : AppCompatActivity() {
                 )
             }
 
+            val addressIds = trackingData.map { data -> data.address_id }
+            Log.d("Chart", "Addresses: $addressIds")
+            val uniqueAddressIds = addressIds.distinct()
+            Log.d("Chart", "Unique addresses: $uniqueAddressIds")
+
             val data: MutableList<DataEntry> = ArrayList()
 
             val startHour = 8
             val endHour = 22
+
+//            val statistics = ProcessedStatistics(startHour, endHour, 60)
 
             //Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().
             //Por cada franja horaria
@@ -112,7 +119,7 @@ class ChartActivity() : AppCompatActivity() {
 
                 // calculate total number of datapoints per timeslot
                 var data_point_count = 0
-                for (address in 0..2) {
+                for (address in uniqueAddressIds) {
                     try {
                         val result =
                             trackingData.filter { data -> (data.address_id == address && data.hour.toInt() == hour) }
@@ -121,8 +128,14 @@ class ChartActivity() : AppCompatActivity() {
                     } catch (e: NoSuchElementException) { }
                 }
 
+                // since we only have 2 addresses for now
+                val nonZeroAddresses = uniqueAddressIds.filter { address -> address != 0 }
+                val addressLabels = mapOf<Int, String>(
+                    nonZeroAddresses.get(0) to "Principal",
+                    nonZeroAddresses.get(1) to "Secundaria")
+
                 //Por cada una de las direcciones
-                for (address in 0..2) {
+                for (address in nonZeroAddresses) {
 
                     Log.d("loop", "Hora: $hour y Address: $address")
 
@@ -142,18 +155,10 @@ class ChartActivity() : AppCompatActivity() {
 
                         val color = getLinearColorHex(porcentaje)
 
-                        if (result.address_id == 1) {
-                            data.add(CustomHeatDataEntry("Principal", time_slot, label, color))
-                        } else if (result.address_id == 2) {
-                            data.add(CustomHeatDataEntry("Secundaria", time_slot, label, color))
-                        }
+                        data.add(CustomHeatDataEntry(addressLabels.get(result.address_id), time_slot, label, color))
                     } catch (e: NoSuchElementException) {
                         val color = getLinearColorHex(0.0)
-                        if (address == 1) {
-                            data.add(CustomHeatDataEntry("Principal", time_slot, 0, color))
-                        } else if (address == 2) {
-                            data.add(CustomHeatDataEntry("Secundaria", time_slot, 0, color))
-                        }
+                        data.add(CustomHeatDataEntry(addressLabels.get(address), time_slot, 0, color))
 
                         println("Caught NoSuchElementException: ${e.message}")
                     }
