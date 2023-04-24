@@ -1,5 +1,8 @@
 package com.dam.entregapp.logic.utils
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ProcessedStatistics(
     val startHour: Int,
     val endHour: Int,

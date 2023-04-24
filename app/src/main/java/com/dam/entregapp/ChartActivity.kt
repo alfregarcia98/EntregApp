@@ -17,6 +17,8 @@ import com.dam.entregapp.ui.viewmodels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 //TODO Como rellenarlo de manera dinamica con la informacion del usuario - Primero solucionar lo de estadisticas
 class ChartActivity() : AppCompatActivity() {
@@ -105,13 +107,20 @@ class ChartActivity() : AppCompatActivity() {
             val uniqueAddressIds = addressIds.distinct()
             Log.d("Chart", "Unique addresses: $uniqueAddressIds")
 
+            // since we only have 2 addresses for now
+            val nonZeroAddresses = uniqueAddressIds.filter { address -> address != 0 }
+            val addressLabels = mapOf<Int, String>(
+                nonZeroAddresses.get(0) to "Principal",
+                nonZeroAddresses.get(1) to "Secundaria")
+
+
             val data: MutableList<DataEntry> = ArrayList()
 
             val startHour = 8
             val endHour = 22
 
             val statistics = ProcessedStatistics(startHour, endHour, 60)
-            statistics.addressIds = uniqueAddressIds
+            statistics.addressIds = nonZeroAddresses
 
             //Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().Cuando había horas con un 0 inicial, como 08 y 09. He tenido que almacenar la hora como un string y luego a la hora de necesitar el numero como tal hacer un toInt().
             //Por cada franja horaria
@@ -129,11 +138,6 @@ class ChartActivity() : AppCompatActivity() {
                     } catch (e: NoSuchElementException) { }
                 }
 
-                // since we only have 2 addresses for now
-                val nonZeroAddresses = uniqueAddressIds.filter { address -> address != 0 }
-                val addressLabels = mapOf<Int, String>(
-                    nonZeroAddresses.get(0) to "Principal",
-                    nonZeroAddresses.get(1) to "Secundaria")
 
                 //Por cada una de las direcciones
                 for (address in nonZeroAddresses) {
@@ -170,7 +174,7 @@ class ChartActivity() : AppCompatActivity() {
                 }
             }
 
-            Log.d("Chart", "$statistics")
+            Log.d("Chart", "${Json.encodeToString(statistics)}")
 
             riskMap.data(data)
 
