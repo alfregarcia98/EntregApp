@@ -15,13 +15,13 @@ import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.logic.utils.ProcessedStatistics
 import com.dam.entregapp.service.StatisticsService
 import com.dam.entregapp.ui.viewmodels.UserViewModel
+import com.google.common.collect.Comparators.min
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-//TODO Como rellenarlo de manera dinamica con la informacion del usuario - Primero solucionar lo de estadisticas
 class ChartActivity() : AppCompatActivity() {
 
     private lateinit var userViewModel: UserViewModel
@@ -126,11 +126,12 @@ class ChartActivity() : AppCompatActivity() {
 
         if (dataPoint == -1.0) {
             data.add(CustomHeatDataEntry(addressLabels.get(dataPointIndex), timeSlot, 0, getLinearColorHex(0.0)))
-        } else {
+        } else
+         {
             val color = getLinearColorHex(dataPoint)
             val label = dataPoint.toInt() / 10 + 1
 
-            data.add(CustomHeatDataEntry(addressLabels.get(dataPointIndex), timeSlot, label, color))
+            data.add(CustomHeatDataEntry(addressLabels.get(dataPointIndex), timeSlot, min(label,10), color))
         }
 
     }
