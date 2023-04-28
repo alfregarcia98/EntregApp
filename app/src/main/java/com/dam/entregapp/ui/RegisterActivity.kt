@@ -100,51 +100,16 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-
     private fun saveUser(user: FirestoreUser) = CoroutineScope(Dispatchers.IO).launch {
         try {
             FirebaseAuth.getInstance().currentUser?.let {
                 FirebaseFirestore.getInstance().collection("users").document(it.uid).set(user)
             }
 
-            /*FirebaseAuth.getInstance().currentUser?.let {
-                FirebaseFirestore.getInstance().collection("users").add(user).await()
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        this@RegisterActivity,
-                        "Successfully saved data.",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
-                }
-            }*/
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
                 Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_LONG).show()
             }
         }
     }
-/*
-    private fun addUserToFirestore(usuarioText: String, phoneTxt: String) {
-        //val firestoreUser = FirebaseAuth.getInstance().currentUser?.let { it1 -> FirestoreUser(emailText,usuarioText,phoneText, it1.uid) }
-
-        val firestoreUser = hashMapOf(
-            "email" to (FirebaseAuth.getInstance().currentUser?.email ?: ""),
-            "username" to usuarioText,
-            "phone" to phoneTxt,
-            "uid" to (FirebaseAuth.getInstance().currentUser?.uid ?: "")
-        )
-
-        FirebaseAuth.getInstance().currentUser?.let {
-            FirebaseFirestore.getInstance().collection("users")
-                .document(it.uid)
-                .set(firestoreUser)
-                .addOnSuccessListener {
-                    Log.d("Registro", "Usuario agregado a Firestore")
-                }
-                .addOnFailureListener { e ->
-                    Log.e("Registro", "Error al agregar usuario a Firestore", e)
-                }
-        }
-    }*/
 }

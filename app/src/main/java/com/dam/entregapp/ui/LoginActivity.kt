@@ -89,32 +89,6 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
             }
-
-            /*FirebaseAuth.getInstance().currentUser?.let { it ->
-                val querySnapshot =
-                    FirebaseFirestore.getInstance().collection("users").get().await()
-                for (document in querySnapshot.documents) {
-                    Log.d("LogIn", "Usuario de firestore: $document")
-                }
-            }*/
-
-
-            /*FirebaseAuth.getInstance().currentUser?.let { it ->
-                FirebaseFirestore.getInstance().collection("users").document(it.uid).get()
-                    .addOnSuccessListener {
-
-                        val firestoreUser = it.toObject(FirestoreUser::class.java)
-
-                        Log.d("LogIn", "Usuario de firestore: $firestoreUser")
-                        if (firestoreUser != null) {
-                            userToDB(
-                                firestoreUser.email,
-                                firestoreUser.username,
-                                firestoreUser.phone
-                            )
-                        }
-                    }
-            }*/
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
                 Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_LONG).show()
@@ -123,7 +97,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun userToDB(firestoreUser: FirestoreUser) {
-        var username = firestoreUser.username
         val user =
                     User(0, firestoreUser.username, firestoreUser.email, "no es necesario", firestoreUser.phone.toInt())
 
@@ -132,20 +105,6 @@ class LoginActivity : AppCompatActivity() {
         Log.d("LogIn", "Usuario a la base de datos local: $user")
 
     }
-
-    /*    private fun userFromFirestore() {
-            FirebaseAuth.getInstance().currentUser?.let {
-                FirebaseFirestore.getInstance().collection("users")
-                    .document(it.uid)
-                    .get(firestoreUser)
-                    .addOnSuccessListener {
-                        Log.d("Registro", "Usuario agregado a Firestore")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("Registro", "Error al agregar usuario a Firestore", e)
-                    }
-            }
-        }*/
 
     private fun showAlert() {
         val builder = AlertDialog.Builder(this)
