@@ -32,7 +32,9 @@ class StatisticsService(private val userViewModel: UserViewModel) {
                         trackingData.filter { data -> (data.address_id == address && data.hour.toInt() == hour) }
                             .first()
                     data_point_count += result.data_count
-                } catch (e: NoSuchElementException) { }
+                } catch (e: NoSuchElementException) {
+                    Log.d("Stats", "Catch1 con hora: $hour y address: $address")
+                }
             }
 
             for (address in nonZeroAddresses) {
@@ -43,14 +45,16 @@ class StatisticsService(private val userViewModel: UserViewModel) {
 
                     var main_count = result.data_count
                     var porcentaje = (main_count.toDouble()/data_point_count)*100
-                    val label = porcentaje.toInt() / 10 + 1
+                    //val label = porcentaje.toInt() / 10 + 1
 
                     addDataPoint(statistics, porcentaje)
                 } catch (e: NoSuchElementException) {
+                    Log.d("Stats", "Catch2 con hora: $hour y address: $address")
                     addDataPoint(statistics, -1.0)
                 }
             }
         }
+        Log.d("Stats", "Stadisticas devueltas: $statistics")
 
         return statistics;
     }
@@ -59,7 +63,7 @@ class StatisticsService(private val userViewModel: UserViewModel) {
         statistics: ProcessedStatistics,
         porcentaje: Double
     ) {
-        if (statistics.data.last().size == 2) {
+        if (statistics.data.last().size == statistics.addressIds.size) {
             statistics.data.add(ArrayList())
         }
         statistics.data.last().add(porcentaje)

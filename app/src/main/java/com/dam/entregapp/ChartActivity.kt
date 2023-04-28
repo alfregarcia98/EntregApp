@@ -100,11 +100,18 @@ class ChartActivity() : AppCompatActivity() {
                 // todo: use resolutionMin to construct time_slot string
                 val timeSlot = "${hour}:00-${hour + 1}:00"
 
-                val dataPointsForSlot = statistics.data.get(idx)
+                if (statistics.data.size > idx && idx >= 0) {
 
-                addHeatDataEntry(dataPointsForSlot, 0, data, timeSlot)
-                addHeatDataEntry(dataPointsForSlot, 1, data, timeSlot)
+                    val dataPointsForSlot = statistics.data.get(idx)
 
+                    addHeatDataEntry(dataPointsForSlot, 0, data, timeSlot)
+                    addHeatDataEntry(dataPointsForSlot, 1, data, timeSlot)
+
+
+                } else{
+                    Log.d("Index", "Ha llegao aqui con indice: $idx")
+                    Log.d("Index", "Ha llegao aqui con statistics: ${statistics.data}")
+                }
                 ++idx
             }
 
@@ -122,16 +129,36 @@ class ChartActivity() : AppCompatActivity() {
         data: MutableList<DataEntry>,
         timeSlot: String
     ) {
-        val dataPoint = dataPointsForSlot.get(dataPointIndex)
 
-        if (dataPoint == -1.0) {
-            data.add(CustomHeatDataEntry(addressLabels.get(dataPointIndex), timeSlot, 0, getLinearColorHex(0.0)))
-        } else
-         {
-            val color = getLinearColorHex(dataPoint)
-            val label = dataPoint.toInt() / 10 + 1
 
-            data.add(CustomHeatDataEntry(addressLabels.get(dataPointIndex), timeSlot, min(label,10), color))
+        if (dataPointsForSlot.size > dataPointIndex && dataPointIndex >= 0) {
+
+            val dataPoint = dataPointsForSlot.get(dataPointIndex)
+
+            if (dataPoint == -1.0) {
+                data.add(
+                    CustomHeatDataEntry(
+                        addressLabels.get(dataPointIndex),
+                        timeSlot,
+                        0,
+                        getLinearColorHex(0.0)
+                    )
+                )
+            } else {
+                val color = getLinearColorHex(dataPoint)
+                val label = dataPoint.toInt() / 10 + 1
+
+                data.add(
+                    CustomHeatDataEntry(
+                        addressLabels.get(dataPointIndex),
+                        timeSlot,
+                        min(label, 10),
+                        color
+                    )
+                )
+            }
+        } else {
+            // handle the case where dataPointIndex is out of bounds
         }
 
     }
