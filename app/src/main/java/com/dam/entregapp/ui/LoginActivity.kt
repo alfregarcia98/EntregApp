@@ -2,11 +2,13 @@ package com.dam.entregapp.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.dam.entregapp.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class LoginActivity : AppCompatActivity() {
@@ -44,6 +46,8 @@ class LoginActivity : AppCompatActivity() {
                 ).addOnCompleteListener {
                     if (it.isSuccessful) {
                         //TODO Hacer que al iniciar sesion tamien se cree en local el usuario
+
+                        //userFromFirestore()
                         showHome(it.result?.user?.email.toString())
                     } else {
                         showAlert()
@@ -59,6 +63,21 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
+
+/*    private fun userFromFirestore() {
+        FirebaseAuth.getInstance().currentUser?.let {
+            FirebaseFirestore.getInstance().collection("users")
+                .document(it.uid)
+                .get(firestoreUser)
+                .addOnSuccessListener {
+                    Log.d("Registro", "Usuario agregado a Firestore")
+                }
+                .addOnFailureListener { e ->
+                    Log.e("Registro", "Error al agregar usuario a Firestore", e)
+                }
+        }
+    }*/
+
 
     /** Prescindible
     private fun checkUserValues() {
