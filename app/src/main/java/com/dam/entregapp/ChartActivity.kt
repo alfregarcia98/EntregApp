@@ -106,13 +106,12 @@ class ChartActivity() : AppCompatActivity() {
 
                     addHeatDataEntry(dataPointsForSlot, 0, data, timeSlot)
                     addHeatDataEntry(dataPointsForSlot, 1, data, timeSlot)
-
+                    ++idx
 
                 } else{
                     Log.d("Index", "Ha llegao aqui con indice: $idx")
                     Log.d("Index", "Ha llegao aqui con statistics: ${statistics.data}")
                 }
-                ++idx
             }
 
             riskMap.data(data)
