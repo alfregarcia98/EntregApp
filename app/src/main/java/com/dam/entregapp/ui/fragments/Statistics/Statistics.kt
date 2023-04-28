@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dam.entregapp.LocationApp.Companion.prefs
@@ -23,7 +24,7 @@ import java.util.*
 class Statistics : Fragment(R.layout.fragment_statistics) {
 
     private lateinit var userViewModel: UserViewModel
-    val db = Firebase.firestore
+
     var porcentajePrincipal = 0f
     var porcentajeSecundario = 0f
 
@@ -50,8 +51,17 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
+        binding.btnBorrar.setOnClickListener {
+            borrarTracking()
+        }
+
+        binding.btnEnviar.setOnClickListener {
+            submitStatistics()
+        }
+
+
         //Para evitar el error de cambiar la ui desde corrutina
-        fun Fragment?.runOnUiThread(action: () -> Unit) {
+        /*fun Fragment?.runOnUiThread(action: () -> Unit) {
             this ?: return
             if (!isAdded) return // Fragment not attached to an Activity
             activity?.runOnUiThread(action)
@@ -73,55 +83,52 @@ class Statistics : Fragment(R.layout.fragment_statistics) {
 
         }
 
-        binding.addr1Name.text = prefs.getPrimaryAddressName()
-        binding.addr2Name.text = prefs.getSecondaryAddressName()
-        CoroutineScope(Dispatchers.IO).launch {
+            binding.addr1Name.text = prefs.getPrimaryAddressName()
+            binding.addr2Name.text = prefs.getSecondaryAddressName()
+            *//*        CoroutineScope(Dispatchers.IO).launch {
 
-            val trackingData = userViewModel.getTrackingData()
+                    val trackingData = userViewModel.getTrackingData()
 
-            Log.d("Estadisticas", "TrackingData: $trackingData")
-
-
-            for (data in trackingData) {
-                Log.d(
-                    "Estadisticas",
-                    "Address ID: ${data.address_id}, Hour: ${data.hour}, Data Count: ${data.data_count}"
-                )
-            }
-            var main_count = trackingData[1].data_count
-            var second_count = trackingData[2].data_count
-            var total_count =
-                trackingData[0].data_count + trackingData[1].data_count + trackingData[2].data_count
-
-            if (total_count>0) {
-                porcentajePrincipal = ((main_count.toFloat() / total_count.toFloat()) * 100)
-                porcentajeSecundario = ((second_count.toFloat() / total_count.toFloat()) * 100)
-            }
+                    Log.d("Estadisticas", "TrackingData: $trackingData")
 
 
-            runOnUiThread {
-                binding.count1Txt.text = main_count.toString()
-                binding.count2Txt.text = second_count.toString()
-                binding.count3Txt.text = total_count.toString()
-                binding.porcentaje1Txt.text = porcentajePrincipal.toString()
-                binding.porcentaje2Txt.text = porcentajeSecundario.toString()
-            }
+                    for (data in trackingData) {
+                        Log.d(
+                            "Estadisticas",
+                            "Address ID: ${data.address_id}, Hour: ${data.hour}, Data Count: ${data.data_count}"
+                        )
+                    }
+                    var main_count = trackingData[1].data_count
+                    var second_count = trackingData[2].data_count
+                    var total_count =
+                        trackingData[0].data_count + trackingData[1].data_count + trackingData[2].data_count
+
+                    if (total_count>0) {
+                        porcentajePrincipal = ((main_count.toFloat() / total_count.toFloat()) * 100)
+                        porcentajeSecundario = ((second_count.toFloat() / total_count.toFloat()) * 100)
+                    }
 
 
-        }
+        runOnUiThread {
+            binding.count1Txt.text = main_count.toString()
+            binding.count2Txt.text = second_count.toString()
+            binding.count3Txt.text = total_count.toString()
+            binding.porcentaje1Txt.text = porcentajePrincipal.toString()
+            binding.porcentaje2Txt.text = porcentajeSecundario.toString()
+        }*/
     }
+
 
     private fun submitStatistics() {
 
-        var email = prefs.getEmail()
-        db.collection("users").document(email).collection("Statistics")
-            .document("Tracking")
-            .set(
-                hashMapOf(
-                    "time" to FieldValue.serverTimestamp()
-                )
-            )
+        val confirmacion = hashMapOf(
+            "disponibilidad" to "Si",
+            "fecha" to FieldValue.serverTimestamp()
+        )
+        val db = Firebase.firestore
+        val docRef = db.collection("users").document(prefs.getAuthID())
 
+        docRef.collection("Statistics").document("Tracking").set(confirmacion)
     }
 
     private fun borrarTracking() {

@@ -47,17 +47,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel
     val user = Firebase.auth.currentUser
     val email = ""
-
+    private val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        val user = Firebase.auth.currentUser
         title = "Inicio"
+
 
         val thread: Thread = object : Thread() {
             override fun run() {
@@ -177,7 +178,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun alertCreator(mensaje: String) {
-        val db = Firebase.firestore
+        val docRef = db.collection("users").document(prefs.getAuthID())
         val builder = AlertDialog.Builder(this)
 
         with(builder) {
@@ -196,7 +197,7 @@ class MainActivity : AppCompatActivity() {
                     "disponibilidad" to "Si",
                     "fecha" to FieldValue.serverTimestamp()
                 )
-                db.collection("users").document(prefs.getEmail()).collection("Entregas")
+                docRef.collection("Informacion").document("Datos").collection("Entregas")
                     .document("Disponibilidad")
                     .set(confirmacion)
                     .addOnSuccessListener { documentReference ->
@@ -253,14 +254,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     suspend fun checkUser() {
-        //val user = Firebase.auth.currentUser
         if (user != null) {
             user?.let {
                 // Name, email address, and profile photo Url
                 val email = it!!.email!!
+                //ID unico del usuario en FBAuth
+                val uid = it.uid
                 val userID = mainViewModel.getUserID(email)
                 prefs.saveEmail(email)
-                setup(email, userID)
+                prefs.saveAuthID(uid)
+                setup(email, uid, userID)
                 prueba(userID)
                 //binding.txtEmail.text = email
             }
@@ -308,8 +311,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setup(userEmail: String, userID: Int) {
-        val db = Firebase.firestore
+    private fun setup(userEmail: String,uid: String ,userID: Int) {
+        val docRef = db.collection("users").document(uid)
 
         /**user?.let {
         // Name, email address, and profile photo Url
@@ -337,7 +340,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnGuardar.setOnClickListener {
 
-            db.collection("users").document(userEmail).collection("Informacion").document("Datos")
+            docRef.collection("Informacion").document("Datos")
                 .set(
                     hashMapOf(
                         "name" to binding.txtNombre.text.toString(),
@@ -347,12 +350,12 @@ class MainActivity : AppCompatActivity() {
 
         }
         binding.btnRecuperar.setOnClickListener {
-            db.collection("users").document(userEmail).get().addOnSuccessListener {
+            docRef.collection("Informacion").document("Datos").get().addOnSuccessListener {
                 binding.txtNombre.setText(it.get("name") as String?)
             }
         }
         binding.btnEliminar.setOnClickListener {
-            db.collection("users").document(userEmail).delete()
+            docRef.collection("Informacion").document("Datos").delete()
         }
 
         binding.startService.setOnClickListener {
