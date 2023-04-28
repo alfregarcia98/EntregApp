@@ -104,6 +104,10 @@ class RegisterActivity : AppCompatActivity() {
     private fun saveUser(user: FirestoreUser) = CoroutineScope(Dispatchers.IO).launch {
         try {
             FirebaseAuth.getInstance().currentUser?.let {
+                FirebaseFirestore.getInstance().collection("users").document(it.uid).set(user)
+            }
+
+            /*FirebaseAuth.getInstance().currentUser?.let {
                 FirebaseFirestore.getInstance().collection("users").add(user).await()
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
@@ -113,7 +117,7 @@ class RegisterActivity : AppCompatActivity() {
                     )
                         .show()
                 }
-            }
+            }*/
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
                 Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_LONG).show()

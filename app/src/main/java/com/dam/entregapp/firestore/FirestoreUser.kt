@@ -4,4 +4,6 @@ data class FirestoreUser(
     var email: String,
     var username: String,
     var phone: String
-)
+) {
+    constructor() : this("", "", "")
+}
