@@ -82,61 +82,6 @@
                 android:hint="numero" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/count3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Numero total de tracks: " />
-
-            <TextView
-                android:id="@+id/count3_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="numero" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/porcentaje1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Porcentaje dirección principal: " />
-
-            <TextView
-                android:id="@+id/porcentaje1_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="numero" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/porcentaje2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Porcentaje dirección secundaria: " />
-
-            <TextView
-                android:id="@+id/porcentaje2_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="numero" />
-        </LinearLayout>
-
-
         <Button
             android:id="@+id/btn_borrar"
             android:layout_gravity="center"
@@ -151,6 +96,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enviar estadisticas" />
+
+        <Button
+            android:id="@+id/btn_chart"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ver estadisticas" />
 
     </LinearLayout>
 </FrameLayout>
