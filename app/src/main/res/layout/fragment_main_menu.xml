@@ -9,7 +9,7 @@
         android:id="@+id/btn_addr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="0dp"
         android:text="Configura tus direcciones de entrega" />
 
@@ -17,7 +17,7 @@
         android:id="@+id/btn_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:text="Configura tu cuenta" />
 
@@ -25,7 +25,7 @@
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
         android:text="Login" />
 
@@ -33,7 +33,7 @@
         android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="150dp"
         android:text="Registro" />
 
@@ -41,7 +41,7 @@
         android:id="@+id/btn_estadisticas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="200dp"
         android:text="Estadisticas" />
 
@@ -49,9 +49,17 @@
         android:id="@+id/btn_scheduler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="250dp"
         android:text="Programador de apagado" />
+
+    <Button
+        android:id="@+id/btn_sync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="300dp"
+        android:text="Sincroiza tus datos" />
 
 
 </FrameLayout>

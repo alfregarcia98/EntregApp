@@ -57,6 +57,10 @@ class MainMenu : Fragment(R.layout.fragment_main_menu) {
         binding.btnScheduler.setOnClickListener {
             findNavController().navigate(R.id.action_mainMenu_to_schedulerFragment)
         }
+
+        binding.btnSync.setOnClickListener {
+            findNavController().navigate(R.id.action_mainMenu_to_syncFragment)
+        }
     }
 
 }
