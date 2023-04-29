@@ -52,13 +52,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/count1"
+                    android:id="@+id/user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="User: " />
 
                 <TextView
-                    android:id="@+id/count1_txt"
+                    android:id="@+id/user_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="usuario" />
@@ -66,17 +66,17 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="109dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/count2"
+                    android:id="@+id/addr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="Direcciones: " />
 
                 <TextView
-                    android:id="@+id/count2_txt"
+                    android:id="@+id/address_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="direcciones" />
@@ -91,14 +91,14 @@
 
 
             <Button
-                android:id="@+id/btn_enviar"
+                android:id="@+id/btn_recuperar"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nada" />
+                android:text="Recuperar datos" />
 
             <Button
-                android:id="@+id/btn_chart"
+                android:id="@+id/btn_nada2"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

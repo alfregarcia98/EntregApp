@@ -17,10 +17,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.dam.entregapp.ChartActivity
 import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.LocationService
-import com.dam.entregapp.alarm.AlarmItem
-import com.dam.entregapp.alarm.AlarmScheduler
-import com.dam.entregapp.alarm.AndroidAlarmScheduler
+import com.dam.entregapp.data.database.relations.UserWithAddress
 import com.dam.entregapp.databinding.ActivityMainBinding
+import com.dam.entregapp.firestore.FirestoreData
 import com.dam.entregapp.ui.viewmodels.MainViewModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
@@ -33,12 +32,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.sql.Time
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -264,7 +257,7 @@ class MainActivity : AppCompatActivity() {
                 prefs.saveEmail(email)
                 prefs.saveAuthID(uid)
                 setup(email, uid, userID)
-                prueba(userID)
+                saveUserPrefs(userID)
                 //binding.txtEmail.text = email
             }
         } else {
@@ -274,7 +267,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    suspend fun prueba(userID: Int) {
+
+
+    suspend fun saveUserPrefs(userID: Int) {
         val lista = mainViewModel.getUserWithAddress(userID)
         if (lista.isNotEmpty()) {
             Log.d("Prueba", "Lista: $lista")
@@ -301,6 +296,9 @@ class MainActivity : AppCompatActivity() {
                     prefs.savePrimaryAddressName(primaryName)
                     prefs.saveSecondaryAddressName(secondaryName)
 
+                    //Hecho en el Sync fragment
+                    //saveUserDataToFirestore(lista)
+
                     Log.d(
                         "Prueba",
                         "PrimaryLat: $primaryLat, PrimaryLon: $primaryLon, SecondaryLat: $secondaryLat, SecondaryLon: $secondaryLon"
@@ -309,6 +307,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun saveUserDataToFirestore(lista: List<UserWithAddress>) {
+        val docRef = db.collection("users").document(prefs.getAuthID())
+
+        docRef.collection("Preferencias").document("Lista").set(lista[0])
     }
 
     private fun setup(userEmail: String,uid: String ,userID: Int) {
