@@ -19,7 +19,6 @@ import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.LocationService
 import com.dam.entregapp.data.database.relations.UserWithAddress
 import com.dam.entregapp.databinding.ActivityMainBinding
-import com.dam.entregapp.firestore.FirestoreData
 import com.dam.entregapp.ui.viewmodels.MainViewModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth

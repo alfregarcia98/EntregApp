@@ -14,7 +14,7 @@ import com.dam.entregapp.data.database.relations.UserWithAddress
 import com.dam.entregapp.data.model.User
 import com.dam.entregapp.databinding.FragmentManageSettingsBinding
 import com.dam.entregapp.databinding.FragmentSyncBinding
-import com.dam.entregapp.firestore.FirestoreData
+import com.dam.entregapp.firestore.FirestoreAddresses
 import com.dam.entregapp.firestore.FirestoreUser
 import com.dam.entregapp.ui.viewmodels.MainViewModel
 import com.dam.entregapp.ui.viewmodels.UserViewModel
@@ -95,15 +95,34 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
 
     private fun restore() = CoroutineScope(Dispatchers.IO).launch {
 
+        val db = FirebaseFirestore.getInstance()
+        val docRef = db.collection("users").document(prefs.getAuthID())
+            .collection("Preferencias").document("Lista")
 
-        try {
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            if (documentSnapshot.exists()) {
+                val myDataClass = documentSnapshot.get("addresses")?.let {
+                    Log.d("Sync", "Devuelto solo addresses: $it")
+                }
+            } else {
+                Log.d("Sync", "Document not found")
+            }
+        }.addOnFailureListener { exception ->
+            Log.e("Sync", "Error getting document: ", exception)
+        }
+
+
+
+/*        try {
             val querySnapshot =
                 FirebaseFirestore.getInstance().collection("users").document(prefs.getAuthID())
                     .collection("Preferencias").get().await()
             for (document in querySnapshot.documents) {
                 //TODO no va lo del object porque no se hacerlo pero lista si se recupera bien
-                //val lista = document.toObject<FirestoreData>()
                 val lista = document.data
+                if (lista != null) {
+
+                }
                 Log.d("Sync", "Datos de lista: $lista")
             }
             withContext(Dispatchers.Main) {
@@ -113,7 +132,7 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
             withContext(Dispatchers.Main) {
                 Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
             }
-        }
+        }*/
     }
 
 }
