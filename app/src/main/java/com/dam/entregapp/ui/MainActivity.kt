@@ -2,6 +2,7 @@ package com.dam.entregapp.ui
 
 import android.Manifest
 import android.app.AlertDialog
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -82,6 +83,10 @@ class MainActivity : AppCompatActivity() {
         var alarmItem: AlarmItem? = null
         alarmItem = AlarmItem(8,"Notificacion")
         alarmItem?.let(scheduler::schedule)
+
+        //Para al hacer tap en la notificación abrir la aplicacion
+        // Create an explicit intent for an Activity in your app
+
 
 
         //Al hacer click en la notificacion se habre la app con los parametros en el intent

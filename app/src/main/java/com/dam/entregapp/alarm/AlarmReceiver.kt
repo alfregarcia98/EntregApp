@@ -2,6 +2,7 @@ package com.dam.entregapp.alarm
 
 import android.app.ActivityManager
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.dam.entregapp.LocationService
 import com.dam.entregapp.R
+import com.dam.entregapp.ui.MainActivity
 
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -28,12 +30,16 @@ class AlarmReceiver : BroadcastReceiver() {
             }
 
         } else if (intent.action.equals("Notificacion", ignoreCase = true)) {
+            val intent = Intent(context, MainActivity::class.java)
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val notification = NotificationCompat.Builder(context, "Alarm")
+            val notification = NotificationCompat.Builder(context, "alarm")
                 .setContentTitle("EntregApp")
                 .setContentText("Activa el servicio para mejorar tus estadisticas")
                 .setSmallIcon(R.drawable.ic_notification)
-            notificationManager.notify(1, notification.build())
+                .setAutoCancel(false)
+                .setContentIntent(pendingIntent)
+            notificationManager.notify(2, notification.build())
             Log.d("Alarma", "Deberia saltar")
         }
 
