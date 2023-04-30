@@ -78,11 +78,8 @@ class MainActivity : AppCompatActivity() {
         alarmItem = AlarmItem(10,"Alarma de detencion")
         alarmItem?.let(scheduler::schedule)*/
 
-        //AlarmScheduler para notificacion
-        val scheduler = AndroidAlarmScheduler(this)
-        var alarmItem: AlarmItem? = null
-        alarmItem = AlarmItem(8,"Notificacion")
-        alarmItem?.let(scheduler::schedule)
+
+
 
         //Para al hacer tap en la notificación abrir la aplicacion
         // Create an explicit intent for an Activity in your app
@@ -405,6 +402,18 @@ class MainActivity : AppCompatActivity() {
         binding.btnChart.setOnClickListener {
             val a = Intent(this, ChartActivity::class.java)
             startActivity(a)
+        }
+        //AlarmScheduler para notificacion
+        val scheduler = AndroidAlarmScheduler(this)
+        var alarmItem: AlarmItem? = null
+
+        binding.btnNotificacionOn.setOnClickListener{
+            alarmItem = AlarmItem(8,"Notificacion")
+            alarmItem?.let(scheduler::schedule)
+        }
+
+        binding.btnNotificacionOFF.setOnClickListener{
+            alarmItem?.let(scheduler::cancel)
         }
     }
 }

@@ -87,5 +87,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chart" />
+    <Button
+        android:id="@+id/btn_notificacionOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activar recordatorio" />
+
+    <Button
+        android:id="@+id/btn_notificacionOFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Desactivar recordatorio" />
 
 </LinearLayout>
