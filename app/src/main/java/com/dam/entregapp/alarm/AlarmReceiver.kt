@@ -1,14 +1,18 @@
 package com.dam.entregapp.alarm
 
 import android.app.ActivityManager
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import com.dam.entregapp.LocationService
+import com.dam.entregapp.R
 
 
-class AlarmReceiver: BroadcastReceiver() {
+class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val message = intent.getStringExtra("EXTRA_MESSAGE") ?: return
@@ -22,7 +26,17 @@ class AlarmReceiver: BroadcastReceiver() {
             } else {
                 Toast.makeText(context, "Service not running", Toast.LENGTH_LONG).show()
             }
+
+        } else if (intent.action.equals("Notificacion", ignoreCase = true)) {
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notification = NotificationCompat.Builder(context, "Alarm")
+                .setContentTitle("EntregApp")
+                .setContentText("Activa el servicio para mejorar tus estadisticas")
+                .setSmallIcon(R.drawable.ic_notification)
+            notificationManager.notify(1, notification.build())
+            Log.d("Alarma", "Deberia saltar")
         }
+
         //No funciona porque hay un timeout de 5 segundos en el framework de android que provoca que de error
         /*else if (intent.action.equals("START_TEST_SERVICE", ignoreCase = true)) {
             if (isMyServiceRunning(context, LocationService::class.java)) {

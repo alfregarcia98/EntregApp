@@ -26,13 +26,23 @@ class AndroidAlarmScheduler(
     override fun schedule(item: AlarmItem) {
         val intent = Intent(context, AlarmReceiver::class.java).apply {
             putExtra("EXTRA_MESSAGE", item.message)
-            action = "STOP_TEST_SERVICE"
+            if (item.message == "Notificacion"){
+                action = "Notificacion"
+            }else {
+                action = "STOP_TEST_SERVICE"
+            }
         }
 
-        val calendar: Calendar = Calendar.getInstance().apply {
+        /*val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, item.time)
             set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+        }*/
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 12)
+            set(Calendar.MINUTE, 2)
             set(Calendar.SECOND, 0)
         }
 

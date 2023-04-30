@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -95,30 +96,12 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
 
     private fun restore() = CoroutineScope(Dispatchers.IO).launch {
 
-        val db = FirebaseFirestore.getInstance()
-        val docRef = db.collection("users").document(prefs.getAuthID())
-            .collection("Preferencias").document("Lista")
-
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            if (documentSnapshot.exists()) {
-                val myDataClass = documentSnapshot.get("addresses")?.let {
-                    Log.d("Sync", "Devuelto solo addresses: $it")
-                }
-            } else {
-                Log.d("Sync", "Document not found")
-            }
-        }.addOnFailureListener { exception ->
-            Log.e("Sync", "Error getting document: ", exception)
-        }
-
-
-
-/*        try {
+        try {
             val querySnapshot =
                 FirebaseFirestore.getInstance().collection("users").document(prefs.getAuthID())
                     .collection("Preferencias").get().await()
             for (document in querySnapshot.documents) {
-                //TODO no va lo del object porque no se hacerlo pero lista si se recupera bien
+                //TODO no va lo del object porque no se hacerlo pero lista si se recupera bien auque el nombre de la direccion puede dar problemas.
                 val lista = document.data
                 if (lista != null) {
 
@@ -132,7 +115,35 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
             withContext(Dispatchers.Main) {
                 Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
             }
-        }*/
+        }
+
+
+        /*        val db = FirebaseFirestore.getInstance()
+                val docRef = db.collection("users").document(prefs.getAuthID())
+                    .collection("Preferencias").document("Lista")
+
+                docRef.get().addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        val myDataClass = documentSnapshot.get("addresses")?.let {
+                            Log.d("Sync", "Devuelto solo addresses: $it")
+                            val data = it.toString()
+                                .replace(",", "\",")
+                                .replace("=", "\":\"")
+                                .replace("{", "{\"")
+                                .replace("}", "\"}")
+                                .replace(" ", "")
+                            //No funcionando
+                            val json = data
+                            Log.d("Sync", "Json: $json")
+                            val userLocations = Gson().fromJson(json, Array<FirestoreAddresses>::class.java).toList()
+                            Log.d("Sync", "Gson: $userLocations")
+                        }
+                    } else {
+                        Log.d("Sync", "Document not found")
+                    }
+                }.addOnFailureListener { exception ->
+                    Log.e("Sync", "Error getting document: ", exception)
+                }*/
     }
 
 }
