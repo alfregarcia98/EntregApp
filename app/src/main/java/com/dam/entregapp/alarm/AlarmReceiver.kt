@@ -35,9 +35,9 @@ class AlarmReceiver : BroadcastReceiver() {
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notification = NotificationCompat.Builder(context, "alarm")
                 .setContentTitle("EntregApp")
-                .setContentText("Activa el servicio para mejorar tus estadisticas")
+                .setContentText("Activa el servicio para mejorar tus estadísticas")
                 .setSmallIcon(R.drawable.ic_notification)
-                .setAutoCancel(false)
+                .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
             notificationManager.notify(2, notification.build())
             Log.d("Alarma", "Deberia saltar")

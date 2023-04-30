@@ -41,8 +41,8 @@ class AndroidAlarmScheduler(
         }*/
         val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 18)
-            set(Calendar.MINUTE, 11)
+            set(Calendar.HOUR_OF_DAY, 20)
+            set(Calendar.MINUTE, 29)
             set(Calendar.SECOND, 0)
         }
 

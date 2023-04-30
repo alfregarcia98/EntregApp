@@ -1,6 +1,7 @@
 package com.dam.entregapp
 
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.ContentValues
 import android.content.Context
@@ -15,6 +16,7 @@ import com.dam.entregapp.data.database.UserDB
 import com.dam.entregapp.data.model.TrackingData
 import com.dam.entregapp.logic.repository.UserRepository
 import com.dam.entregapp.logic.utils.DistanceCalculator
+import com.dam.entregapp.ui.MainActivity
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -66,6 +68,8 @@ class LocationService : Service() {
             LocationServices.getFusedLocationProviderClient(applicationContext)
         )
 
+
+
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -77,10 +81,15 @@ class LocationService : Service() {
     }
 
     private fun start() {
+
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
         val notification = NotificationCompat.Builder(this, "location")
             .setContentTitle("Tracking location...")
             .setContentText("Location: null")
             .setSmallIcon(R.drawable.ic_notification)
+            .setContentIntent(pendingIntent)
             .setOngoing(true)
 
         val notificationManager =
