@@ -40,6 +40,13 @@ class AndroidAlarmScheduler(
             set(Calendar.SECOND, 0)
         }
 
+        /*val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 10)
+            set(Calendar.MINUTE, 35)
+            set(Calendar.SECOND, 0)
+        }*/
+
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY,
@@ -51,6 +58,7 @@ class AndroidAlarmScheduler(
             )
         )
         Log.d("Alarma", "Alarma establecida correctamente a las ${item.time}")
+        Log.d("Alarma", "Intent alarma activada:  ${item.hashCode()}")
         /*alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             item.time.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000,
@@ -72,7 +80,7 @@ class AndroidAlarmScheduler(
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
-        Log.d("Alarma", "Alarma cancelada correctamente")
+        Log.d("Alarma", "Alarma cancelada correctamente intent: ${item.hashCode()}")
     }
 }
 

@@ -110,7 +110,6 @@ class MainActivity : AppCompatActivity() {
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
             throwable.printStackTrace()
         }
-
         CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             checkUser()
         }
@@ -124,7 +123,6 @@ class MainActivity : AppCompatActivity() {
         //setup(email ?: "")
 
         //LocationTutorial
-
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -135,26 +133,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-
-    /**Prueba
-    private lateinit var mService: LocationService
-    private var mBound: Boolean = false
-
-    /** Defines callbacks for service binding, passed to bindService()  */
-    private val connection = object : ServiceConnection {
-
-    override fun onServiceConnected(className: ComponentName, service: IBinder) {
-    // We've bound to LocalService, cast the IBinder and get LocalService instance
-    val binder = service as LocationService.LocalBinder
-    mService = binder.getService()
-    mBound = true
-    }
-
-    override fun onServiceDisconnected(arg0: ComponentName) {
-    mBound = false
-    }
-    }
-     */
     //Para la notificacion
     override fun onStart() {
         super.onStart()
@@ -318,22 +296,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //Hecho en el Sync fragment
     private fun saveUserDataToFirestore(lista: List<UserWithAddress>) {
         val docRef = db.collection("users").document(prefs.getAuthID())
-
         docRef.collection("Preferencias").document("Lista").set(lista[0])
     }
 
     private fun setup(userEmail: String,uid: String ,userID: Int) {
         val docRef = db.collection("users").document(uid)
 
-        /**user?.let {
-        // Name, email address, and profile photo Url
-        val id = it.tenantId
-        val email = it.email
-        binding.txtEmail.text = email
-        binding.txtProvider.text = id
-        }*/
         runOnUiThread {
             binding.txtEmail.text = userEmail
             binding.txtProvider.text = userID.toString()
@@ -352,7 +323,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnGuardar.setOnClickListener {
-
             docRef.collection("Informacion").document("Datos")
                 .set(
                     hashMapOf(
@@ -360,13 +330,14 @@ class MainActivity : AppCompatActivity() {
                         "token" to prefs.getDeviceID()
                     )
                 )
-
         }
+
         binding.btnRecuperar.setOnClickListener {
             docRef.collection("Informacion").document("Datos").get().addOnSuccessListener {
                 binding.txtNombre.setText(it.get("name") as String?)
             }
         }
+
         binding.btnEliminar.setOnClickListener {
             docRef.collection("Informacion").document("Datos").delete()
         }
@@ -376,33 +347,20 @@ class MainActivity : AppCompatActivity() {
                 action = LocationService.ACTION_START
                 startService(this)
             }
-            /** Bind to LocalService
-            Intent(this, LocationService::class.java).also { intent ->
-            bindService(intent, connection, Context.BIND_AUTO_CREATE)
-            }*/
         }
-
-
 
         binding.stopService.setOnClickListener {
             Intent(applicationContext, LocationService::class.java).apply {
                 action = LocationService.ACTION_STOP
                 startService(this)
-                /**
-                unbindService(connection)
-                mBound = false*/
-
             }
         }
-
-        /**if (mBound) {
-        val num: Int = mService.randomNumber
-        Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()*/
 
         binding.btnChart.setOnClickListener {
             val a = Intent(this, ChartActivity::class.java)
             startActivity(a)
         }
+
         //AlarmScheduler para notificacion
         val scheduler = AndroidAlarmScheduler(this)
         var alarmItem: AlarmItem? = null
