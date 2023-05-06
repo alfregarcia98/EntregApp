@@ -103,6 +103,8 @@ class LocationService : Service() {
         val userID = prefs.getCurrentUserID()
         val userPrimaryAddressID = prefs.getPrimaryAddressID()
         val userSecondaryAddressID = prefs.getSecondaryAddressID()
+        val userThirdAddressID = prefs.getThirdAddressID()
+        val userFourthAddressID = prefs.getFourthAddressID()
 
         val primaryLocation = Location("primaryLocation")
         primaryLocation.latitude = prefs.getPrimaryAddressLat().toDouble()
@@ -110,6 +112,13 @@ class LocationService : Service() {
         val secondaryLocation = Location("secondaryLocation")
         secondaryLocation.latitude = prefs.getSecondaryAddressLat().toDouble()
         secondaryLocation.longitude = prefs.getSecondaryAddressLon().toDouble()
+
+        val thirdLocation = Location("thirdLocation")
+        thirdLocation.latitude = prefs.getThirdAddressLat().toDouble()
+        thirdLocation.longitude = prefs.getThirdAddressLon().toDouble()
+        val fourthLocation = Location("fourthLocation")
+        fourthLocation.latitude = prefs.getFourthAddressLat().toDouble()
+        fourthLocation.longitude = prefs.getFourthAddressLon().toDouble()
 
 
         locationClient
@@ -136,6 +145,28 @@ class LocationService : Service() {
                     // save this datapoint to the db with secondary location id
                     val currentTime = Date(currentLocation.time)
                     val tracking = TrackingData(0, userID, userSecondaryAddressID, currentTime)
+                    repository.addTrackingData(tracking)
+
+                } else if (DistanceCalculator.areLocationsWithinDistance(
+                        thirdLocation,
+                        currentLocation,
+                        MIN_PROXIMITY
+                    )
+                ) {
+                    // save this datapoint to the db with third location id
+                    val currentTime = Date(currentLocation.time)
+                    val tracking = TrackingData(0, userID, userThirdAddressID, currentTime)
+                    repository.addTrackingData(tracking)
+
+                } else if (DistanceCalculator.areLocationsWithinDistance(
+                        fourthLocation,
+                        currentLocation,
+                        MIN_PROXIMITY
+                    )
+                ) {
+                    // save this datapoint to the db with fourth location id
+                    val currentTime = Date(currentLocation.time)
+                    val tracking = TrackingData(0, userID, userFourthAddressID, currentTime)
                     repository.addTrackingData(tracking)
                 } else {
                     // save this datapoint to the db with location id=null

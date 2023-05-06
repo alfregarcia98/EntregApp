@@ -41,7 +41,7 @@ class ChartActivity() : AppCompatActivity() {
         10 to "#224A3E"
     )
 
-    private val addressLabels = listOf("Principal", "Secundaria")
+    private val addressLabels = listOf("Principal", "Secundaria", "Tercera", "Cuarta")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,6 +106,8 @@ class ChartActivity() : AppCompatActivity() {
 
                     addHeatDataEntry(dataPointsForSlot, 0, data, timeSlot)
                     addHeatDataEntry(dataPointsForSlot, 1, data, timeSlot)
+                    addHeatDataEntry(dataPointsForSlot, 2, data, timeSlot)
+                    addHeatDataEntry(dataPointsForSlot, 3, data, timeSlot)
                     ++idx
 
                 } else{
@@ -113,7 +115,7 @@ class ChartActivity() : AppCompatActivity() {
                     Log.d("Index", "Ha llegao aqui con statistics: ${statistics.data}")
                 }
             }
-
+            Log.d("Index", "Data: ${data}")
             riskMap.data(data)
 
             runOnUiThread {
