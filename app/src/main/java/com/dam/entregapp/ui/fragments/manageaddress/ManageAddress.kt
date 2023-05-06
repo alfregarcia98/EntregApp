@@ -31,6 +31,8 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
     private lateinit var userViewModel: UserViewModel
     private var addr1 = ""
     private var addr2 = ""
+    private var addr3 = ""
+    private var addr4 = ""
 
     private var hour = 0
     private var minute = 0
@@ -41,6 +43,10 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
     private var cleanTimePrimaryEnd = ""
     private var cleanTimeSecondaryStart = ""
     private var cleanTimeSecondaryEnd = ""
+    private var cleanTimeThirdStart = ""
+    private var cleanTimeThirdEnd = ""
+    private var cleanTimeFourthStart = ""
+    private var cleanTimeFourthEnd = ""
 
     private var _binding: FragmentManageAddressBinding? = null
     private val binding get() = _binding!!
@@ -109,11 +115,41 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
             TimePickerDialog(context, this, hour, minute, true).show()
 
         }
+
+        binding.btHourThirdStart.setOnClickListener {
+            timeSelector = "ThirdStart"
+            getTimeCalendar()
+            TimePickerDialog(context, this, hour, minute, true).show()
+
+        }
+
+        binding.btHourThirdEnd.setOnClickListener {
+            timeSelector = "ThirdEnd"
+            getTimeCalendar()
+            TimePickerDialog(context, this, hour, minute, true).show()
+
+        }
+
+        binding.btHourFourthStart.setOnClickListener {
+            timeSelector = "FourthStart"
+            getTimeCalendar()
+            TimePickerDialog(context, this, hour, minute, true).show()
+
+        }
+
+        binding.btHourFourthEnd.setOnClickListener {
+            timeSelector = "FourthEnd"
+            getTimeCalendar()
+            TimePickerDialog(context, this, hour, minute, true).show()
+
+        }
     }
 
     private fun addAddress() {
         addr1 = binding.addr1.text.toString()
         addr2 = binding.addr2.text.toString()
+        addr3 = binding.addr3.text.toString()
+        addr4 = binding.addr4.text.toString()
         //Check that the form is complete before submitting data to the database
         if (!(addr1.isEmpty() || addr2.isEmpty())) {
 
@@ -151,12 +187,52 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
                 }
             )
 
+            if(addr3.isNotEmpty()){
+
+                Geocoder.getGeocoder(
+                    address = addr3,
+                    onResult = { (lon, lat) ->
+                        val thirdAddress =
+                            Address(
+                                0,
+                                prefs.getCurrentUserID(),
+                                addr3,
+                                cleanTimeThirdStart,
+                                cleanTimeThirdEnd,
+                                lon,
+                                lat
+                            )
+                        userViewModel.addAddress(thirdAddress)
+                    }
+                )
+
+            }
+            if(addr4.isNotEmpty()) {
+
+                Geocoder.getGeocoder(
+                    address = addr4,
+                    onResult = { (lon, lat) ->
+                        val fourthAddress =
+                            Address(
+                                0,
+                                prefs.getCurrentUserID(),
+                                addr4,
+                                cleanTimeFourthStart,
+                                cleanTimeFourthEnd,
+                                lon,
+                                lat
+                            )
+                        userViewModel.addAddress(fourthAddress)
+                    }
+                )
+            }
+
             Toast.makeText(context, "Address saved successfully!", Toast.LENGTH_SHORT).show()
 
             //navigate back to our home fragment
             findNavController().navigate(R.id.action_manageAddress_to_mainMenu)
         } else {
-            Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Please fill at least the two first addresses", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -189,6 +265,24 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
             "SecondaryEnd" -> {
                 cleanTimeSecondaryEnd = Calculations.cleanTime(p1, p2)
                 binding.txHourSecondaryEnd.text = "Time: $cleanTimeSecondaryEnd"
+            }
+            "ThirdStart" -> {
+                cleanTimeThirdStart = Calculations.cleanTime(p1, p2)
+                binding.txHourThirdStart.text = "Time: $cleanTimeThirdStart"
+            }
+
+            "ThirdEnd" -> {
+                cleanTimeThirdEnd = Calculations.cleanTime(p1, p2)
+                binding.txHourThirdEnd.text = "Time: $cleanTimeThirdEnd"
+            }
+            "FourthStart" -> {
+                cleanTimeFourthStart = Calculations.cleanTime(p1, p2)
+                binding.txHourFourthStart.text = "Time: $cleanTimeFourthStart"
+            }
+
+            "FourthEnd" -> {
+                cleanTimeFourthEnd = Calculations.cleanTime(p1, p2)
+                binding.txHourFourthEnd.text = "Time: $cleanTimeFourthEnd"
             }
         }
     }
