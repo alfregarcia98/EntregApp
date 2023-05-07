@@ -11,14 +11,12 @@ import com.dam.entregapp.data.model.User
 import com.dam.entregapp.databinding.ActivityLoginBinding
 import com.dam.entregapp.firestore.FirestoreUser
 import com.dam.entregapp.ui.viewmodels.LogInViewModel
-import com.dam.entregapp.ui.viewmodels.RegisterViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 
@@ -85,7 +83,8 @@ class LoginActivity : AppCompatActivity() {
                         val firestoreUser = documentSnapshot.toObject<FirestoreUser>()
                         Log.d("LogIn", "Usuario de firestore: $firestoreUser")
                         if (firestoreUser != null) {
-                            userToDB(firestoreUser)
+
+                            checkIfUserAlreadyExist(firestoreUser)
                         }
                     }
             }
@@ -96,7 +95,15 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkIfUserAlreadyExist(firestoreUser: FirestoreUser) = CoroutineScope(Dispatchers.IO).launch{
+        var userID = logInViewModel.getUserID(firestoreUser.email)
+        if (userID.isEmpty()){
+            userToDB(firestoreUser)
+        }
+    }
+
     private fun userToDB(firestoreUser: FirestoreUser) {
+        //TODO eliminar contraseña probablemente del usuario
         val user =
                     User(0, firestoreUser.username, firestoreUser.email, "no es necesario", firestoreUser.phone.toInt())
 

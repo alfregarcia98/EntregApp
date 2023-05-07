@@ -19,7 +19,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-    suspend fun getUserID(email: String): Int {
+    suspend fun getUserID(email: String): List<Int> {
         return repository.getUserID(email)
     }
 

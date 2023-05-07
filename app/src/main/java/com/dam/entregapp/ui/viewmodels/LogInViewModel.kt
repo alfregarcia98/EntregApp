@@ -21,6 +21,9 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
         getAllUsers = repository.getAllUsers
     }
 
+    suspend fun getUserID(email: String): List<Int> {
+        return repository.getUserID(email)
+    }
 
     fun addUser(user: User) {
         viewModelScope.launch(Dispatchers.IO) {

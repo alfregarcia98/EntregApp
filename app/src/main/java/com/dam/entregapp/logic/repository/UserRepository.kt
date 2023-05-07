@@ -30,8 +30,8 @@ class UserRepository(private val userDAO: UserDAO) {
         userDAO.deleteAllUsers()
     }
 
-    suspend fun getUserID(email: String): Int {
-        return userDAO.getUserID(email)[0]
+    suspend fun getUserID(email: String): List<Int> {
+        return userDAO.getUserID(email)
     }
 
     suspend fun getUserWithAddress(id: Int): List<UserWithAddress> {

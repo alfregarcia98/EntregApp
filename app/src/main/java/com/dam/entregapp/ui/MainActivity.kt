@@ -240,12 +240,18 @@ class MainActivity : AppCompatActivity() {
                 val email = it!!.email!!
                 //ID unico del usuario en FBAuth
                 val uid = it.uid
-                val userID = mainViewModel.getUserID(email)
-                prefs.saveEmail(email)
-                prefs.saveAuthID(uid)
-                setup(email, uid, userID)
-                saveUserPrefs(userID)
-                //binding.txtEmail.text = email
+                val userIDs = mainViewModel.getUserID(email)
+                if (userIDs.isNotEmpty()) {
+                    var userID = userIDs[0]
+                    Log.d("userID", "id: $userID")
+                    prefs.saveEmail(email)
+                    prefs.saveAuthID(uid)
+                    setup(email, uid, userID)
+                    saveUserPrefs(userID)
+                    //binding.txtEmail.text = email
+                }else{
+                    //TODO corregir lo de que no pille al usuario que se acaba de crear. Demasiado rapido todo y hay que reabrir la app para que funcione.
+                }
             }
         } else {
             val intent = Intent(this, LoginActivity::class.java)
