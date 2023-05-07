@@ -66,7 +66,7 @@ class ChartActivity() : AppCompatActivity() {
         riskMap.labels().enabled(true)
 
         val labelListFunction = "function() {\n" +
-                "      var namesList = [\"Sin datos\", \"0-10%\", \"10-20%\", \"20-30%\", \"30-40%\", \"40-50%\", \"50-60%\", \"60-70%\", \"70-80%\", \"80-90%\", \"90-100%\"];\n" +
+                "      var namesList = [\"N/A\", \"0-10%\", \"10-20%\", \"20-30%\", \"30-40%\", \"40-50%\", \"50-60%\", \"60-70%\", \"70-80%\", \"80-90%\", \"90-100%\"];\n" +
                 "      return namesList[this.heat];\n" +
                 "    }"
 
@@ -104,6 +104,7 @@ class ChartActivity() : AppCompatActivity() {
 
                     val dataPointsForSlot = statistics.data.get(idx)
 
+                    //Todo: Comprobar que no afecta en los distintos casos. En un principio si no hay datos no se añaden y punto
                     addHeatDataEntry(dataPointsForSlot, 0, data, timeSlot)
                     addHeatDataEntry(dataPointsForSlot, 1, data, timeSlot)
                     addHeatDataEntry(dataPointsForSlot, 2, data, timeSlot)

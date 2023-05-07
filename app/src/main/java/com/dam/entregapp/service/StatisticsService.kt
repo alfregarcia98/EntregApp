@@ -1,6 +1,7 @@
 package com.dam.entregapp.service
 
 import android.util.Log
+import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.logic.utils.ProcessedStatistics
 import com.dam.entregapp.ui.viewmodels.UserViewModel
 
@@ -8,7 +9,7 @@ class StatisticsService(private val userViewModel: UserViewModel) {
 
 
     suspend fun getProcessedStatistics() : ProcessedStatistics {
-        val trackingData = userViewModel.getTrackingData()
+        val trackingData = userViewModel.getTrackingData(prefs.getCurrentUserID())
 
         val addressIds = trackingData.map { data -> data.address_id }
         Log.d("Chart", "Addresses: $addressIds")

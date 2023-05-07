@@ -73,7 +73,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         repository.deleteAllTrackingData()
     }
 
-    suspend fun getTrackingData(): List<TrackingDataResult> {
-        return repository.getTrackingData()
+    suspend fun getTrackingData(id: Int): List<TrackingDataResult> {
+        return repository.getTrackingData(id)
     }
 }
