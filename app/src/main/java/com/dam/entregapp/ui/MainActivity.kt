@@ -71,19 +71,16 @@ class MainActivity : AppCompatActivity() {
 
         thread.start()
 
-/*
-        //AlarmScheduler
-        val scheduler = AndroidAlarmScheduler(this)
-        var alarmItem: AlarmItem? = null
-        alarmItem = AlarmItem(10,"Alarma de detencion")
-        alarmItem?.let(scheduler::schedule)*/
-
-
+        /*
+                //AlarmScheduler
+                val scheduler = AndroidAlarmScheduler(this)
+                var alarmItem: AlarmItem? = null
+                alarmItem = AlarmItem(10,"Alarma de detencion")
+                alarmItem?.let(scheduler::schedule)*/
 
 
         //Para al hacer tap en la notificación abrir la aplicacion
         // Create an explicit intent for an Activity in your app
-
 
 
         //Al hacer click en la notificacion se habre la app con los parametros en el intent
@@ -107,12 +104,12 @@ class MainActivity : AppCompatActivity() {
 
 
         //Compruebo usuario
-        val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            throwable.printStackTrace()
+        if (!mainViewModel.checkUser()) {
+            showLogin()
+        } else {
+            setup()
         }
-        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
-            checkUser()
-        }
+
 
         //Notificaciones
         getToken()
@@ -131,6 +128,11 @@ class MainActivity : AppCompatActivity() {
             ),
             0
         )
+    }
+
+    private fun showLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 
     //Para la notificacion
@@ -233,7 +235,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    suspend fun checkUser() {
+    /*suspend fun checkUser() {
         if (user != null) {
             user?.let {
                 // Name, email address, and profile photo Url
@@ -247,7 +249,7 @@ class MainActivity : AppCompatActivity() {
                     prefs.saveEmail(email)
                     prefs.saveAuthID(uid)
                     setup(email, uid, userID)
-                    saveUserPrefs(userID)
+                    mainViewModel.saveUserPrefs(userID)
                     //binding.txtEmail.text = email
                 }else{
                     //TODO corregir lo de que no pille al usuario que se acaba de crear. Demasiado rapido todo y hay que reabrir la app para que funcione.
@@ -258,79 +260,78 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-    }
+    }*/
 
 
+    /*    suspend fun saveUserPrefs(userID: Int) {
+            val lista = mainViewModel.getUserWithAddress(userID)
+            if (lista.isNotEmpty()) {
+                Log.d("Prueba", "Lista: $lista")
+                if (lista[0].addresses.isNotEmpty()) {
+                    //TODO un contador de numero de direcciones añadidas por el usuario en el fragment y aqui se comprueba eso.
+                    //if (lista[0].addresses.size == 2) {
+                    if (lista[0].addresses.size > 2) {
 
-    suspend fun saveUserPrefs(userID: Int) {
-        val lista = mainViewModel.getUserWithAddress(userID)
-        if (lista.isNotEmpty()) {
-            Log.d("Prueba", "Lista: $lista")
-            if (lista[0].addresses.isNotEmpty()) {
-                //TODO un contador de numero de direcciones añadidas por el usuario en el fragment y aqui se comprueba eso.
-                //if (lista[0].addresses.size == 2) {
-                if (lista[0].addresses.size > 2) {
-
-                    Log.d("Prueba", "Lista: $lista")
-                    val primaryName = lista[0].addresses[0].name
-                    val secondaryName = lista[0].addresses[1].name
-                    val primaryID = lista[0].addresses[0].id
-                    val secondaryID = lista[0].addresses[1].id
-                    Log.d("Prueba", "Primary: $primaryName, Secondary: $secondaryName")
-                    val primaryLat = lista[0].addresses[0].lat.toFloat()
-                    val primaryLon = lista[0].addresses[0].lon.toFloat()
-                    val secondaryLat = lista[0].addresses[1].lat.toFloat()
-                    val secondaryLon = lista[0].addresses[1].lon.toFloat()
-
-                    prefs.savePrimaryAddressID(primaryID)
-                    prefs.saveSecondaryAddressID(secondaryID)
-                    prefs.savePrimaryAddressLat(primaryLat)
-                    prefs.savePrimaryAddressLon(primaryLon)
-                    prefs.saveSecondaryAddressLat(secondaryLat)
-                    prefs.saveSecondaryAddressLon(secondaryLon)
-                    prefs.savePrimaryAddressName(primaryName)
-                    prefs.saveSecondaryAddressName(secondaryName)
-
-                    //Hecho en el Sync fragment
-                    //saveUserDataToFirestore(lista)
-
-                    Log.d(
-                        "Prueba",
-                        "PrimaryLat: $primaryLat, PrimaryLon: $primaryLon, SecondaryLat: $secondaryLat, SecondaryLon: $secondaryLon"
-                    )
-
-                    //TODO mejorar las condiciones de comprobación para distintas situaciones
-                    if (lista[0].addresses.size == 4){
                         Log.d("Prueba", "Lista: $lista")
-                        val thirdName = lista[0].addresses[2].name
-                        val fourthName = lista[0].addresses[3].name
-                        val thirdID = lista[0].addresses[2].id
-                        val fourthID = lista[0].addresses[3].id
+                        val primaryName = lista[0].addresses[0].name
+                        val secondaryName = lista[0].addresses[1].name
+                        val primaryID = lista[0].addresses[0].id
+                        val secondaryID = lista[0].addresses[1].id
                         Log.d("Prueba", "Primary: $primaryName, Secondary: $secondaryName")
-                        val thirdLat = lista[0].addresses[2].lat.toFloat()
-                        val thirdLon = lista[0].addresses[2].lon.toFloat()
-                        val fourthLat = lista[0].addresses[3].lat.toFloat()
-                        val fourthLon = lista[0].addresses[3].lon.toFloat()
+                        val primaryLat = lista[0].addresses[0].lat.toFloat()
+                        val primaryLon = lista[0].addresses[0].lon.toFloat()
+                        val secondaryLat = lista[0].addresses[1].lat.toFloat()
+                        val secondaryLon = lista[0].addresses[1].lon.toFloat()
 
-                        prefs.saveThirdAddressID(thirdID)
-                        prefs.saveFourthAddressID(fourthID)
-                        prefs.saveThirdAddressLat(thirdLat)
-                        prefs.saveThirdAddressLon(thirdLon)
-                        prefs.saveFourthAddressLat(fourthLat)
-                        prefs.saveFourthAddressLon(fourthLon)
-                        prefs.saveThirdAddressName(thirdName)
-                        prefs.saveFourthAddressName(fourthName)
+                        prefs.savePrimaryAddressID(primaryID)
+                        prefs.saveSecondaryAddressID(secondaryID)
+                        prefs.savePrimaryAddressLat(primaryLat)
+                        prefs.savePrimaryAddressLon(primaryLon)
+                        prefs.saveSecondaryAddressLat(secondaryLat)
+                        prefs.saveSecondaryAddressLon(secondaryLon)
+                        prefs.savePrimaryAddressName(primaryName)
+                        prefs.saveSecondaryAddressName(secondaryName)
+
+                        //Hecho en el Sync fragment
+                        //saveUserDataToFirestore(lista)
 
                         Log.d(
                             "Prueba",
-                            "ThirdLat: $thirdLat, ThirdLon: $thirdLon, FourthLat: $fourthLat, FourthLon: $fourthLon"
+                            "PrimaryLat: $primaryLat, PrimaryLon: $primaryLon, SecondaryLat: $secondaryLat, SecondaryLon: $secondaryLon"
                         )
+
+                        //TODO mejorar las condiciones de comprobación para distintas situaciones
+                        if (lista[0].addresses.size == 4){
+                            Log.d("Prueba", "Lista: $lista")
+                            val thirdName = lista[0].addresses[2].name
+                            val fourthName = lista[0].addresses[3].name
+                            val thirdID = lista[0].addresses[2].id
+                            val fourthID = lista[0].addresses[3].id
+                            Log.d("Prueba", "Primary: $primaryName, Secondary: $secondaryName")
+                            val thirdLat = lista[0].addresses[2].lat.toFloat()
+                            val thirdLon = lista[0].addresses[2].lon.toFloat()
+                            val fourthLat = lista[0].addresses[3].lat.toFloat()
+                            val fourthLon = lista[0].addresses[3].lon.toFloat()
+
+                            prefs.saveThirdAddressID(thirdID)
+                            prefs.saveFourthAddressID(fourthID)
+                            prefs.saveThirdAddressLat(thirdLat)
+                            prefs.saveThirdAddressLon(thirdLon)
+                            prefs.saveFourthAddressLat(fourthLat)
+                            prefs.saveFourthAddressLon(fourthLon)
+                            prefs.saveThirdAddressName(thirdName)
+                            prefs.saveFourthAddressName(fourthName)
+
+                            Log.d(
+                                "Prueba",
+                                "ThirdLat: $thirdLat, ThirdLon: $thirdLon, FourthLat: $fourthLat, FourthLon: $fourthLon"
+                            )
+                        }
                     }
                 }
             }
-        }
 
-    }
+        }*/
 
     //Hecho en el Sync fragment
     private fun saveUserDataToFirestore(lista: List<UserWithAddress>) {
@@ -338,7 +339,76 @@ class MainActivity : AppCompatActivity() {
         docRef.collection("Preferencias").document("Lista").set(lista[0])
     }
 
-    private fun setup(userEmail: String,uid: String ,userID: Int) {
+    private fun setup() {
+        binding.txtEmail.text = prefs.getEmail()
+        binding.txtProvider.text = prefs.getCurrentUserID().toString()
+        val docRef = db.collection("users").document()
+
+        binding.btLogout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            prefs.wipe()
+            onBackPressed()
+        }
+
+        binding.btnMainMenu.setOnClickListener {
+            val a = Intent(this, MainActivity2::class.java)
+            startActivity(a)
+        }
+
+        binding.btnGuardar.setOnClickListener {
+            docRef.collection("Informacion").document("Datos")
+                .set(
+                    hashMapOf(
+                        "name" to binding.txtNombre.text.toString(),
+                        "token" to prefs.getDeviceID()
+                    )
+                )
+        }
+
+        binding.btnRecuperar.setOnClickListener {
+            docRef.collection("Informacion").document("Datos").get().addOnSuccessListener {
+                binding.txtNombre.setText(it.get("name") as String?)
+            }
+        }
+
+        binding.btnEliminar.setOnClickListener {
+            docRef.collection("Informacion").document("Datos").delete()
+        }
+
+        binding.startService.setOnClickListener {
+            Intent(applicationContext, LocationService::class.java).apply {
+                action = LocationService.ACTION_START
+                startService(this)
+            }
+        }
+
+        binding.stopService.setOnClickListener {
+            Intent(applicationContext, LocationService::class.java).apply {
+                action = LocationService.ACTION_STOP
+                startService(this)
+            }
+        }
+
+        binding.btnChart.setOnClickListener {
+            val a = Intent(this, ChartActivity::class.java)
+            startActivity(a)
+        }
+
+        //AlarmScheduler para notificacion
+        val scheduler = AndroidAlarmScheduler(this)
+        var alarmItem: AlarmItem? = null
+
+        binding.btnNotificacionOn.setOnClickListener {
+            alarmItem = AlarmItem(8, "Notificacion")
+            alarmItem?.let(scheduler::schedule)
+        }
+
+        binding.btnNotificacionOFF.setOnClickListener {
+            alarmItem?.let(scheduler::cancel)
+        }
+    }
+
+    /*private fun setup(userEmail: String,uid: String ,userID: Int) {
         val docRef = db.collection("users").document(uid)
 
         runOnUiThread {
@@ -409,5 +479,5 @@ class MainActivity : AppCompatActivity() {
         binding.btnNotificacionOFF.setOnClickListener{
             alarmItem?.let(scheduler::cancel)
         }
-    }
+    }*/
 }
