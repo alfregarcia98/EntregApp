@@ -104,7 +104,7 @@ class ChartActivity() : AppCompatActivity() {
 
                     val dataPointsForSlot = statistics.data.get(idx)
 
-                    //Todo: Comprobar que no afecta en los distintos casos. En un principio si no hay datos no se añaden y punto
+                    //Todo: Comprobar que no afecta en los distintos casos. En un principio si no hay datos no se añaden y punto. Si no hay datos de alguna intermedia se muestran erroneamente las direcciones
                     addHeatDataEntry(dataPointsForSlot, 0, data, timeSlot)
                     addHeatDataEntry(dataPointsForSlot, 1, data, timeSlot)
                     addHeatDataEntry(dataPointsForSlot, 2, data, timeSlot)

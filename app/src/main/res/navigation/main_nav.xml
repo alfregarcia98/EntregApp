@@ -77,7 +77,7 @@
     </fragment>
     <fragment
         android:id="@+id/statistics"
-        android:name="com.dam.entregapp.ui.fragments.Statistics.Statistics"
+        android:name="com.dam.entregapp.ui.fragments.Statistics.StatisticsFragment"
         android:label="fragment_statistics"
         tools:layout="@layout/fragment_statistics">
         <action

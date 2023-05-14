@@ -19,10 +19,9 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 
 
-class Statistics : Fragment(R.layout.fragment_statistics) {
+class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private lateinit var statisticsService: StatisticsService
     private lateinit var userViewModel: UserViewModel

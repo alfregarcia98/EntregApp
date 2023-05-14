@@ -251,6 +251,7 @@ class MainActivity : AppCompatActivity() {
                     //binding.txtEmail.text = email
                 }else{
                     //TODO corregir lo de que no pille al usuario que se acaba de crear. Demasiado rapido todo y hay que reabrir la app para que funcione.
+                    Log.d("CheckUser", "userIDs was empty")
                 }
             }
         } else {
