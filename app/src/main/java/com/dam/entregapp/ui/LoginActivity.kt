@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.dam.entregapp.data.model.User
 import com.dam.entregapp.databinding.ActivityLoginBinding
 import com.dam.entregapp.firestore.FirestoreUser
@@ -58,7 +59,6 @@ class LoginActivity : AppCompatActivity() {
                         //TODO Hacer que al iniciar sesion tamien se cree en local el usuario
 
                         userFromFirestore()
-                        showHome(it.result?.user?.email.toString())
                     } else {
                         showAlert()
                     }
@@ -95,19 +95,32 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkIfUserAlreadyExist(firestoreUser: FirestoreUser) = CoroutineScope(Dispatchers.IO).launch{
-        var userID = logInViewModel.getUserID(firestoreUser.email)
-        if (userID.isEmpty()){
-            userToDB(firestoreUser)
+    private fun checkIfUserAlreadyExist(firestoreUser: FirestoreUser) =
+        CoroutineScope(Dispatchers.IO).launch {
+            var userID = logInViewModel.getUserID(firestoreUser.email)
+            if (userID.isEmpty()) {
+                userToDB(firestoreUser)
+            } else {
+                showHome(firestoreUser.email)
+            }
+
         }
-    }
 
     private fun userToDB(firestoreUser: FirestoreUser) {
         //TODO eliminar contraseña probablemente del usuario
         val user =
-                    User(0, firestoreUser.username, firestoreUser.email, "no es necesario", firestoreUser.phone.toInt())
+            User(
+                0,
+                firestoreUser.username,
+                firestoreUser.email,
+                "no es necesario",
+                firestoreUser.phone.toInt()
+            )
 
-        logInViewModel.addUser(user)
+        lifecycleScope.launch {
+            logInViewModel.addUser(user) // Call the suspend function
+            showHome(firestoreUser.email)
+        }
 
         Log.d("LogIn", "Usuario a la base de datos local: $user")
 
