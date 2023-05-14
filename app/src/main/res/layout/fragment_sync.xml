@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SyncFragment">
+    tools:context=".ui.fragments.sincronizar.SyncFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,6 +41,42 @@
 
                 <TextView
                     android:id="@+id/addr2_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="nombre" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/addr3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Dirección tercera: " />
+
+                <TextView
+                    android:id="@+id/addr3_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="nombre" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/addr4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Dirección cuarta: " />
+
+                <TextView
+                    android:id="@+id/addr4_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="nombre" />

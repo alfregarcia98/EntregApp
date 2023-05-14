@@ -1,4 +1,4 @@
-package com.dam.entregapp
+package com.dam.entregapp.ui.fragments.sincronizar
 
 import android.os.Bundle
 import android.util.Log
@@ -8,22 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.dam.entregapp.LocationApp.Companion.prefs
+import com.dam.entregapp.R
 import com.dam.entregapp.data.database.relations.UserWithAddress
-import com.dam.entregapp.data.model.User
-import com.dam.entregapp.databinding.FragmentManageSettingsBinding
 import com.dam.entregapp.databinding.FragmentSyncBinding
-import com.dam.entregapp.firestore.FirestoreAddresses
-import com.dam.entregapp.firestore.FirestoreUser
 import com.dam.entregapp.ui.viewmodels.MainViewModel
-import com.dam.entregapp.ui.viewmodels.UserViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -73,6 +65,8 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
     private fun setup() = CoroutineScope(Dispatchers.IO).launch {
         binding.addr1Name.text = prefs.getPrimaryAddressName()
         binding.addr2Name.text = prefs.getSecondaryAddressName()
+        binding.addr3Name.text = prefs.getThirdAddressName()
+        binding.addr4Name.text = prefs.getFourthAddressName()
 
         lista = mainViewModel.getUserWithAddress(prefs.getCurrentUserID())
         if (lista.isNotEmpty()) {

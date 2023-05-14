@@ -95,7 +95,7 @@
     </fragment>
     <fragment
         android:id="@+id/syncFragment"
-        android:name="com.dam.entregapp.SyncFragment"
+        android:name="com.dam.entregapp.ui.fragments.sincronizar.SyncFragment"
         android:label="fragment_sync"
         tools:layout="@layout/fragment_sync" >
         <action
