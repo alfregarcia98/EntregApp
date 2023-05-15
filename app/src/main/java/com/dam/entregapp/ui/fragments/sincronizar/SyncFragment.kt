@@ -2,25 +2,27 @@ package com.dam.entregapp.ui.fragments.sincronizar
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.R
 import com.dam.entregapp.data.database.relations.UserWithAddress
 import com.dam.entregapp.databinding.FragmentSyncBinding
+import com.dam.entregapp.firestore.FirestoreDocument
 import com.dam.entregapp.ui.viewmodels.MainViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+
 
 class SyncFragment : Fragment(R.layout.fragment_sync) {
     private lateinit var mainViewModel: MainViewModel
@@ -75,14 +77,18 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
         }
     }
 
+
     private fun sync() = CoroutineScope(Dispatchers.IO).launch {
         try {
             if (lista.isNotEmpty()) {
-                val docRef = db.collection("users").document(prefs.getAuthID())
-                docRef.collection("Preferencias").document("Lista").set(lista[0])
+                val docRef =
+                    db.collection("users").document(prefs.getAuthID()).collection("Preferencias")
+                        .document("Lista")
+                docRef.set(object{ val addresses = lista[0].addresses })
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
+                Log.d("Sync", "Error: ${e.message}")
                 Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
             }
         }
@@ -93,51 +99,35 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
         try {
             val querySnapshot =
                 FirebaseFirestore.getInstance().collection("users").document(prefs.getAuthID())
-                    .collection("Preferencias").get().await()
-            for (document in querySnapshot.documents) {
-                //TODO no va lo del object porque no se hacerlo pero lista si se recupera bien auque el nombre de la direccion puede dar problemas.
-                val lista = document.data
-                if (lista != null) {
+                    .collection("Preferencias").document("Lista")
 
+            querySnapshot.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document != null) {
+                        val doc = document.toObject<FirestoreDocument>()
+                        if (doc != null) {
+                            val addresses = doc.addresses
+                            if (addresses != null) {
+                                for (address in addresses) {
+                                    Log.d("Restore", "$address")
+
+                                }
+                            }
+
+                        }
+                    }
+                } else {
+                    Log.d("Restore", task.exception!!.message!!) //Never ignore potential errors!
                 }
-                Log.d("Sync", "Datos de lista: $lista")
             }
-            withContext(Dispatchers.Main) {
-                //Nada por ahora
-            }
+
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
                 Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
             }
         }
-
-
-        /*        val db = FirebaseFirestore.getInstance()
-                val docRef = db.collection("users").document(prefs.getAuthID())
-                    .collection("Preferencias").document("Lista")
-
-                docRef.get().addOnSuccessListener { documentSnapshot ->
-                    if (documentSnapshot.exists()) {
-                        val myDataClass = documentSnapshot.get("addresses")?.let {
-                            Log.d("Sync", "Devuelto solo addresses: $it")
-                            val data = it.toString()
-                                .replace(",", "\",")
-                                .replace("=", "\":\"")
-                                .replace("{", "{\"")
-                                .replace("}", "\"}")
-                                .replace(" ", "")
-                            //No funcionando
-                            val json = data
-                            Log.d("Sync", "Json: $json")
-                            val userLocations = Gson().fromJson(json, Array<FirestoreAddresses>::class.java).toList()
-                            Log.d("Sync", "Gson: $userLocations")
-                        }
-                    } else {
-                        Log.d("Sync", "Document not found")
-                    }
-                }.addOnFailureListener { exception ->
-                    Log.e("Sync", "Error getting document: ", exception)
-                }*/
     }
+
 
 }
