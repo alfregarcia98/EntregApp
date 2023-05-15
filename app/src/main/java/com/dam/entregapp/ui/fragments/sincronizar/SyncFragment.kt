@@ -92,7 +92,7 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
             if (lista.isNotEmpty()) {
                 val docRef =
                     db.collection("users").document(prefs.getAuthID()).collection("Preferencias")
-                        .document("Lista")
+                        .document("Direcciones")
                 docRef.set(object {
                     val addresses = lista[0].addresses
                 })
@@ -110,7 +110,7 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
         try {
             val querySnapshot =
                 FirebaseFirestore.getInstance().collection("users").document(prefs.getAuthID())
-                    .collection("Preferencias").document("Lista")
+                    .collection("Preferencias").document("Direcciones")
 
             querySnapshot.get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {

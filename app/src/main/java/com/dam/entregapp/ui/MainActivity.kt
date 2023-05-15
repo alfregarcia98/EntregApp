@@ -247,7 +247,7 @@ class MainActivity : AppCompatActivity() {
                     prefs.saveEmail(email)
                     prefs.saveAuthID(uid)
                     setup(email, uid, userID)
-                    saveUserPrefs(userID)
+                    mainViewModel.saveUserPrefs(userID)
                     //binding.txtEmail.text = email
                 }else{
                     //TODO corregir lo de que no pille al usuario que se acaba de crear. Demasiado rapido todo y hay que reabrir la app para que funcione.
@@ -263,7 +263,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    suspend fun saveUserPrefs(userID: Int) {
+/*    suspend fun saveUserPrefs(userID: Int) {
         val lista = mainViewModel.getUserWithAddress(userID)
         if (lista.isNotEmpty()) {
             Log.d("Prueba", "Lista: $lista")
@@ -330,14 +330,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-    }
-
-    //Hecho en el Sync fragment
-    private fun saveUserDataToFirestore(lista: List<UserWithAddress>) {
-        val docRef = db.collection("users").document(prefs.getAuthID())
-        docRef.collection("Preferencias").document("Lista").set(lista[0])
-    }
+    }*/
 
     private fun setup(userEmail: String,uid: String ,userID: Int) {
         val docRef = db.collection("users").document(uid)
