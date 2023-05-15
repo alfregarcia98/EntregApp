@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.dam.entregapp.data.database.UserDB
+import com.dam.entregapp.data.database.relations.UserWithAddress
 import com.dam.entregapp.data.model.Address
 import com.dam.entregapp.data.model.TrackingData
 import com.dam.entregapp.data.model.User
@@ -46,6 +47,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllUsers()
         }
+    }
+
+    suspend fun getUserWithAddress(id: Int): List<UserWithAddress> {
+        return repository.getUserWithAddress(id)
     }
 
     //Address

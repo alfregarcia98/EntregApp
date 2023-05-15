@@ -1,19 +1,28 @@
 package com.dam.entregapp.ui.fragments.sincronizar
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.R
 import com.dam.entregapp.data.database.relations.UserWithAddress
+import com.dam.entregapp.data.model.Address
+import com.dam.entregapp.data.model.User
 import com.dam.entregapp.databinding.FragmentSyncBinding
+import com.dam.entregapp.firestore.FirestoreAddress
 import com.dam.entregapp.firestore.FirestoreDocument
+import com.dam.entregapp.ui.MainActivity
+import com.dam.entregapp.ui.RegisterActivity
 import com.dam.entregapp.ui.viewmodels.MainViewModel
+import com.dam.entregapp.ui.viewmodels.UserViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -25,7 +34,7 @@ import kotlinx.coroutines.withContext
 
 
 class SyncFragment : Fragment(R.layout.fragment_sync) {
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var userViewModel: UserViewModel
 
     private var _binding: FragmentSyncBinding? = null
     private val binding get() = _binding!!
@@ -51,7 +60,7 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         binding.btnSubir.setOnClickListener {
             sync()
@@ -70,7 +79,7 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
         binding.addr3Name.text = prefs.getThirdAddressName()
         binding.addr4Name.text = prefs.getFourthAddressName()
 
-        lista = mainViewModel.getUserWithAddress(prefs.getCurrentUserID())
+        lista = userViewModel.getUserWithAddress(prefs.getCurrentUserID())
         if (lista.isNotEmpty()) {
             binding.userTxt.text = lista[0].user.toString()
             binding.addressTxt.text = lista[0].addresses.toString()
@@ -84,7 +93,9 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
                 val docRef =
                     db.collection("users").document(prefs.getAuthID()).collection("Preferencias")
                         .document("Lista")
-                docRef.set(object{ val addresses = lista[0].addresses })
+                docRef.set(object {
+                    val addresses = lista[0].addresses
+                })
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
@@ -108,10 +119,14 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
                         val doc = document.toObject<FirestoreDocument>()
                         if (doc != null) {
                             val addresses = doc.addresses
+                            //TODO comprobar que es la mejor solucion
+                            userViewModel.deleteAllAddress()
+                            var ids = 0
                             if (addresses != null) {
                                 for (address in addresses) {
                                     Log.d("Restore", "$address")
-
+                                    ids++
+                                    addAddresToDB(address, ids)
                                 }
                             }
 
@@ -121,6 +136,7 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
                     Log.d("Restore", task.exception!!.message!!) //Never ignore potential errors!
                 }
             }
+            showHome()
 
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
@@ -129,5 +145,29 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
         }
     }
 
+    private fun showHome() {
+        val a = Intent(context, MainActivity::class.java)
+        a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(a)
+    }
 
+    private fun addAddresToDB(address: FirestoreAddress, ids: Int) {
+        val newAddress =
+            Address(
+                ids,
+                address.user_id,
+                address.name,
+                address.start_hour,
+                address.end_hour,
+                address.lon,
+                address.lat
+            )
+
+        lifecycleScope.launch {
+            userViewModel.addAddress(newAddress)
+        }
+
+        Log.d("Restore", "Direccion a la base de datos local: $newAddress")
+
+    }
 }
