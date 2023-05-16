@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +8,18 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
+
+    <TextView
+        android:id="@+id/txt_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UserEmail" />
+
+    <TextView
+        android:id="@+id/txt_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Id" />
 
     <Button
         android:id="@+id/btn_main_menu"
@@ -18,56 +31,13 @@
         android:id="@+id/startService"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Location" />
+        android:text="Start Tracking" />
 
     <Button
         android:id="@+id/stopService"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stop Location" />
-
-    <TextView
-        android:id="@+id/txt_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UserEmail" />
-
-    <TextView
-        android:id="@+id/txt_provider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Id" />
-
-    <Button
-        android:id="@+id/bt_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cerrar sesión" />
-
-    <EditText
-        android:id="@+id/txt_nombre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nombre y apellidos"
-        android:inputType="textPersonName" />
-
-    <Button
-        android:id="@+id/btn_guardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Guardar" />
-
-    <Button
-        android:id="@+id/btn_recuperar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recuperar" />
-
-    <Button
-        android:id="@+id/btn_eliminar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Eliminar" />
+        android:text="Stop Tracking" />
 
     <TextView
         android:id="@+id/ubicacion"
@@ -98,5 +68,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Desactivar recordatorio" />
+
+    <Button
+        android:id="@+id/bt_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cerrar sesión" />
 
 </LinearLayout>
