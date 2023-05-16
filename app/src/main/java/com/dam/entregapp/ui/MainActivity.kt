@@ -177,8 +177,7 @@ class MainActivity : AppCompatActivity() {
                     "disponibilidad" to "Si",
                     "fecha" to FieldValue.serverTimestamp()
                 )
-                docRef.collection("Informacion").document("Datos").collection("Entregas")
-                    .document("Disponibilidad")
+                docRef.collection("Informacion").document("Disponibilidad")
                     .set(confirmacion)
                     .addOnSuccessListener { documentReference ->
                         Toast.makeText(
@@ -218,8 +217,14 @@ class MainActivity : AppCompatActivity() {
 
             // Get new FCM registration token
             val token = task.result
-
             val tokenGuardado = prefs.getDeviceID()
+            val docRef = db.collection("users").document(prefs.getAuthID())
+            docRef.collection("Informacion").document("Token")
+                .set(
+                    hashMapOf(
+                        "token" to prefs.getDeviceID()
+                    )
+                )
             if (token != null) {
                 if (tokenGuardado.isEmpty() || token != tokenGuardado) {
                     //registramos el token en el servidor
@@ -246,7 +251,8 @@ class MainActivity : AppCompatActivity() {
                     Log.d("userID", "id: $userID")
                     prefs.saveEmail(email)
                     prefs.saveAuthID(uid)
-                    setup(email, uid, userID)
+                    prefs.saveCurrentUserID(userID)
+                    setup(email, userID)
                     mainViewModel.saveUserPrefs(userID)
                     //binding.txtEmail.text = email
                 }else{
@@ -332,14 +338,11 @@ class MainActivity : AppCompatActivity() {
         }
     }*/
 
-    private fun setup(userEmail: String,uid: String ,userID: Int) {
-        val docRef = db.collection("users").document(uid)
-
+    private fun setup(userEmail: String, userID: Int) {
         runOnUiThread {
             binding.txtEmail.text = userEmail
-            binding.txtProvider.text = userID.toString()
+            binding.txtId.text = userID.toString()
         }
-        prefs.saveCurrentUserID(userID)
 
         binding.btLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -350,26 +353,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnMainMenu.setOnClickListener {
             val a = Intent(this, MainActivity2::class.java)
             startActivity(a)
-        }
-
-        binding.btnGuardar.setOnClickListener {
-            docRef.collection("Informacion").document("Datos")
-                .set(
-                    hashMapOf(
-                        "name" to binding.txtNombre.text.toString(),
-                        "token" to prefs.getDeviceID()
-                    )
-                )
-        }
-
-        binding.btnRecuperar.setOnClickListener {
-            docRef.collection("Informacion").document("Datos").get().addOnSuccessListener {
-                binding.txtNombre.setText(it.get("name") as String?)
-            }
-        }
-
-        binding.btnEliminar.setOnClickListener {
-            docRef.collection("Informacion").document("Datos").delete()
         }
 
         binding.startService.setOnClickListener {

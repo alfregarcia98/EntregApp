@@ -13,7 +13,10 @@ import com.dam.entregapp.LocationApp.Companion.prefs
 import com.dam.entregapp.R
 import com.dam.entregapp.data.model.User
 import com.dam.entregapp.databinding.FragmentManageSettingsBinding
+import com.dam.entregapp.ui.MainActivity
 import com.dam.entregapp.ui.viewmodels.UserViewModel
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -24,7 +27,7 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
     private var name = ""
     private var email = ""
     private var password = ""
-    private var telephone = 0
+    private var telephone = ""
 
     private var _binding: FragmentManageSettingsBinding? = null
     private val binding get() = _binding!!
@@ -53,9 +56,9 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
             updateUserDB()
         }
 
-        binding.btnTemporal.setOnClickListener {
+/*        binding.btnTemporal.setOnClickListener {
             addUserDB()
-        }
+        }*/
 
 
     }
@@ -65,26 +68,36 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
         name = binding.name.text.toString()
         email = binding.email.text.toString()
         password = binding.password.text.toString()
-        telephone = binding.telephone.text.toString().toInt()
+        telephone = binding.telephone.text.toString()
 
         //Check that the form is complete before submitting data to the database
-        if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone == 0)) {
-            val user = User(prefs.getCurrentUserID(), name, email, password, telephone)
+        if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone.isEmpty())) {
+            val user = User(prefs.getCurrentUserID(), name, email, password, telephone.toInt())
 
             //add the user if all the fields are filled
 
             //TODO actualizar online tambien
-/*            val userFirebase = Firebase.auth.currentUser
+/*
+            val userFirebase = Firebase.auth.currentUser
             val newPassword = password
-
-            userFirebase!!.updatePassword(newPassword)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d("FirebaseUpdate", "User password updated.")
-                    }else{
-                        Log.d("FirebaseUpdate", "User password not updated.")
+            try {
+                userFirebase!!.updatePassword(newPassword)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d("FirebaseUpdate", "User password updated.")
+                        } else {
+                            Log.d("FirebaseUpdate", "User password not updated.")
+                        }
                     }
-                }*/
+            }catch (e: FirebaseAuthRecentLoginRequiredException) {
+                val credential = EmailAuthProvider
+                    .getCredential(prefs.getEmail(), "alfredo")
+
+                // Prompt the user to re-provide their sign-in credentials
+                userFirebase?.reauthenticate(credential)
+                    ?.addOnCompleteListener { Log.d("FirebaseUpdate", "User re-authenticated.") }
+                Log.d("FirebaseUpdate", "$e")
+            }*/
             userViewModel.updateUser(user)
             Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_SHORT).show()
 
@@ -98,7 +111,7 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
     }
 
     //TODO crear para que?
-    private fun addUserDB() {
+/*    private fun addUserDB() {
         //Get text from editTexts
         name = binding.name.text.toString()
         email = binding.email.text.toString()
@@ -118,5 +131,5 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
         } else {
             Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
         }
-    }
+    }*/
 }
