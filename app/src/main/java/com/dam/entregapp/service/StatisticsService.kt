@@ -17,7 +17,8 @@ class StatisticsService(private val userViewModel: UserViewModel) {
         Log.d("Chart", "Unique addresses: $uniqueAddressIds")
 
         // since we only have 2 addresses for now
-        val nonZeroAddresses = uniqueAddressIds.filter { address -> address != 0 }
+        val nonZeroAddresses = uniqueAddressIds.filter { address -> address != 0 }.sorted()
+        Log.d("Chart", "Nonzero addresses: $nonZeroAddresses")
 
         val startHour = 8
         val endHour = 22

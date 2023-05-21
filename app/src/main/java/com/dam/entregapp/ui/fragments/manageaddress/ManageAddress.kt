@@ -3,10 +3,13 @@ package com.dam.entregapp.ui.fragments.manageaddress
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -142,6 +145,18 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
             getTimeCalendar()
             TimePickerDialog(context, this, hour, minute, true).show()
 
+        }
+
+        binding.btnAddAddr.setOnClickListener{
+            val editText = EditText(context)
+            editText.hint = "Dirección"
+            editText.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            editText.inputType = InputType.TYPE_CLASS_TEXT
+
+            binding.layoutDirecciones.addView(editText, binding.layoutDirecciones.childCount - 1)
         }
     }
 

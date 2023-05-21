@@ -234,12 +234,36 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_add_addr"
-            android:layout_width="wrap_content"
+        <!-- Ingredientes -->
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="+" />
+            android:text="Direcciones" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/layout_direcciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editText_addr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Dirección" />
+
+            <!-- Botón para añadir ingredientes -->
+            <Button
+                android:id="@+id/btn_add_addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Añadir direccion" />
+        </LinearLayout>
+        </ScrollView>
 
         <Button
             android:id="@+id/btn_guardar"
