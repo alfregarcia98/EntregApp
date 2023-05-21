@@ -81,8 +81,10 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
 
         lista = userViewModel.getUserWithAddress(prefs.getCurrentUserID())
         if (lista.isNotEmpty()) {
-            binding.userTxt.text = lista[0].user.toString()
-            binding.addressTxt.text = lista[0].addresses.toString()
+            requireActivity().runOnUiThread {
+                binding.userTxt.text = lista[0].user.toString()
+                binding.addressTxt.text = lista[0].addresses.toString()
+            }
         }
     }
 

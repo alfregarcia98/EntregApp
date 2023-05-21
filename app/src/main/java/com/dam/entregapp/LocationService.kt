@@ -122,7 +122,7 @@ class LocationService : Service() {
 
 
         locationClient
-            .getLocationUpdates(5000L)
+            .getLocationUpdates(60000L)
             .catch { e -> e.printStackTrace() }
             .onEach { currentLocation ->
                 if (DistanceCalculator.areLocationsWithinDistance(

@@ -2,7 +2,7 @@ package com.dam.entregapp.model
 
 data class Data(
     val administrative_area: String,
-    val confidence: Int,
+    val confidence: Double,
     val continent: String,
     val country: String,
     val country_code: String,
