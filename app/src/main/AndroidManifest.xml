@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name=".LocationApp"
+        android:name=".location.LocationApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -51,18 +51,11 @@
         </activity>
         -->
         <service
-            android:name=".LocationService"
+            android:name=".location.LocationService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location" />
 
-        <activity
-            android:name=".LocationActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
         <activity
             android:name=".ui.RegisterActivity"
             android:exported="false" />
@@ -71,10 +64,7 @@
             android:exported="true" /> <!-- Para la splashscreen -->
         <!-- android:theme="@style/Theme.EntregApp.Starting" -->
         <activity
-            android:name=".ui.AuthActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChartActivity"
+            android:name=".ui.ChartActivity"
             android:exported="true" />
         <activity
             android:name=".ui.MainActivity"

@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.dam.entregapp.ChartActivity
-import com.dam.entregapp.LocationApp.Companion.prefs
+import com.dam.entregapp.ui.ChartActivity
+import com.dam.entregapp.location.LocationApp.Companion.prefs
 import com.dam.entregapp.R
 import com.dam.entregapp.databinding.FragmentStatisticsBinding
 import com.dam.entregapp.service.StatisticsService

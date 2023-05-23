@@ -2,7 +2,6 @@ package com.dam.entregapp.ui
 
 import android.Manifest
 import android.app.AlertDialog
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -15,12 +14,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.dam.entregapp.ChartActivity
-import com.dam.entregapp.LocationApp.Companion.prefs
-import com.dam.entregapp.LocationService
+import com.dam.entregapp.location.LocationApp.Companion.prefs
+import com.dam.entregapp.location.LocationService
 import com.dam.entregapp.alarm.AlarmItem
 import com.dam.entregapp.alarm.AndroidAlarmScheduler
-import com.dam.entregapp.data.database.relations.UserWithAddress
 import com.dam.entregapp.databinding.ActivityMainBinding
 import com.dam.entregapp.ui.viewmodels.MainViewModel
 import com.google.android.gms.tasks.OnCompleteListener

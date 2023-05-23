@@ -2,7 +2,6 @@ package com.dam.entregapp.logic.utils
 
 import android.location.Location
 import android.util.Log
-import com.dam.entregapp.LocationService
 
 object DistanceCalculator {
     fun areLocationsWithinDistance(

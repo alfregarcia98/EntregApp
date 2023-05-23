@@ -1,4 +1,4 @@
-package com.dam.entregapp
+package com.dam.entregapp.location
 
 import android.app.Application
 import android.app.NotificationChannel

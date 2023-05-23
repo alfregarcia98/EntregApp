@@ -9,7 +9,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import com.dam.entregapp.LocationService
+import com.dam.entregapp.location.LocationService
 import com.dam.entregapp.R
 import com.dam.entregapp.ui.MainActivity
 

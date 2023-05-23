@@ -1,18 +1,17 @@
-package com.dam.entregapp
+package com.dam.entregapp.location
 
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.location.Location
-import android.os.Binder
 import android.os.IBinder
 import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.dam.entregapp.LocationApp.Companion.prefs
+import com.dam.entregapp.R
+import com.dam.entregapp.location.LocationApp.Companion.prefs
 import com.dam.entregapp.data.database.UserDB
 import com.dam.entregapp.data.model.TrackingData
 import com.dam.entregapp.logic.repository.UserRepository
@@ -26,8 +25,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.sql.Time
-import java.sql.Timestamp
 import java.util.*
 
 class LocationService : Service() {
@@ -36,6 +33,8 @@ class LocationService : Service() {
     private lateinit var locationClient: LocationClient
 
     private val MIN_PROXIMITY = 100.0
+    private val UPDATE_INTERVAL = 300000L // 5min
+    //private val DYNAMIC_INTERVAL = prefs.getUpdateInterval()
 
     //Prueba
     private var wakeLock: PowerManager.WakeLock? = null
@@ -110,7 +109,7 @@ class LocationService : Service() {
 
 
         locationClient
-            .getLocationUpdates(5000L)
+            .getLocationUpdates(UPDATE_INTERVAL)
             .catch { e -> e.printStackTrace() }
             .onEach { currentLocation ->
                 if (DistanceCalculator.areLocationsWithinDistance(

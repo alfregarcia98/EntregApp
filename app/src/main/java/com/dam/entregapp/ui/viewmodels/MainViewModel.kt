@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.dam.entregapp.LocationApp.Companion.prefs
+import com.dam.entregapp.location.LocationApp.Companion.prefs
 import com.dam.entregapp.data.database.UserDB
 import com.dam.entregapp.data.database.relations.UserWithAddress
 import com.dam.entregapp.data.model.TrackingData

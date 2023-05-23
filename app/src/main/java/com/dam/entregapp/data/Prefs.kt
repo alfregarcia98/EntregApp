@@ -27,7 +27,7 @@ class Prefs(val context: Context) {
     val SHARED_SECONDARYNAME = "secondaryAddressName"
     val SHARED_THIRDNAME = "thirdAddressName"
     val SHARED_FOURTHNAME = "fourthAddressName"
-    val SHARED_TRACKINGCOUNT = "trackingtotalcount"
+    val SHARED_INTERVAL = "updateInterval"
 
     //Create a new field storing the actual user
     val storage = context.getSharedPreferences(SHARED_NAME, 0)
@@ -200,6 +200,14 @@ class Prefs(val context: Context) {
 
     fun getFourthAddressName(): String {
         return storage.getString(SHARED_FOURTHNAME, "")!!
+    }
+
+    fun saveUpdateInterval(updateInterval: Float) {
+        storage.edit().putFloat(SHARED_INTERVAL, updateInterval).apply()
+    }
+
+    fun getUpdateInterval(): Float {
+        return storage.getFloat(SHARED_INTERVAL, 0.0F)!!
     }
 
     fun wipe() {

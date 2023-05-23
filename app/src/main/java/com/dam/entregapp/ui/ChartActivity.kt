@@ -1,4 +1,4 @@
-package com.dam.entregapp
+package com.dam.entregapp.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -11,16 +11,13 @@ import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.HeatDataEntry
 import com.anychart.enums.SelectionMode
 import com.anychart.graphics.vector.SolidFill
-import com.dam.entregapp.LocationApp.Companion.prefs
-import com.dam.entregapp.logic.utils.ProcessedStatistics
+import com.dam.entregapp.R
 import com.dam.entregapp.service.StatisticsService
 import com.dam.entregapp.ui.viewmodels.UserViewModel
 import com.google.common.collect.Comparators.min
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 class ChartActivity() : AppCompatActivity() {
 

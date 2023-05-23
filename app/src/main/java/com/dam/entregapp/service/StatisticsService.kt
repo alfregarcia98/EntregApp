@@ -1,7 +1,7 @@
 package com.dam.entregapp.service
 
 import android.util.Log
-import com.dam.entregapp.LocationApp.Companion.prefs
+import com.dam.entregapp.location.LocationApp.Companion.prefs
 import com.dam.entregapp.logic.utils.ProcessedStatistics
 import com.dam.entregapp.ui.viewmodels.UserViewModel
 
