@@ -46,7 +46,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             if (lista[0].addresses.isNotEmpty()) {
                 //TODO un contador de numero de direcciones añadidas por el usuario en el fragment y aqui se comprueba eso.
                 //if (lista[0].addresses.size == 2) {
-                if (lista[0].addresses.size > 2) {
+                if (lista[0].addresses.size >= 2) {
 
                     Log.d("Prueba", "Lista: $lista")
                     val primaryName = lista[0].addresses[0].name

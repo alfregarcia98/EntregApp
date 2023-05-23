@@ -114,8 +114,8 @@ class MainActivity : AppCompatActivity() {
             checkUser()
         }
 
-        //Notificaciones
-        getToken()
+        //Notificaciones hecho en la comprobacion de usuario, si no da error.
+        //getToken()
 
         //Setup en caso de querer los extras desde login y register
         //val bundle = intent.extras
@@ -254,7 +254,7 @@ class MainActivity : AppCompatActivity() {
                     prefs.saveCurrentUserID(userID)
                     setup(email, userID)
                     mainViewModel.saveUserPrefs(userID)
-                    //binding.txtEmail.text = email
+                    getToken()
                 }else{
                     //TODO corregir lo de que no pille al usuario que se acaba de crear. Demasiado rapido todo y hay que reabrir la app para que funcione.
                     Log.d("CheckUser", "userIDs was empty")

@@ -9,6 +9,7 @@ import android.content.Intent
 import android.location.Location
 import android.os.Binder
 import android.os.IBinder
+import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.dam.entregapp.LocationApp.Companion.prefs
@@ -36,29 +37,11 @@ class LocationService : Service() {
 
     private val MIN_PROXIMITY = 100.0
 
-    //Probando
-    // Binder given to clients
-    private val binder = LocalBinder()
+    //Prueba
+    private var wakeLock: PowerManager.WakeLock? = null
 
-    // Random number generator
-    private val mGenerator = Random()
-
-
-    /** method for clients  */
-    val randomNumber: Int
-        get() = mGenerator.nextInt(100)
-
-    /**
-     * Class used for the client Binder.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with IPC.
-     */
-    inner class LocalBinder : Binder() {
-        // Return this instance of LocalService so clients can call public methods
-        fun getService(): LocationService = this@LocationService
-    }
-
-    override fun onBind(intent: Intent): IBinder {
-        return binder
+    override fun onBind(p0: Intent?): IBinder? {
+        return null
     }
 
     override fun onCreate() {
@@ -67,9 +50,6 @@ class LocationService : Service() {
             applicationContext,
             LocationServices.getFusedLocationProviderClient(applicationContext)
         )
-
-
-
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -82,6 +62,14 @@ class LocationService : Service() {
 
     private fun start() {
 
+        //Prueba
+        /*wakeLock =
+            (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
+                newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "LocationService::lock").apply {
+                    acquire()
+                }
+            }
+*/
         val intent = Intent(this, MainActivity::class.java)
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
@@ -122,7 +110,7 @@ class LocationService : Service() {
 
 
         locationClient
-            .getLocationUpdates(60000L)
+            .getLocationUpdates(5000L)
             .catch { e -> e.printStackTrace() }
             .onEach { currentLocation ->
                 if (DistanceCalculator.areLocationsWithinDistance(
@@ -191,6 +179,13 @@ class LocationService : Service() {
     private fun stop() {
         stopForeground(true)
         stopSelf()
+
+        //Prueba
+/*        wakeLock?.let {
+            if (it.isHeld) {
+                it.release()
+            }
+        }*/
     }
 
     override fun onDestroy() {
