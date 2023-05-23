@@ -21,25 +21,6 @@
         android:theme="@style/Theme.EntregApp"
         tools:targetApi="31">
         <!--
-        <activity
-            android:name=".SplashScreen"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
-
-        <service
-            android:name=".LocationService"
-            android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="location" />
-
-
-        <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
              To get one, follow the directions here:
@@ -55,6 +36,27 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
+            android:name=".maps.MapsActivity"
+            android:exported="true"
+            android:label="@string/title_activity_maps" />
+        <!--
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        -->
+        <service
+            android:name=".LocationService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location" />
+
+        <activity
             android:name=".LocationActivity"
             android:exported="false">
             <meta-data
@@ -66,20 +68,16 @@
             android:exported="false" />
         <activity
             android:name=".ui.LoginActivity"
-            android:exported="true" />
-
-        <!-- Para la splashscreen -->
+            android:exported="true" /> <!-- Para la splashscreen -->
         <!-- android:theme="@style/Theme.EntregApp.Starting" -->
-
         <activity
             android:name=".ui.AuthActivity"
             android:exported="false" />
-
         <activity
             android:name=".ChartActivity"
             android:exported="true" />
         <activity
-            android:name="com.dam.entregapp.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -92,21 +90,15 @@
             android:exported="false" />
         <activity
             android:name=".ui.SplashScreenActivity"
-            android:exported="false" />
-
-        <!--Para programar el servicio de tracking -->
-        <receiver android:name=".alarm.AlarmReceiver"
+            android:exported="false" /> <!-- Para programar el servicio de tracking -->
+        <receiver
+            android:name=".alarm.AlarmReceiver"
             android:exported="false">
-        <intent-filter>
-            <action android:name="STOP_TEST_SERVICE" />
-            <action android:name="START_TEST_SERVICE" />
-
-        </intent-filter>
-        </receiver>
-
-
-        <!-- Para enviar notificaciones -->
-
+            <intent-filter>
+                <action android:name="STOP_TEST_SERVICE" />
+                <action android:name="START_TEST_SERVICE" />
+            </intent-filter>
+        </receiver> <!-- Para enviar notificaciones -->
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
@@ -118,8 +110,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_notification" />
-
     </application>
-
 
 </manifest>
