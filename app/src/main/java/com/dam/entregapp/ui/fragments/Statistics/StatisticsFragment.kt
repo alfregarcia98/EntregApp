@@ -52,6 +52,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         binding.addr1Name.text = prefs.getPrimaryAddressName()
         binding.addr2Name.text = prefs.getSecondaryAddressName()
+        binding.addr3Name.text = prefs.getThirdAddressName()
+        binding.addr4Name.text = prefs.getFourthAddressName()
 
         binding.btnBorrar.setOnClickListener {
             borrarTracking()

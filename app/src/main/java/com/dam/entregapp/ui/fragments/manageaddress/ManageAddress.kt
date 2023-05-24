@@ -44,6 +44,10 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
     private var lon1 = 0.0
     private var lat2 = 0.0
     private var lon2 = 0.0
+    private var lat3 = 0.0
+    private var lon3 = 0.0
+    private var lat4 = 0.0
+    private var lon4 = 0.0
 
     private var indice = 0
 
@@ -366,6 +370,11 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
         lon1 = binding.txPrimaryLon.text.toString().toDouble()
         lat2 = binding.txSecondaryLat.text.toString().toDouble()
         lon2 = binding.txSecondaryLon.text.toString().toDouble()
+        lat3 = binding.txThirdLat.text.toString().toDouble()
+        lon3 = binding.txThirdLon.text.toString().toDouble()
+        lat4 = binding.txFourthLat.text.toString().toDouble()
+        lon4 = binding.txFourthLon.text.toString().toDouble()
+
 
 
         val primaryAddress =
@@ -392,6 +401,32 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
             )
         userViewModel.addAddress(secondaryAddress)
 
+        if (addr3.isNotEmpty()) {
+            val thirdAddress =
+                Address(
+                    0,
+                    prefs.getCurrentUserID(),
+                    addr3,
+                    cleanTimeThirdStart,
+                    cleanTimeThirdEnd,
+                    lon3,
+                    lat3
+                )
+            userViewModel.addAddress(thirdAddress)
+        }
+        if (addr4.isNotEmpty()) {
+            val fourthAddress =
+                Address(
+                    0,
+                    prefs.getCurrentUserID(),
+                    addr4,
+                    cleanTimeFourthStart,
+                    cleanTimeFourthEnd,
+                    lon4,
+                    lat4
+                )
+            userViewModel.addAddress(fourthAddress)
+        }
     }
 
     private fun eraseAddress() {

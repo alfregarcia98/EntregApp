@@ -32,12 +32,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(view)
 
         logInViewModel = ViewModelProvider(this).get(LogInViewModel::class.java)
-        //val screenSplash = installSplashScreen()
-
-        //Splash
-        //Thread.sleep(300)
-        //screenSplash.setKeepOnScreenCondition{false}
-
         setup()
     }
 
@@ -56,8 +50,6 @@ class LoginActivity : AppCompatActivity() {
                     binding.password.text.toString()
                 ).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        //TODO Hacer que al iniciar sesion tamien se cree en local el usuario
-
                         userFromFirestore()
                     } else {
                         showAlert()

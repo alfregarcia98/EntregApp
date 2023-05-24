@@ -53,16 +53,16 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/count1"
+                android:id="@+id/addr3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Veces en direccion principal: " />
+                android:hint="Tercera dirección: " />
 
             <TextView
-                android:id="@+id/count1_txt"
+                android:id="@+id/addr3_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="numero" />
+                android:hint="nombre" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,16 +71,16 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/count2"
+                android:id="@+id/addr4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Veces en direccion secundaria: " />
+                android:hint="Cuarta dirección: " />
 
             <TextView
-                android:id="@+id/count2_txt"
+                android:id="@+id/addr4_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="numero" />
+                android:hint="nombre" />
         </LinearLayout>
 
         <Button

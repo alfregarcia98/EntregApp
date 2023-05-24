@@ -18,6 +18,9 @@ import com.dam.entregapp.logic.repository.UserRepository
 import com.dam.entregapp.logic.utils.DistanceCalculator
 import com.dam.entregapp.ui.MainActivity
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -70,7 +73,8 @@ class LocationService : Service() {
             }
 */
         val intent = Intent(this, MainActivity::class.java)
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationCompat.Builder(this, "location")
             .setContentTitle("Tracking location...")
@@ -107,11 +111,20 @@ class LocationService : Service() {
         fourthLocation.latitude = prefs.getFourthAddressLat().toDouble()
         fourthLocation.longitude = prefs.getFourthAddressLon().toDouble()
 
+        val db = Firebase.firestore
+        val docRef = db.collection("users").document(prefs.getAuthID())
 
         locationClient
             .getLocationUpdates(UPDATE_INTERVAL)
             .catch { e -> e.printStackTrace() }
             .onEach { currentLocation ->
+
+                val confirmacion = hashMapOf(
+                    "Last update" to FieldValue.serverTimestamp()
+                )
+                docRef.collection("Servicio").document("En ejecución")
+                    .set(confirmacion)
+
                 if (DistanceCalculator.areLocationsWithinDistance(
                         primaryLocation,
                         currentLocation,
@@ -180,11 +193,11 @@ class LocationService : Service() {
         stopSelf()
 
         //Prueba
-/*        wakeLock?.let {
-            if (it.isHeld) {
-                it.release()
-            }
-        }*/
+        /*        wakeLock?.let {
+                    if (it.isHeld) {
+                        it.release()
+                    }
+                }*/
     }
 
     override fun onDestroy() {

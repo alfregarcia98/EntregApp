@@ -72,6 +72,8 @@ class RegisterActivity : AppCompatActivity() {
         // comprobamos que se rellenan todos los campos antes de mandarlo a la base de datos
         if (usuarioText.isEmpty() || phoneText.isEmpty() || emailText.isEmpty() || contrasenaText.isEmpty()) {
             Toast.makeText(this, "Rellene todos los campos", Toast.LENGTH_LONG).show()
+        } else if (contrasenaText.length >= 6) {
+            Toast.makeText(this, "Contraseña min. 6 caracteres", Toast.LENGTH_SHORT).show()
         } else if (!contrasenaText.equals(contrasena2Text)) {
             Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             //TODO comprobar los campos mejor, entre ellos el numero de telefono
