@@ -88,7 +88,12 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         binding.btnGuardar.setOnClickListener {
-            addAddress()
+            if (binding.addr1.text.isNotEmpty() && binding.addr2.text.isNotEmpty()) {
+                addAddress()
+            }
+            else {
+                Toast.makeText(context, "Rellene al menos dos direcciones", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.btnUpdate.setOnClickListener {
@@ -96,7 +101,12 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
         }
 
         binding.btnGuardarSinAPI.setOnClickListener {
-            addAddressessNoAPI()
+            if (binding.addr1.text.isNotEmpty() && binding.addr2.text.isNotEmpty()) {
+                addAddressessNoAPI()
+            }
+            else {
+                Toast.makeText(context, "Rellene al menos dos direcciones", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.btnErase.setOnClickListener {
@@ -326,6 +336,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
             if (resultCode == Activity.RESULT_OK) {
                 val addressData = data?.getParcelableExtra<AddressData>(Constants.ADDRESS_INTENT)
                 Log.d("PickerResult", "$addressData")
+                //TODO añadir excepcion por si devuelve error
                 when (indice) {
                     1 -> {
                         binding.addr1.setText(addressData?.addressList?.get(0)?.getAddressLine(0))
@@ -370,16 +381,19 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
         lon1 = binding.txPrimaryLon.text.toString().toDouble()
         lat2 = binding.txSecondaryLat.text.toString().toDouble()
         lon2 = binding.txSecondaryLon.text.toString().toDouble()
-        lat3 = binding.txThirdLat.text.toString().toDouble()
-        lon3 = binding.txThirdLon.text.toString().toDouble()
-        lat4 = binding.txFourthLat.text.toString().toDouble()
-        lon4 = binding.txFourthLon.text.toString().toDouble()
-
+        if (addr3.isNotEmpty()) {
+            lat3 = binding.txThirdLat.text.toString().toDouble()
+            lon3 = binding.txThirdLon.text.toString().toDouble()
+        }
+        if (addr4.isNotEmpty()) {
+            lat4 = binding.txFourthLat.text.toString().toDouble()
+            lon4 = binding.txFourthLon.text.toString().toDouble()
+        }
 
 
         val primaryAddress =
             Address(
-                0,
+                1,
                 prefs.getCurrentUserID(),
                 addr1,
                 cleanTimePrimaryStart,
@@ -391,7 +405,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
 
         val secondaryAddress =
             Address(
-                0,
+                2,
                 prefs.getCurrentUserID(),
                 addr2,
                 cleanTimePrimaryStart,
@@ -404,7 +418,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
         if (addr3.isNotEmpty()) {
             val thirdAddress =
                 Address(
-                    0,
+                    3,
                     prefs.getCurrentUserID(),
                     addr3,
                     cleanTimeThirdStart,
@@ -417,7 +431,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
         if (addr4.isNotEmpty()) {
             val fourthAddress =
                 Address(
-                    0,
+                    4,
                     prefs.getCurrentUserID(),
                     addr4,
                     cleanTimeFourthStart,
@@ -427,6 +441,11 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
                 )
             userViewModel.addAddress(fourthAddress)
         }
+
+        Toast.makeText(context, "Address saved successfully!", Toast.LENGTH_SHORT).show()
+
+        //navigate back to our home fragment
+        findNavController().navigate(R.id.action_manageAddress_to_mainMenu)
     }
 
     private fun eraseAddress() {
