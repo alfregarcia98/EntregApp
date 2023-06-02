@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        title = "Inicio"
+        title = "EntregApp"
 
 
         val thread: Thread = object : Thread() {

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/mainMenu"
         android:name="com.dam.entregapp.ui.fragments.mainmenu.MainMenu"
-        android:label="fragment_main_menu"
+        android:label="Menu Principal"
         tools:layout="@layout/fragment_main_menu">
         <action
             android:id="@+id/action_mainMenu_to_manageAddress"
@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/manageAddress"
         android:name="com.dam.entregapp.ui.fragments.manageaddress.ManageAddress"
-        android:label="fragment_manage_address"
+        android:label="Direcciones de entrega"
         tools:layout="@layout/fragment_manage_address">
         <action
             android:id="@+id/action_manageAddress_to_mainMenu"
@@ -39,7 +39,7 @@
     <fragment
         android:id="@+id/manageSettings"
         android:name="com.dam.entregapp.ui.fragments.managesettings.ManageSettings"
-        android:label="fragment_manage_settings"
+        android:label="Configuración"
         tools:layout="@layout/fragment_manage_settings">
         <action
             android:id="@+id/action_manageSettings_to_mainMenu"
@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/statistics"
         android:name="com.dam.entregapp.ui.fragments.Statistics.StatisticsFragment"
-        android:label="fragment_statistics"
+        android:label="Estadísticas"
         tools:layout="@layout/fragment_statistics">
         <action
             android:id="@+id/action_statistics_to_mainMenu"
@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/schedulerFragment"
         android:name="com.dam.entregapp.ui.fragments.scheduler.SchedulerFragment"
-        android:label="fragment_scheduler"
+        android:label="Programador"
         tools:layout="@layout/fragment_scheduler" >
         <action
             android:id="@+id/action_schedulerFragment_to_mainMenu"
@@ -66,7 +66,7 @@
     <fragment
         android:id="@+id/syncFragment"
         android:name="com.dam.entregapp.ui.fragments.sincronizar.SyncFragment"
-        android:label="fragment_sync"
+        android:label="Sincronización"
         tools:layout="@layout/fragment_sync" >
         <action
             android:id="@+id/action_syncFragment_to_mainMenu"

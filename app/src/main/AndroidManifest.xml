@@ -65,7 +65,8 @@
         <!-- android:theme="@style/Theme.EntregApp.Starting" -->
         <activity
             android:name=".ui.ChartActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.EntregApp.NoActionBar"/>
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">

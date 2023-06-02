@@ -63,11 +63,11 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerUser() {
-        val usuarioText = binding.usuario.text.toString()
-        val phoneText = binding.phone.text.toString()
-        val emailText = binding.email.text.toString()
-        val contrasenaText = binding.contrasena.text.toString()
-        val contrasena2Text = binding.contrasena2.text.toString()
+        val usuarioText = binding.usuario.editText?.text.toString()
+        val phoneText = binding.phone.editText?.text.toString()
+        val emailText = binding.email.editText?.text.toString()
+        val contrasenaText = binding.contrasena.editText?.text.toString()
+        val contrasena2Text = binding.contrasena2.editText?.text.toString()
 
         // comprobamos que se rellenan todos los campos antes de mandarlo a la base de datos
         if (usuarioText.isEmpty() || phoneText.isEmpty() || emailText.isEmpty() || contrasenaText.isEmpty()) {

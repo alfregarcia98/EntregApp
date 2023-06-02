@@ -38,16 +38,16 @@ class LoginActivity : AppCompatActivity() {
     private fun setup() {
 
         binding.btnLogin.setOnClickListener {
-            val emailText = binding.email.text.toString()
-            val passwordText = binding.password.text.toString()
+            val emailText = binding.email.editText?.text.toString()
+            val passwordText = binding.password.editText?.text.toString()
 
             if (emailText.isEmpty() || passwordText.isEmpty()) {
                 Toast.makeText(this, "Por favor, introduce tus datos", Toast.LENGTH_SHORT).show()
             } else {
                 //LogIn en FireBase
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(
-                    binding.email.text.toString(),
-                    binding.password.text.toString()
+                    binding.email.editText?.text.toString(),
+                    binding.password.editText?.text.toString()
                 ).addOnCompleteListener {
                     if (it.isSuccessful) {
                         userFromFirestore()

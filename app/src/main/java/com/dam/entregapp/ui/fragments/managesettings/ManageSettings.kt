@@ -59,10 +59,10 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
 
     private fun updateUserDB() {
         //Get text from editTexts
-        name = binding.name.text.toString()
-        email = binding.email.text.toString()
-        password = binding.password.text.toString()
-        telephone = binding.telephone.text.toString()
+        name = binding.name.editText?.text.toString()
+        email = binding.email.editText?.text.toString()
+        password = binding.password.editText?.text.toString()
+        telephone = binding.telephone.editText?.text.toString()
 
         //Check that the form is complete before submitting data to the database
         if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone.isEmpty())) {
@@ -107,10 +107,10 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
     //TODO crear para que?
 /*    private fun addUserDB() {
         //Get text from editTexts
-        name = binding.name.text.toString()
-        email = binding.email.text.toString()
-        password = binding.password.text.toString()
-        telephone = binding.telephone.text.toString().toInt()
+        name = binding.name.editText?.text.toString()
+        email = binding.email.editText?.text.toString()
+        password = binding.password.editText?.text.toString()
+        telephone = binding.telephone.editText?.text.toString().toInt()
 
         //Check that the form is complete before submitting data to the database
         if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone == 0)) {

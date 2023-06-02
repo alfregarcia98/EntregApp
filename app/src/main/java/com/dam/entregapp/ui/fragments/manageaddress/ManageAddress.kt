@@ -88,7 +88,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         binding.btnGuardar.setOnClickListener {
-            if (binding.addr1.text.isNotEmpty() && binding.addr2.text.isNotEmpty()) {
+            if (binding.addr1.editText!!.text.isNotEmpty() && binding.addr2.editText!!.text.isNotEmpty()) {
                 addAddress()
             }
             else {
@@ -101,7 +101,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
         }
 
         binding.btnGuardarSinAPI.setOnClickListener {
-            if (binding.addr1.text.isNotEmpty() && binding.addr2.text.isNotEmpty()) {
+            if (binding.addr1.editText!!.text.isNotEmpty() && binding.addr2.editText!!.text.isNotEmpty()) {
                 addAddressessNoAPI()
             }
             else {
@@ -208,10 +208,10 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
     }
 
     private fun addAddress() {
-        addr1 = binding.addr1.text.toString()
-        addr2 = binding.addr2.text.toString()
-        addr3 = binding.addr3.text.toString()
-        addr4 = binding.addr4.text.toString()
+        addr1 = binding.addr1.editText?.text.toString()
+        addr2 = binding.addr2.editText?.text.toString()
+        addr3 = binding.addr3.editText?.text.toString()
+        addr4 = binding.addr4.editText?.text.toString()
         //Check that the form is complete before submitting data to the database
         if (!(addr1.isEmpty() || addr2.isEmpty())) {
 
@@ -339,22 +339,22 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
                 //TODO añadir excepcion por si devuelve error
                 when (indice) {
                     1 -> {
-                        binding.addr1.setText(addressData?.addressList?.get(0)?.getAddressLine(0))
+                        binding.addr1.editText?.setText(addressData?.addressList?.get(0)?.getAddressLine(0))
                         binding.txPrimaryLat.text = addressData?.latitude.toString()
                         binding.txPrimaryLon.text = addressData?.longitude.toString()
                     }
                     2 -> {
-                        binding.addr2.setText(addressData?.addressList?.get(0)?.getAddressLine(0))
+                        binding.addr2.editText?.setText(addressData?.addressList?.get(0)?.getAddressLine(0))
                         binding.txSecondaryLat.text = addressData?.latitude.toString()
                         binding.txSecondaryLon.text = addressData?.longitude.toString()
                     }
                     3 -> {
-                        binding.addr3.setText(addressData?.addressList?.get(0)?.getAddressLine(0))
+                        binding.addr3.editText?.setText(addressData?.addressList?.get(0)?.getAddressLine(0))
                         binding.txThirdLat.text = addressData?.latitude.toString()
                         binding.txThirdLon.text = addressData?.longitude.toString()
                     }
                     4 -> {
-                        binding.addr4.setText(addressData?.addressList?.get(0)?.getAddressLine(0))
+                        binding.addr4.editText?.setText(addressData?.addressList?.get(0)?.getAddressLine(0))
                         binding.txFourthLat.text = addressData?.latitude.toString()
                         binding.txFourthLon.text = addressData?.longitude.toString()
                     }
@@ -373,10 +373,10 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
     }
 
     private fun addAddressessNoAPI() {
-        addr1 = binding.addr1.text.toString()
-        addr2 = binding.addr2.text.toString()
-        addr3 = binding.addr3.text.toString()
-        addr4 = binding.addr4.text.toString()
+        addr1 = binding.addr1.editText?.text.toString()
+        addr2 = binding.addr2.editText?.text.toString()
+        addr3 = binding.addr3.editText?.text.toString()
+        addr4 = binding.addr4.editText?.text.toString()
         lat1 = binding.txPrimaryLat.text.toString().toDouble()
         lon1 = binding.txPrimaryLon.text.toString().toDouble()
         lat2 = binding.txSecondaryLat.text.toString().toDouble()

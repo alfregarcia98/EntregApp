@@ -18,85 +18,77 @@
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         app:srcCompat="@drawable/icon" />
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usuario"
         android:layout_width="300dp"
-        android:minHeight="40dp"
-        android:paddingLeft="10dp"
-        android:textColorHint="#A9D18E"
-        android:textColor="#61953D"
-        android:background="@drawable/custom_input"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Usuario"/>
+        android:hint="Usuario">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phone"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/custom_input"
-        android:ems="10"
-        android:hint="Teléfono"
-        android:inputType="phone"
-        android:minHeight="40dp"
-        android:paddingLeft="10dp"
-        android:textColor="#61953D"
-        android:textColorHint="#A9D18E" />
+        android:hint="Teléfono">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email"
         android:layout_width="300dp"
-        android:minHeight="40dp"
-        android:paddingLeft="10dp"
-        android:textColorHint="#A9D18E"
-        android:textColor="#61953D"
-        android:background="@drawable/custom_input"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Correo electrónico"/>
+        android:hint="Correo electrónico">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/contrasena"
         android:layout_width="300dp"
         android:minHeight="40dp"
-        android:paddingLeft="10dp"
-        android:textColorHint="#A9D18E"
-        android:textColor="#61953D"
-        android:background="@drawable/custom_input"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="Contraseña"/>
-    <EditText
+        android:hint="Contraseña">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/contrasena2"
         android:layout_width="300dp"
         android:minHeight="40dp"
-        android:paddingLeft="10dp"
-        android:textColorHint="#A9D18E"
-        android:textColor="#61953D"
-        android:background="@drawable/custom_input"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="Repita contraseña"/>
+        android:hint="Repita contraseña">
 
-    <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
         android:id="@+id/btn_registrar_correo"
         android:layout_width="300dp"
-        android:background="@drawable/custom_button"
-        android:textColor="#FFFFFF"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
@@ -115,7 +107,6 @@
             android:layout_gravity="top"
             android:layout_width="wrap_content"
             android:textSize="20dp"
-            android:textColor="#70AD47"
             android:layout_height="wrap_content"
             android:text="¿Ya tienes una cuenta?" />
 
@@ -125,7 +116,6 @@
             android:layout_gravity="top"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:textColor="#70AD47"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="Inicia sesión" />

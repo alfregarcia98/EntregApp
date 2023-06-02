@@ -19,13 +19,19 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addr1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Primera dirección"
                 android:layout_weight="12"
-                android:inputType="text" />
+                android:hint="Primera dirección">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <Button
                 android:id="@+id/bt_placePicker_1"
@@ -113,13 +119,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addr2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Segunda dirección"
                     android:layout_weight="12"
-                    android:inputType="text" />
+                    android:hint="Segunda dirección">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/bt_placePicker_2"
@@ -207,13 +218,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addr3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Tercera dirección (Opcional)"
                     android:layout_weight="12"
-                    android:inputType="text" />
+                    android:hint="Tercera dirección (Opcional)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/bt_placePicker_3"
@@ -301,13 +317,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addr4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Cuarta dirección (Opcional)"
                     android:layout_weight="12"
-                    android:inputType="text" />
+                    android:hint="Cuarta dirección (Opcional)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/bt_placePicker_4"

@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.dam.entregapp.ui.ChartActivity
 import com.dam.entregapp.location.LocationApp.Companion.prefs
 import com.dam.entregapp.R
@@ -61,6 +63,12 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         binding.btnEnviar.setOnClickListener {
             submitStatistics()
+
+            //TODO mejorar lugar
+            Toast.makeText(context, "Estadísticas enviadas correctamente!", Toast.LENGTH_SHORT).show()
+
+            //navigate back to our home fragment
+            findNavController().navigate(R.id.action_statistics_to_mainMenu)
         }
 
         binding.btnChart.setOnClickListener {
