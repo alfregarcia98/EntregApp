@@ -20,7 +20,8 @@
         <!-- Status bar color -->
         <item name="android:statusBarColor">#009688</item>
 
-        <!-- Customize your theme here. -->
+        <!-- Other theme attributes -->
+<!--        <item name="android:actionBarSize">10dp</item>-->
     </style>
     <style name="Theme.EntregApp.NoActionBar" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary colors -->

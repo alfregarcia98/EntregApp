@@ -5,15 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.dam.entregapp.R
-import com.dam.entregapp.databinding.ActivityMain2Binding
+import com.dam.entregapp.databinding.ActivityMenuBinding
 
-class MainActivity2 : AppCompatActivity() {
+class MenuActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMain2Binding
+    private lateinit var binding: ActivityMenuBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMain2Binding.inflate(layoutInflater)
+        binding = ActivityMenuBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 

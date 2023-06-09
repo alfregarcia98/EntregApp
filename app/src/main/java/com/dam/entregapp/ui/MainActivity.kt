@@ -19,6 +19,7 @@ import com.dam.entregapp.location.LocationService
 import com.dam.entregapp.alarm.AlarmItem
 import com.dam.entregapp.alarm.AndroidAlarmScheduler
 import com.dam.entregapp.databinding.ActivityMainBinding
+import com.dam.entregapp.ui.fragments.manageaddress.ManageAddress
 import com.dam.entregapp.ui.viewmodels.MainViewModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     val user = Firebase.auth.currentUser
     val email = ""
     private val db = Firebase.firestore
+    val fragment = ManageAddress()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -52,38 +54,15 @@ class MainActivity : AppCompatActivity() {
         title = "EntregApp"
 
 
-        val thread: Thread = object : Thread() {
-            override fun run() {
-                try {
-                    while (!this.isInterrupted) {
-                        sleep(4000)
-                        runOnUiThread {
-                            binding.txtUbi.text = "${LocationService.lat}, ${LocationService.long}"
-                        }
-                    }
-                } catch (e: InterruptedException) {
-                }
-            }
-        }
-
-        thread.start()
-
-        /*
-                //AlarmScheduler
+        /*        //AlarmScheduler
                 val scheduler = AndroidAlarmScheduler(this)
-                var alarmItem: AlarmItem? = null
-                alarmItem = AlarmItem(10,"Alarma de detencion")
-                alarmItem?.let(scheduler::schedule)*/
-
-
+                var alarmItem: AlarmItem? = null*/
 
 
         //Para al hacer tap en la notificación abrir la aplicacion
         // Create an explicit intent for an Activity in your app
 
-
-
-        //Al hacer click en la notificacion se habre la app con los parametros en el intent
+        //Al hacer click en la notificacion se abre la app con los parametros en el intent
         val bundle = intent.extras
         if (bundle != null) {
             //Si este parametro está quiere decir que el bundle tiene parametros de una noificacion
@@ -111,15 +90,6 @@ class MainActivity : AppCompatActivity() {
             checkUser()
         }
 
-        //Notificaciones hecho en la comprobacion de usuario, si no da error.
-        //getToken()
-
-        //Setup en caso de querer los extras desde login y register
-        //val bundle = intent.extras
-        //val email: String? = bundle?.getString("email")
-        //setup(email ?: "")
-
-        //LocationTutorial
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -249,11 +219,10 @@ class MainActivity : AppCompatActivity() {
                     prefs.saveEmail(email)
                     prefs.saveAuthID(uid)
                     prefs.saveCurrentUserID(userID)
-                    setup(email, userID)
+                    setup(email)
                     mainViewModel.saveUserPrefs(userID)
                     getToken()
-                }else{
-                    //TODO corregir lo de que no pille al usuario que se acaba de crear. Demasiado rapido todo y hay que reabrir la app para que funcione.
+                } else {
                     Log.d("CheckUser", "userIDs was empty")
                 }
             }
@@ -264,81 +233,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-
-/*    suspend fun saveUserPrefs(userID: Int) {
-        val lista = mainViewModel.getUserWithAddress(userID)
-        if (lista.isNotEmpty()) {
-            Log.d("Prueba", "Lista: $lista")
-            if (lista[0].addresses.isNotEmpty()) {
-                //TODO un contador de numero de direcciones añadidas por el usuario en el fragment y aqui se comprueba eso.
-                //if (lista[0].addresses.size == 2) {
-                if (lista[0].addresses.size > 2) {
-
-                    Log.d("Prueba", "Lista: $lista")
-                    val primaryName = lista[0].addresses[0].name
-                    val secondaryName = lista[0].addresses[1].name
-                    val primaryID = lista[0].addresses[0].id
-                    val secondaryID = lista[0].addresses[1].id
-                    Log.d("Prueba", "Primary: $primaryName, Secondary: $secondaryName")
-                    val primaryLat = lista[0].addresses[0].lat.toFloat()
-                    val primaryLon = lista[0].addresses[0].lon.toFloat()
-                    val secondaryLat = lista[0].addresses[1].lat.toFloat()
-                    val secondaryLon = lista[0].addresses[1].lon.toFloat()
-
-                    prefs.savePrimaryAddressID(primaryID)
-                    prefs.saveSecondaryAddressID(secondaryID)
-                    prefs.savePrimaryAddressLat(primaryLat)
-                    prefs.savePrimaryAddressLon(primaryLon)
-                    prefs.saveSecondaryAddressLat(secondaryLat)
-                    prefs.saveSecondaryAddressLon(secondaryLon)
-                    prefs.savePrimaryAddressName(primaryName)
-                    prefs.saveSecondaryAddressName(secondaryName)
-
-                    //Hecho en el Sync fragment
-                    //saveUserDataToFirestore(lista)
-
-                    Log.d(
-                        "Prueba",
-                        "PrimaryLat: $primaryLat, PrimaryLon: $primaryLon, SecondaryLat: $secondaryLat, SecondaryLon: $secondaryLon"
-                    )
-
-                    //TODO mejorar las condiciones de comprobación para distintas situaciones
-                    if (lista[0].addresses.size == 4){
-                        Log.d("Prueba", "Lista: $lista")
-                        val thirdName = lista[0].addresses[2].name
-                        val fourthName = lista[0].addresses[3].name
-                        val thirdID = lista[0].addresses[2].id
-                        val fourthID = lista[0].addresses[3].id
-                        Log.d("Prueba", "Primary: $primaryName, Secondary: $secondaryName")
-                        val thirdLat = lista[0].addresses[2].lat.toFloat()
-                        val thirdLon = lista[0].addresses[2].lon.toFloat()
-                        val fourthLat = lista[0].addresses[3].lat.toFloat()
-                        val fourthLon = lista[0].addresses[3].lon.toFloat()
-
-                        prefs.saveThirdAddressID(thirdID)
-                        prefs.saveFourthAddressID(fourthID)
-                        prefs.saveThirdAddressLat(thirdLat)
-                        prefs.saveThirdAddressLon(thirdLon)
-                        prefs.saveFourthAddressLat(fourthLat)
-                        prefs.saveFourthAddressLon(fourthLon)
-                        prefs.saveThirdAddressName(thirdName)
-                        prefs.saveFourthAddressName(fourthName)
-
-                        Log.d(
-                            "Prueba",
-                            "ThirdLat: $thirdLat, ThirdLon: $thirdLon, FourthLat: $fourthLat, FourthLon: $fourthLon"
-                        )
-                    }
-                }
-            }
-        }
-    }*/
-
-    private fun setup(userEmail: String, userID: Int) {
+    private fun setup(userEmail: String) {
         runOnUiThread {
             binding.txtEmail.text = userEmail
-            binding.txtId.text = userID.toString()
         }
 
         binding.btLogout.setOnClickListener {
@@ -348,7 +245,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnMainMenu.setOnClickListener {
-            val a = Intent(this, MainActivity2::class.java)
+            val a = Intent(this, MenuActivity::class.java)
             startActivity(a)
         }
 
@@ -366,21 +263,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnChart.setOnClickListener {
-            val a = Intent(this, ChartActivity::class.java)
-            startActivity(a)
-        }
-
         //AlarmScheduler para notificacion
         val scheduler = AndroidAlarmScheduler(this)
         var alarmItem: AlarmItem? = null
 
-        binding.btnNotificacionOn.setOnClickListener{
-            alarmItem = AlarmItem(8,"Notificacion")
+        binding.btnNotificacionOn.setOnClickListener {
+            alarmItem = AlarmItem(8, "Notificacion")
             alarmItem?.let(scheduler::schedule)
         }
 
-        binding.btnNotificacionOFF.setOnClickListener{
+        binding.btnNotificacionOFF.setOnClickListener {
             alarmItem?.let(scheduler::cancel)
         }
     }

@@ -35,21 +35,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
-        <activity
-            android:name=".maps.MapsActivity"
-            android:exported="true"
-            android:label="@string/title_activity_maps" />
-        <!--
-        <activity
-            android:name=".SplashScreen"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
         <service
             android:name=".location.LocationService"
             android:enabled="true"
@@ -77,11 +62,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MainActivity2"
+            android:name=".ui.MenuActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.SplashScreenActivity"
-            android:exported="false" /> <!-- Para programar el servicio de tracking -->
+<!-- Para programar el servicio de tracking -->
         <receiver
             android:name=".alarm.AlarmReceiver"
             android:exported="false">

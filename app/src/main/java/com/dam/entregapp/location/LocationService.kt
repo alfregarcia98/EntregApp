@@ -35,12 +35,8 @@ class LocationService : Service() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var locationClient: LocationClient
 
-    private val MIN_PROXIMITY = 100.0
+    private val MIN_PROXIMITY = 250.0
     private val UPDATE_INTERVAL = 300000L // 5min
-    //private val DYNAMIC_INTERVAL = prefs.getUpdateInterval()
-
-    //Prueba
-    private var wakeLock: PowerManager.WakeLock? = null
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
@@ -63,15 +59,6 @@ class LocationService : Service() {
     }
 
     private fun start() {
-
-        //Prueba
-        /*wakeLock =
-            (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
-                newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "LocationService::lock").apply {
-                    acquire()
-                }
-            }
-*/
         val intent = Intent(this, MainActivity::class.java)
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
@@ -191,13 +178,6 @@ class LocationService : Service() {
     private fun stop() {
         stopForeground(true)
         stopSelf()
-
-        //Prueba
-        /*        wakeLock?.let {
-                    if (it.isHeld) {
-                        it.release()
-                    }
-                }*/
     }
 
     override fun onDestroy() {

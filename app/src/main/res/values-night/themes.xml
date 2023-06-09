@@ -1,6 +1,48 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Theme.EntregApp" parent="Theme.Material3.Dark">
+    <style name="Theme.EntregApp" parent="Theme.Material3.Light">
+        <!-- Primary colors -->
+        <item name="colorPrimary">#009688</item>
+        <item name="colorPrimaryVariant">#00796B</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
 
+        <!-- Secondary colors -->
+        <item name="colorSecondary">#B9F6CA</item>
+        <item name="colorSecondaryVariant">#169C7D</item>
+        <item name="colorOnSecondary">#000000</item>
+
+        <!-- Surface color -->
+        <item name="colorSurface">#FFFFFF</item>
+
+        <!-- Background color -->
+        <item name="android:windowBackground">#F5F5F5</item>
+
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">#009688</item>
+
+        <!-- Other theme attributes -->
+<!--        <item name="android:actionBarSize">40dp</item>-->
+    </style>
+    <style name="Theme.EntregApp.NoActionBar" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Primary colors -->
+        <item name="colorPrimary">#009688</item>
+        <item name="colorPrimaryVariant">#00796B</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- Secondary colors -->
+        <item name="colorSecondary">#FF5722</item>
+        <item name="colorSecondaryVariant">#E64A19</item>
+        <item name="colorOnSecondary">#000000</item>
+
+        <!-- Surface color -->
+        <item name="colorSurface">#FFFFFF</item>
+
+        <!-- Background color -->
+        <item name="android:windowBackground">#F5F5F5</item>
+
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">#009688</item>
+
+        <!-- Customize your theme here. -->
     </style>
 </resources>

@@ -87,14 +87,14 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
 
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        binding.btnGuardar.setOnClickListener {
+/*        binding.btnGuardar.setOnClickListener {
             if (binding.addr1.editText!!.text.isNotEmpty() && binding.addr2.editText!!.text.isNotEmpty()) {
                 addAddress()
             }
             else {
                 Toast.makeText(context, "Rellene al menos dos direcciones", Toast.LENGTH_SHORT).show()
             }
-        }
+        }*/
 
         binding.btnUpdate.setOnClickListener {
             showPlacePicker()
@@ -207,7 +207,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
         }
     }
 
-    private fun addAddress() {
+/*    private fun addAddress() {
         addr1 = binding.addr1.editText?.text.toString()
         addr2 = binding.addr2.editText?.text.toString()
         addr3 = binding.addr3.editText?.text.toString()
@@ -300,7 +300,7 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
                 Toast.LENGTH_SHORT
             ).show()
         }
-    }
+    }*/
 
     private fun showPlacePicker() {
         val intent = PlacePicker.IntentBuilder()

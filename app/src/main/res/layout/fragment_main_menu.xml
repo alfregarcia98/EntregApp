@@ -36,7 +36,7 @@
             android:layout_below="@id/logo"
             android:layout_marginTop="32dp"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="40dp">
 
             <Button
                 android:id="@+id/btn_addr"
@@ -74,10 +74,10 @@
                 android:text="Programador de apagado"/>
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/reminder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Opción 6"/>
+                android:text="Recordatorio de activación"/>
         </LinearLayout>
     </ScrollView>
 
