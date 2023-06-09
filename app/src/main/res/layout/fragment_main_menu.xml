@@ -6,37 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.mainmenu.MainMenu">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:gravity="center"
-        android:text="Menú principal"
-        android:textSize="24sp" />
-
     <ImageView
         android:id="@+id/logo"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:src="@drawable/icon" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/logo">
 
         <LinearLayout
             android:id="@+id/buttonsContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/logo"
-            android:layout_marginTop="32dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="40dp">
+            android:padding="15dp">
 
             <Button
                 android:id="@+id/btn_addr"
@@ -64,21 +52,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="Sincroiza tus datos"/>
+                android:text="Sincroniza tus datos"/>
 
             <Button
-                android:id="@+id/btn_scheduler"
+                android:id="@+id/bt_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="Programador de apagado"/>
-
-            <Button
-                android:id="@+id/reminder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Recordatorio de activación"/>
+                android:text="Cerrar sesión"/>
         </LinearLayout>
+
     </ScrollView>
 
 </RelativeLayout>

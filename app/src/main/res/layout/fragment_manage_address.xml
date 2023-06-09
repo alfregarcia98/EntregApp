@@ -17,6 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="15dp"
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -24,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="12"
+                android:paddingRight="10dp"
                 android:hint="Primera dirección">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -70,7 +72,9 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:layout_weight="10"
                     android:orientation="vertical">
 
@@ -79,7 +83,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:text="lat:" />
 
                     <TextView
@@ -87,7 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:text="lon:" />
                 </LinearLayout>
 
@@ -117,6 +121,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -124,6 +129,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="12"
+                    android:paddingRight="10dp"
+
                     android:hint="Segunda dirección">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -169,7 +176,9 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:layout_weight="10"
                     android:orientation="vertical">
 
@@ -178,7 +187,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:text="lat:" />
 
                     <TextView
@@ -186,7 +195,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:text="lon:" />
                 </LinearLayout>
 
@@ -216,12 +225,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addr3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
                     android:layout_weight="12"
                     android:hint="Tercera dirección (Opcional)">
 
@@ -268,7 +279,9 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:layout_weight="10"
                     android:orientation="vertical">
 
@@ -277,7 +290,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:text="lat:" />
 
                     <TextView
@@ -285,7 +298,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:text="lon:" />
                 </LinearLayout>
 
@@ -315,6 +328,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -322,6 +336,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="12"
+                    android:paddingRight="10dp"
                     android:hint="Cuarta dirección (Opcional)">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -367,7 +382,9 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:layout_weight="10"
                     android:orientation="vertical">
 
@@ -376,7 +393,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:text="lat:" />
 
                     <TextView
@@ -384,7 +401,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:text="lon:" />
                 </LinearLayout>
 
@@ -443,25 +460,11 @@
                     </ScrollView>-->
 
             <Button
-                android:id="@+id/btn_guardar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Guardar" />
-
-            <Button
-                android:id="@+id/btn_update"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Actualizar" />
-
-            <Button
                 android:id="@+id/btn_guardarSinAPI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Guardar sin API" />
+                android:text="Guardar" />
 
             <Button
                 android:id="@+id/btn_erase"

@@ -117,7 +117,6 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
                         val doc = document.toObject<FirestoreDocument>()
                         if (doc != null) {
                             val addresses = doc.addresses
-                            //TODO comprobar que es la mejor solucion
                             userViewModel.deleteAllAddress()
                             var ids = 0
                             if (addresses != null) {

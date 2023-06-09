@@ -18,10 +18,10 @@
     <LinearLayout
         android:id="@+id/buttonsContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
         android:orientation="vertical"
-        android:padding="40dp">
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/txt_email"
@@ -29,53 +29,107 @@
             android:layout_height="wrap_content"
             android:text="UserEmail" />
 
-        <TextView
-            android:id="@+id/ubicacion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ubicación actual" />
-
-        <Button
-            android:id="@+id/btn_main_menu"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Menu Principal" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/startService"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Start Tracking" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/stopService"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Stop Tracking" />
+                <Button
+                    android:id="@+id/startService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Start Tracking" />
 
-        <Button
-            android:id="@+id/btn_chart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Direcciones" />
+                <Button
+                    android:id="@+id/stopService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Stop Tracking" />
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_notificacionOn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Activar recordatorio" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_notificacionOFF"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Desactivar recordatorio" />
+                <TextView
+                    android:id="@+id/txt_notificacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recordatorio de activación del servicio" />
 
-        <Button
-            android:id="@+id/bt_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cerrar sesión" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_notificacionOn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Activar" />
+
+                <Button
+                    android:id="@+id/btn_notificacionOFF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Desactivar" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_scheduler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Apagado automático del servicio" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_schedulerOn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Activar" />
+
+                <Button
+                    android:id="@+id/btn_schedulerOFF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Desactivar" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Configuración" />
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

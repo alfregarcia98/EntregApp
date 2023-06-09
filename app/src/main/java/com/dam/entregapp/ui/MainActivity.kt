@@ -22,7 +22,6 @@ import com.dam.entregapp.databinding.ActivityMainBinding
 import com.dam.entregapp.ui.fragments.manageaddress.ManageAddress
 import com.dam.entregapp.ui.viewmodels.MainViewModel
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
@@ -74,7 +73,6 @@ class MainActivity : AppCompatActivity() {
             var mensaje1 = bundle.getString("text")
             if (mensaje1 != null) {
                 Log.d(TAG, "Bundle: ${bundle.getString("text")}")
-                binding.ubicacion.text = mensaje1
                 alertCreator(mensaje1)
 
 
@@ -238,13 +236,7 @@ class MainActivity : AppCompatActivity() {
             binding.txtEmail.text = userEmail
         }
 
-        binding.btLogout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            prefs.wipe()
-            onBackPressed()
-        }
-
-        binding.btnMainMenu.setOnClickListener {
+        binding.btnSettings.setOnClickListener {
             val a = Intent(this, MenuActivity::class.java)
             startActivity(a)
         }
@@ -265,15 +257,25 @@ class MainActivity : AppCompatActivity() {
 
         //AlarmScheduler para notificacion
         val scheduler = AndroidAlarmScheduler(this)
-        var alarmItem: AlarmItem? = null
+        var notificationAlarmItem: AlarmItem? = null
+        var stopAlarmItem: AlarmItem? = null
 
         binding.btnNotificacionOn.setOnClickListener {
-            alarmItem = AlarmItem(8, "Notificacion")
-            alarmItem?.let(scheduler::schedule)
+            notificationAlarmItem = AlarmItem(8, "Notificacion")
+            notificationAlarmItem?.let(scheduler::schedule)
         }
 
         binding.btnNotificacionOFF.setOnClickListener {
-            alarmItem?.let(scheduler::cancel)
+            notificationAlarmItem?.let(scheduler::cancel)
+        }
+
+        binding.btnSchedulerOn.setOnClickListener {
+            stopAlarmItem = AlarmItem(22, "Alarma de detencion")
+            stopAlarmItem?.let(scheduler::schedule)
+        }
+
+        binding.btnSchedulerOFF.setOnClickListener {
+            stopAlarmItem?.let(scheduler::cancel)
         }
     }
 }

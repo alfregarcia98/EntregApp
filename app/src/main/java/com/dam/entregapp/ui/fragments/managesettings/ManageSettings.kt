@@ -49,12 +49,6 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
         binding.btnGuardar.setOnClickListener {
             updateUserDB()
         }
-
-/*        binding.btnTemporal.setOnClickListener {
-            addUserDB()
-        }*/
-
-
     }
 
     private fun updateUserDB() {
@@ -103,27 +97,4 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
             Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
         }
     }
-
-    //TODO crear para que?
-/*    private fun addUserDB() {
-        //Get text from editTexts
-        name = binding.name.editText?.text.toString()
-        email = binding.email.editText?.text.toString()
-        password = binding.password.editText?.text.toString()
-        telephone = binding.telephone.editText?.text.toString().toInt()
-
-        //Check that the form is complete before submitting data to the database
-        if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone == 0)) {
-            val user = User(0, name, email, password, telephone)
-
-            //add the user if all the fields are filled
-            userViewModel.addUser(user)
-            Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_SHORT).show()
-
-            //navigate back to our home fragment
-            findNavController().navigate(R.id.action_manageSettings_to_mainMenu)
-        } else {
-            Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
-        }
-    }*/
 }

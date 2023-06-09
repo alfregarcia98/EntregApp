@@ -96,10 +96,6 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
             }
         }*/
 
-        binding.btnUpdate.setOnClickListener {
-            showPlacePicker()
-        }
-
         binding.btnGuardarSinAPI.setOnClickListener {
             if (binding.addr1.editText!!.text.isNotEmpty() && binding.addr2.editText!!.text.isNotEmpty()) {
                 addAddressessNoAPI()

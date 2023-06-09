@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dam.entregapp.R
 import com.dam.entregapp.databinding.FragmentMainMenuBinding
+import com.dam.entregapp.location.LocationApp
+import com.google.firebase.auth.FirebaseAuth
 
 class MainMenu : Fragment(R.layout.fragment_main_menu) {
 
@@ -46,12 +48,17 @@ class MainMenu : Fragment(R.layout.fragment_main_menu) {
             findNavController().navigate(R.id.action_mainMenu_to_statistics)
         }
 
-        binding.btnScheduler.setOnClickListener {
-            findNavController().navigate(R.id.action_mainMenu_to_schedulerFragment)
-        }
-
         binding.btnSync.setOnClickListener {
             findNavController().navigate(R.id.action_mainMenu_to_syncFragment)
+        }
+
+        binding.btLogout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            LocationApp.prefs.wipe()
+            if (getActivity() != null) {
+                getActivity()?.finishAffinity();
+
+            }
         }
     }
 
