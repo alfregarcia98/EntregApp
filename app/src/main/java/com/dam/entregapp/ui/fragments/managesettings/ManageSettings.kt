@@ -13,19 +13,22 @@ import com.dam.entregapp.location.LocationApp.Companion.prefs
 import com.dam.entregapp.R
 import com.dam.entregapp.data.model.User
 import com.dam.entregapp.databinding.FragmentManageSettingsBinding
+import com.dam.entregapp.firestore.FirestoreUser
 import com.dam.entregapp.ui.viewmodels.UserViewModel
 import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 
 class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
 
     private lateinit var userViewModel: UserViewModel
-    private var name = ""
-    private var email = ""
-    private var password = ""
+    private var oldpassword = ""
+    private var newpassword = ""
+    private var newpassword2 = ""
     private var telephone = ""
 
     private var _binding: FragmentManageSettingsBinding? = null
@@ -51,56 +54,94 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
-        binding.btnGuardar.setOnClickListener {
+        binding.btnCambioContrasena.setOnClickListener {
             updateUserDB()
+        }
+
+        binding.btnGuardarTelefono.setOnClickListener {
+            updateTelefono()
+        }
+    }
+
+    private fun updateTelefono() {
+        telephone = binding.telephone.editText?.text.toString()
+        if (!(telephone.isEmpty())) {
+            val user =
+                User(prefs.getCurrentUserID(), prefs.getName(), prefs.getEmail(), "no necesario" ,telephone.toInt())
+            //add the user if all the fields are filled
+            userViewModel.addUser(user)
+
+            val userFirestore = FirestoreUser(prefs.getEmail(),prefs.getName(),telephone)
+            FirebaseAuth.getInstance().currentUser?.let {
+                FirebaseFirestore.getInstance().collection("users").document(it.uid).set(userFirestore)
+            }
+            Toast.makeText(context, "Número de teléfono actualizado correctamente", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_manageSettings_to_mainMenu)
+        }
+        else{
+            Toast.makeText(context, "Introduce un número de teléfono", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun updateUserDB() {
         //Get text from editTexts
-        name = binding.name.editText?.text.toString()
-        email = binding.email.editText?.text.toString()
-        password = binding.password.editText?.text.toString()
-        telephone = binding.telephone.editText?.text.toString()
+        oldpassword = binding.oldPassword.editText?.text.toString()
+        newpassword = binding.newPassword.editText?.text.toString()
+        newpassword2 = binding.newPassword2.editText?.text.toString()
 
         //Check that the form is complete before submitting data to the database
-        if (!(name.isEmpty() || email.isEmpty() || password.isEmpty() || telephone.isEmpty())) {
-            val user = User(prefs.getCurrentUserID(), name, email, password, telephone.toInt())
+        if (!(oldpassword.isEmpty() || newpassword.isEmpty() || newpassword2.isEmpty())) {
+            if (newpassword == newpassword2) {
+                val user =
+                    User(prefs.getCurrentUserID(), prefs.getName(), prefs.getEmail(), newpassword,prefs.getPhone().toInt())
+                //add the user if all the fields are filled
+                userViewModel.addUser(user)
+                val userFirebase = Firebase.auth.currentUser
+                val newPassword = newpassword
 
-            //add the user if all the fields are filled
+                try {
+                    if (userFirebase != null) {
+                        val credential =
+                            EmailAuthProvider.getCredential(userFirebase.email!!, oldpassword)
 
-            //TODO actualizar online tambien
-
-            val userFirebase = Firebase.auth.currentUser
-            val newPassword = password
-            try {
-                userFirebase!!.updatePassword(newPassword)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Log.d("FirebaseUpdate", "User password updated.")
-                        } else {
-                            Log.d("FirebaseUpdate", "User password not updated.")
-                        }
+                        userFirebase.reauthenticate(credential)
+                            .addOnCompleteListener { reauthTask ->
+                                if (reauthTask.isSuccessful) {
+                                    // Re-authentication successful, update the password
+                                    userFirebase.updatePassword(newPassword)
+                                        .addOnCompleteListener { updateTask ->
+                                            if (updateTask.isSuccessful) {
+                                                Log.d("FirebaseUpdate", "User password updated.")
+                                                Toast.makeText(context, "Contraseña actualizada correctamente", Toast.LENGTH_SHORT).show()
+                                                findNavController().navigate(R.id.action_manageSettings_to_mainMenu)
+                                            } else {
+                                                Toast.makeText(context, "Error: ${updateTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                                                Log.d(
+                                                    "FirebaseUpdate",
+                                                    "User password not updated. Error: ${updateTask.exception?.message}"
+                                                )
+                                            }
+                                        }
+                                } else {
+                                    Toast.makeText(context, "Error: ${reauthTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                                    Log.d(
+                                        "FirebaseUpdate",
+                                        "User re-authentication failed. Error: ${reauthTask.exception?.message}"
+                                    )
+                                }
+                            }
+                    } else {
+                        Log.d("FirebaseUpdate", "User is null.")
                     }
-            }catch (e: FirebaseAuthRecentLoginRequiredException) {
-                val credential = EmailAuthProvider
-                    .getCredential(prefs.getEmail(), "lolalola")
+                } catch (e: Exception) {
+                    Log.e("FirebaseUpdate", "Error updating user password: ${e.message}")
+                }
 
-                // Prompt the user to re-provide their sign-in credentials
-                userFirebase?.reauthenticate(credential)
-                    ?.addOnCompleteListener { Log.d("FirebaseUpdate", "User re-authenticated.") }
-                Log.d("FirebaseUpdate", "$e")
+            } else {
+                Toast.makeText(context, "La nuevas contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             }
-
-            userViewModel.updateUser(user)
-            Toast.makeText(context, "Datos modificados correctamente", Toast.LENGTH_SHORT).show()
-
-
-
-            //navigate back to our home fragment
-            findNavController().navigate(R.id.action_manageSettings_to_mainMenu)
         } else {
-            Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
         }
     }
 }
