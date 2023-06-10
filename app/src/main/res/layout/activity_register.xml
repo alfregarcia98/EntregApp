@@ -13,11 +13,12 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="187dp"
-        android:layout_height="137dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        app:srcCompat="@drawable/icon" />
+        android:layout_marginBottom="5dp"
+        app:srcCompat="@drawable/logistics_delivery" />
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usuario"
         android:layout_width="300dp"
@@ -63,7 +64,8 @@
         android:minHeight="40dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="Contraseña">
+        android:hint="Contraseña"
+        app:endIconMode="password_toggle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -77,7 +79,8 @@
         android:minHeight="40dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="Repita contraseña">
+        android:hint="Repita contraseña"
+        app:endIconMode="password_toggle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"

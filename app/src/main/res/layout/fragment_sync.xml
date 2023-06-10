@@ -5,99 +5,46 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.sincronizar.SyncFragment">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:src="@drawable/sincronizar" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/addr1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:hint="Dirección principal: " />
-
-                <TextView
-                    android:id="@+id/addr1_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:hint="nombre" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/addr2"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Dirección secundaria: " />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/addr2_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="nombre" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="User: "
+                        android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/addr3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Dirección tercera: " />
-
-                <TextView
-                    android:id="@+id/addr3_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="nombre" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/addr4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Dirección cuarta: " />
-
-                <TextView
-                    android:id="@+id/addr4_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="nombre" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/user"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="User: " />
-
-                <TextView
-                    android:id="@+id/user_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="usuario" />
+                    <TextView
+                        android:id="@+id/user_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="usuario" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -105,18 +52,30 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/addr"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Direcciones: " />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/address_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="direcciones" />
+                    <TextView
+                        android:id="@+id/addr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Direcciones: "
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/address_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="direcciones" />
+                </LinearLayout>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btn_subir"

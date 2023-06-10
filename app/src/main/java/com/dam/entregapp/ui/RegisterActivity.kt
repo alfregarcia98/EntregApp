@@ -45,15 +45,6 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun showAlert() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Error")
-        builder.setMessage("Se ha producido un error registrando al ususario")
-        builder.setPositiveButton("Aceptar", null)
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
-
     private fun showHome(email: String) {
 
         val homeIntent = Intent(this, MainActivity::class.java).apply {
@@ -80,25 +71,26 @@ class RegisterActivity : AppCompatActivity() {
         } else {
             Log.d("Registro", "Antes de registrar")
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailText, contrasenaText)
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
                         val user =
                             User(0, usuarioText, emailText, contrasenaText, phoneText.toInt())
                         registerViewModel.addUser(user)
 
                         //Almacenamos el usuario en firestore
-                        //addUserToFirestore(usuarioText, phoneText)
-
-                        val userFirestore = FirestoreUser(emailText,usuarioText,phoneText)
+                        val userFirestore = FirestoreUser(emailText, usuarioText, phoneText)
                         saveUser(userFirestore)
-
-
-                        Log.d("Registro", "Pues parece que funciona")
-                        showHome(it.result?.user?.email.toString())
+                        showHome(task.result?.user?.email.toString())
                     } else {
-                        showAlert()
+                        Log.d("Registro", "createUserWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            baseContext,
+                            "Register Failed: ${task.exception?.message}",
+                            Toast.LENGTH_SHORT,
+                        ).show()
                     }
                 }
+
         }
     }
 

@@ -48,11 +48,16 @@ class LoginActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(
                     binding.email.editText?.text.toString(),
                     binding.password.editText?.text.toString()
-                ).addOnCompleteListener {
-                    if (it.isSuccessful) {
+                ).addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
                         userFromFirestore()
                     } else {
-                        showAlert()
+                        Log.d("Login", "createUserWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            baseContext,
+                            "LogIn Failed: ${task.exception?.message}",
+                            Toast.LENGTH_SHORT,
+                        ).show()
                     }
                 }
             }

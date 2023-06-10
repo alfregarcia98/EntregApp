@@ -77,11 +77,6 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
     }
 
     private fun setup() = CoroutineScope(Dispatchers.IO).launch {
-        binding.addr1Name.text = prefs.getPrimaryAddressName()
-        binding.addr2Name.text = prefs.getSecondaryAddressName()
-        binding.addr3Name.text = prefs.getThirdAddressName()
-        binding.addr4Name.text = prefs.getFourthAddressName()
-
         lista = userViewModel.getUserWithAddress(prefs.getCurrentUserID())
         if (lista.isNotEmpty()) {
             requireActivity().runOnUiThread {

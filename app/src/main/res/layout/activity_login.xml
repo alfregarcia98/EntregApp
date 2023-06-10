@@ -13,11 +13,11 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="239dp"
-            android:layout_height="176dp"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             android:layout_gravity="center"
-            android:layout_marginTop="80dp"
-            app:srcCompat="@drawable/icon" />
+            android:layout_marginTop="50dp"
+            app:srcCompat="@drawable/logistics_delivery" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email"
@@ -39,7 +39,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="0dp"
             android:hint="contraseña"
-            app:endIconMode="password_toggle">>
+            app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
