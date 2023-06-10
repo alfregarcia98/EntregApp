@@ -29,21 +29,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getUserWithAddress(id)
     }
 
-    fun addTracking(tracking: TrackingData) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.addTrackingData(tracking)
-        }
-    }
-
-    suspend fun deleteAllTrackingData() {
-        repository.deleteAllTrackingData()
-    }
-
     suspend fun saveUserPrefs(userID: Int) {
         val lista = getUserWithAddress(userID)
         if (lista.isNotEmpty()) {
-            var username = lista[0].user.name
-            var phone = lista[0].user.telephone.toString()
+            val username = lista[0].user.name
+            val phone = lista[0].user.telephone.toString()
             prefs.saveName(username)
             prefs.savePhone(phone)
             Log.d("Prueba", "Lista: $lista")
@@ -80,7 +70,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         "PrimaryLat: $primaryLat, PrimaryLon: $primaryLon, SecondaryLat: $secondaryLat, SecondaryLon: $secondaryLon"
                     )
 
-                    if (lista[0].addresses.size == 3) {
+                    if (lista[0].addresses.size >= 3) {
                         Log.d("Prueba", "Lista: $lista")
                         val thirdName = lista[0].addresses[2].name
                         val thirdID = lista[0].addresses[2].id

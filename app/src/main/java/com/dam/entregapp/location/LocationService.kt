@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.IBinder
-import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.dam.entregapp.R
@@ -65,7 +64,7 @@ class LocationService : Service() {
 
         val notification = NotificationCompat.Builder(this, "location")
             .setContentTitle("Tracking location...")
-            .setContentText("Location: null")
+            .setContentText("GPS no habilitado, activelo y reinicie el servicio")
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(pendingIntent)
             .setOngoing(true)
@@ -166,7 +165,7 @@ class LocationService : Service() {
                 lat = currentLocation.latitude
                 long = currentLocation.longitude
                 val updatedNotification = notification.setContentText("Location: ($lat, $long)")
-                Log.d("LOCATION_UPDATE", "Ubicacion: $lat, $long")
+                Log.d("LOCATION_UPDATE", "Ubicacion: $lat., $long")
 
                 notificationManager.notify(1, updatedNotification.build())
             }
