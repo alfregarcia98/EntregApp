@@ -5,10 +5,12 @@ import android.app.AlertDialog
 import android.content.BroadcastReceiver
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -263,19 +265,41 @@ class MainActivity : AppCompatActivity() {
         binding.btnNotificacionOn.setOnClickListener {
             notificationAlarmItem = AlarmItem(8, "Notificacion")
             notificationAlarmItem?.let(scheduler::schedule)
+
+            Toast.makeText(
+                this,
+                "Recordatorio activo a las: 8:00",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         binding.btnNotificacionOFF.setOnClickListener {
             notificationAlarmItem?.let(scheduler::cancel)
+            Toast.makeText(
+                this,
+                "Recordatorio desactivado",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         binding.btnSchedulerOn.setOnClickListener {
             stopAlarmItem = AlarmItem(22, "Alarma de detencion")
             stopAlarmItem?.let(scheduler::schedule)
+
+            Toast.makeText(
+                this,
+                "Apagado automático configurado a las: 22:00",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         binding.btnSchedulerOFF.setOnClickListener {
             stopAlarmItem?.let(scheduler::cancel)
+            Toast.makeText(
+                this,
+                "Apagado automático desactivado",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }

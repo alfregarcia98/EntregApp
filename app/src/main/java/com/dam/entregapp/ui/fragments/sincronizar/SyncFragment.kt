@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.dam.entregapp.location.LocationApp.Companion.prefs
 import com.dam.entregapp.R
 import com.dam.entregapp.data.database.relations.UserWithAddress
@@ -60,10 +61,16 @@ class SyncFragment : Fragment(R.layout.fragment_sync) {
 
         binding.btnSubir.setOnClickListener {
             sync()
+            Toast.makeText(context, "Datos subidos correctamente", Toast.LENGTH_SHORT).show()
+            //navigate back to our home fragment
+            findNavController().navigate(R.id.action_syncFragment_to_mainMenu)
         }
 
         binding.btnRecuperar.setOnClickListener {
             restore()
+            Toast.makeText(context, "Datos recuperados correctamente", Toast.LENGTH_SHORT).show()
+            //navigate back to our home fragment
+            findNavController().navigate(R.id.action_syncFragment_to_mainMenu)
         }
 
         setup()

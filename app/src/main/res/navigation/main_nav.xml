@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/mainMenu"
-        android:name="com.dam.entregapp.ui.fragments.mainmenu.MainMenu"
-        android:label="Menu Principal"
-        tools:layout="@layout/fragment_main_menu">
+        android:name="com.dam.entregapp.ui.fragments.settingsmenu.SettingsMenu"
+        android:label="Configuración"
+        tools:layout="@layout/fragment_settings_menu">
         <action
             android:id="@+id/action_mainMenu_to_manageAddress"
             app:destination="@id/manageAddress" />
@@ -19,9 +19,6 @@
         <action
             android:id="@+id/action_mainMenu_to_statistics"
             app:destination="@id/statistics" />
-        <action
-            android:id="@+id/action_mainMenu_to_schedulerFragment"
-            app:destination="@id/schedulerFragment" />
         <action
             android:id="@+id/action_mainMenu_to_syncFragment"
             app:destination="@id/syncFragment" />
@@ -52,15 +49,6 @@
         tools:layout="@layout/fragment_statistics">
         <action
             android:id="@+id/action_statistics_to_mainMenu"
-            app:destination="@id/mainMenu" />
-    </fragment>
-    <fragment
-        android:id="@+id/schedulerFragment"
-        android:name="com.dam.entregapp.ui.fragments.scheduler.SchedulerFragment"
-        android:label="Programador"
-        tools:layout="@layout/fragment_scheduler" >
-        <action
-            android:id="@+id/action_schedulerFragment_to_mainMenu"
             app:destination="@id/mainMenu" />
     </fragment>
     <fragment

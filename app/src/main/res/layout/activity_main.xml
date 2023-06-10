@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
     <LinearLayout
         android:id="@+id/buttonsContainer"
         android:layout_width="match_parent"
@@ -44,12 +43,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
                     android:text="Start Tracking" />
 
                 <Button
                     android:id="@+id/stopService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:text="Stop Tracking" />
             </LinearLayout>
@@ -77,6 +78,7 @@
                     android:id="@+id/btn_notificacionOn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:text="Activar" />
 
@@ -84,6 +86,7 @@
                     android:id="@+id/btn_notificacionOFF"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:text="Desactivar" />
             </LinearLayout>
@@ -110,6 +113,7 @@
                     android:id="@+id/btn_schedulerOn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:text="Activar" />
 
@@ -117,6 +121,7 @@
                     android:id="@+id/btn_schedulerOFF"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:text="Desactivar" />
             </LinearLayout>

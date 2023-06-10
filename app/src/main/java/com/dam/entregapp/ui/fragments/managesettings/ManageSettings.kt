@@ -1,6 +1,7 @@
 package com.dam.entregapp.ui.fragments.managesettings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,10 @@ import com.dam.entregapp.R
 import com.dam.entregapp.data.model.User
 import com.dam.entregapp.databinding.FragmentManageSettingsBinding
 import com.dam.entregapp.ui.viewmodels.UserViewModel
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
@@ -65,7 +70,7 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
             //add the user if all the fields are filled
 
             //TODO actualizar online tambien
-/*
+
             val userFirebase = Firebase.auth.currentUser
             val newPassword = password
             try {
@@ -79,15 +84,16 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
                     }
             }catch (e: FirebaseAuthRecentLoginRequiredException) {
                 val credential = EmailAuthProvider
-                    .getCredential(prefs.getEmail(), "alfredo")
+                    .getCredential(prefs.getEmail(), "lolalola")
 
                 // Prompt the user to re-provide their sign-in credentials
                 userFirebase?.reauthenticate(credential)
                     ?.addOnCompleteListener { Log.d("FirebaseUpdate", "User re-authenticated.") }
                 Log.d("FirebaseUpdate", "$e")
-            }*/
+            }
+
             userViewModel.updateUser(user)
-            Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Datos modificados correctamente", Toast.LENGTH_SHORT).show()
 
 
 

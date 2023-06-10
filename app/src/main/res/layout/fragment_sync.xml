@@ -133,12 +133,5 @@
                 android:layout_height="wrap_content"
                 android:text="Recuperar datos" />
 
-            <Button
-                android:id="@+id/btn_nada2"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nada" />
-
         </LinearLayout>
     </FrameLayout>

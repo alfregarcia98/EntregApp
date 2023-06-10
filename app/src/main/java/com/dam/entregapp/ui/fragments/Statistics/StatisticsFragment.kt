@@ -59,14 +59,16 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         binding.btnBorrar.setOnClickListener {
             borrarTracking()
+            Toast.makeText(context, "Tracking eliminado correctamente", Toast.LENGTH_SHORT).show()
+            //navigate back to our home fragment
+            findNavController().navigate(R.id.action_statistics_to_mainMenu)
         }
 
         binding.btnEnviar.setOnClickListener {
             submitStatistics()
 
             //TODO mejorar lugar
-            Toast.makeText(context, "Estadísticas enviadas correctamente!", Toast.LENGTH_SHORT).show()
-
+            Toast.makeText(context, "Estadísticas enviadas correctamente", Toast.LENGTH_SHORT).show()
             //navigate back to our home fragment
             findNavController().navigate(R.id.action_statistics_to_mainMenu)
         }

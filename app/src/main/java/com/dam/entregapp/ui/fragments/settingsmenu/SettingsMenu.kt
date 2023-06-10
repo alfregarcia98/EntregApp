@@ -1,4 +1,4 @@
-package com.dam.entregapp.ui.fragments.mainmenu
+package com.dam.entregapp.ui.fragments.settingsmenu
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,16 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dam.entregapp.R
-import com.dam.entregapp.databinding.FragmentMainMenuBinding
+import com.dam.entregapp.databinding.FragmentSettingsMenuBinding
 import com.dam.entregapp.location.LocationApp
 import com.google.firebase.auth.FirebaseAuth
 
-class MainMenu : Fragment(R.layout.fragment_main_menu) {
+class SettingsMenu : Fragment(R.layout.fragment_settings_menu) {
 
-    private var _binding: FragmentMainMenuBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentSettingsMenuBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -24,7 +21,7 @@ class MainMenu : Fragment(R.layout.fragment_main_menu) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingsMenuBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
     }
