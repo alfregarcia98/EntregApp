@@ -14,13 +14,6 @@ class AndroidAlarmScheduler(
     private val context: Context
 ) : AlarmScheduler {
 
-    /*val calendar: Calendar = Calendar.getInstance().apply {
-        timeInMillis = System.currentTimeMillis()
-        set(Calendar.HOUR_OF_DAY, 21)
-        set(Calendar.MINUTE, 0)
-        set(Calendar.SECOND, 0)
-    }*/
-
     private val alarmManager = context.getSystemService(AlarmManager::class.java)
 
     override fun schedule(item: AlarmItem) {

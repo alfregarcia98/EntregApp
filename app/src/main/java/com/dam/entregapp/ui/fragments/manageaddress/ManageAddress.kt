@@ -21,7 +21,6 @@ import com.dam.entregapp.R
 import com.dam.entregapp.data.model.Address
 import com.dam.entregapp.databinding.FragmentManageAddressBinding
 import com.dam.entregapp.logic.utils.Calculations
-import com.dam.entregapp.logic.utils.Geocoder
 import com.dam.entregapp.ui.viewmodels.UserViewModel
 import com.sucho.placepicker.AddressData
 import com.sucho.placepicker.Constants
@@ -86,16 +85,6 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-
-/*        binding.btnGuardar.setOnClickListener {
-            if (binding.addr1.editText!!.text.isNotEmpty() && binding.addr2.editText!!.text.isNotEmpty()) {
-                addAddress()
-            }
-            else {
-                Toast.makeText(context, "Rellene al menos dos direcciones", Toast.LENGTH_SHORT).show()
-            }
-        }*/
-
         binding.btnGuardarSinAPI.setOnClickListener {
             if (binding.addr1.editText!!.text.isNotEmpty() && binding.addr2.editText!!.text.isNotEmpty()) {
                 addAddressessNoAPI()
@@ -128,18 +117,6 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
             indice = 4
             showPlacePicker()
         }
-
-        /* binding.btnAddAddr.setOnClickListener {
-             val editText = EditText(context)
-             editText.hint = "Dirección"
-             editText.layoutParams = LinearLayout.LayoutParams(
-                 LinearLayout.LayoutParams.MATCH_PARENT,
-                 LinearLayout.LayoutParams.WRAP_CONTENT
-             )
-             editText.inputType = InputType.TYPE_CLASS_TEXT
-
-             binding.layoutDirecciones.addView(editText, binding.layoutDirecciones.childCount - 1)
-         }*/
         pickTime()
     }
 
@@ -202,101 +179,6 @@ class ManageAddress : Fragment(R.layout.fragment_manage_address),
 
         }
     }
-
-/*    private fun addAddress() {
-        addr1 = binding.addr1.editText?.text.toString()
-        addr2 = binding.addr2.editText?.text.toString()
-        addr3 = binding.addr3.editText?.text.toString()
-        addr4 = binding.addr4.editText?.text.toString()
-        //Check that the form is complete before submitting data to the database
-        if (!(addr1.isEmpty() || addr2.isEmpty())) {
-
-            Geocoder.getGeocoder(
-                address = addr1,
-                onResult = { (lon, lat) ->
-                    val primaryAddress =
-                        Address(
-                            0,
-                            prefs.getCurrentUserID(),
-                            addr1,
-                            cleanTimePrimaryStart,
-                            cleanTimePrimaryEnd,
-                            lon,
-                            lat
-                        )
-                    userViewModel.addAddress(primaryAddress)
-                }
-            )
-
-            Geocoder.getGeocoder(
-                address = addr2,
-                onResult = { (lon, lat) ->
-                    val secondaryAddress =
-                        Address(
-                            0,
-                            prefs.getCurrentUserID(),
-                            addr2,
-                            cleanTimeSecondaryStart,
-                            cleanTimeSecondaryEnd,
-                            lon,
-                            lat
-                        )
-                    userViewModel.addAddress(secondaryAddress)
-                }
-            )
-
-            if (addr3.isNotEmpty()) {
-
-                Geocoder.getGeocoder(
-                    address = addr3,
-                    onResult = { (lon, lat) ->
-                        val thirdAddress =
-                            Address(
-                                0,
-                                prefs.getCurrentUserID(),
-                                addr3,
-                                cleanTimeThirdStart,
-                                cleanTimeThirdEnd,
-                                lon,
-                                lat
-                            )
-                        userViewModel.addAddress(thirdAddress)
-                    }
-                )
-
-            }
-            if (addr4.isNotEmpty()) {
-
-                Geocoder.getGeocoder(
-                    address = addr4,
-                    onResult = { (lon, lat) ->
-                        val fourthAddress =
-                            Address(
-                                0,
-                                prefs.getCurrentUserID(),
-                                addr4,
-                                cleanTimeFourthStart,
-                                cleanTimeFourthEnd,
-                                lon,
-                                lat
-                            )
-                        userViewModel.addAddress(fourthAddress)
-                    }
-                )
-            }
-
-            Toast.makeText(context, "Address saved successfully!", Toast.LENGTH_SHORT).show()
-
-            //navigate back to our home fragment
-            findNavController().navigate(R.id.action_manageAddress_to_mainMenu)
-        } else {
-            Toast.makeText(
-                context,
-                "Please fill at least the two first addresses",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }*/
 
     private fun showPlacePicker() {
         val intent = PlacePicker.IntentBuilder()

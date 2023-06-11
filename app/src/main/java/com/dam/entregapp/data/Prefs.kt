@@ -8,7 +8,6 @@ class Prefs(val context: Context) {
     val SHARED_USERNAME = "username"
     val SHARED_EMAIL = "email"
     val SHARED_PHONE = "phone"
-    val SHARED_PASSWORD = "password"
     val SHARED_USERID = "userID"
     val SHARED_DEVICEID = "deviceID"
     val SHARED_AUTHID = "AuthID"
@@ -209,14 +208,6 @@ class Prefs(val context: Context) {
 
     fun getFourthAddressName(): String {
         return storage.getString(SHARED_FOURTHNAME, "")!!
-    }
-
-    fun saveUpdateInterval(updateInterval: Float) {
-        storage.edit().putFloat(SHARED_INTERVAL, updateInterval).apply()
-    }
-
-    fun getUpdateInterval(): Float {
-        return storage.getFloat(SHARED_INTERVAL, 0.0F)!!
     }
 
     fun wipe() {

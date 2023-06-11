@@ -58,6 +58,5 @@ class SettingsMenu : Fragment(R.layout.fragment_settings_menu) {
             }
         }
     }
-
 }
 

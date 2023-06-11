@@ -42,17 +42,6 @@ class AlarmReceiver : BroadcastReceiver() {
             notificationManager.notify(2, notification.build())
             Log.d("Alarma", "Deberia saltar")
         }
-
-        //No funciona porque hay un timeout de 5 segundos en el framework de android que provoca que de error
-        /*else if (intent.action.equals("START_TEST_SERVICE", ignoreCase = true)) {
-            if (isMyServiceRunning(context, LocationService::class.java)) {
-                Toast.makeText(context, "Service is already running!!", Toast.LENGTH_LONG)
-                    .show()
-            } else {
-                context.startForegroundService(Intent(context, LocationService::class.java))
-                Toast.makeText(context, "Service not running. Starting service...", Toast.LENGTH_LONG).show()
-            }
-        }*/
     }
 
     private fun isMyServiceRunning(context: Context, serviceClass: Class<*>): Boolean {
