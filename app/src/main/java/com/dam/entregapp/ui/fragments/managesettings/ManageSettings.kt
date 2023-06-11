@@ -67,7 +67,7 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
         telephone = binding.telephone.editText?.text.toString()
         if (!(telephone.isEmpty())) {
             val user =
-                User(prefs.getCurrentUserID(), prefs.getName(), prefs.getEmail(), "no necesario" ,telephone.toInt())
+                User(prefs.getCurrentUserID(), prefs.getName(), prefs.getEmail(), telephone.toInt())
             //add the user if all the fields are filled
             userViewModel.addUser(user)
 
@@ -93,7 +93,7 @@ class ManageSettings : Fragment(R.layout.fragment_manage_settings) {
         if (!(oldpassword.isEmpty() || newpassword.isEmpty() || newpassword2.isEmpty())) {
             if (newpassword == newpassword2) {
                 val user =
-                    User(prefs.getCurrentUserID(), prefs.getName(), prefs.getEmail(), newpassword,prefs.getPhone().toInt())
+                    User(prefs.getCurrentUserID(), prefs.getName(), prefs.getEmail(), prefs.getPhone().toInt())
                 //add the user if all the fields are filled
                 userViewModel.addUser(user)
                 val userFirebase = Firebase.auth.currentUser

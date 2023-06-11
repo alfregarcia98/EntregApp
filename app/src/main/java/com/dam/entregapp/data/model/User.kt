@@ -12,6 +12,5 @@ data class User(
     var id: Int,
     val name: String,
     val email: String,
-    val password: String,
     val telephone: Int
 ) : Parcelable

@@ -74,7 +74,7 @@ class RegisterActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         val user =
-                            User(0, usuarioText, emailText, contrasenaText, phoneText.toInt())
+                            User(0, usuarioText, emailText, phoneText.toInt())
                         registerViewModel.addUser(user)
 
                         //Almacenamos el usuario en firestore

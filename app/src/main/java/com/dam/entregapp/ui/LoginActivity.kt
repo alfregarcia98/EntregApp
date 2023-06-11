@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -110,7 +109,6 @@ class LoginActivity : AppCompatActivity() {
                 0,
                 firestoreUser.username,
                 firestoreUser.email,
-                "no es necesario",
                 firestoreUser.phone.toInt()
             )
 
@@ -121,15 +119,6 @@ class LoginActivity : AppCompatActivity() {
 
         Log.d("LogIn", "Usuario a la base de datos local: $user")
 
-    }
-
-    private fun showAlert() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Error")
-        builder.setMessage("Se ha producido un error autenticando al ususario")
-        builder.setPositiveButton("Aceptar", null)
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
     }
 
     private fun showHome(email: String) {
