@@ -26,6 +26,25 @@ class StatisticsService(private val userViewModel: UserViewModel) {
         val statistics = ProcessedStatistics(startHour, endHour, 60)
         statistics.addressIds = nonZeroAddresses
 
+/*        statistics.addressIds = listOf(1,2,3,4)
+
+        statistics.data = arrayListOf(
+            arrayListOf(99.0, -1.0, -1.0, -1.0),
+            arrayListOf(99.0, -1.0, -1.0, -1.0),
+            arrayListOf(99.0, -1.0, -1.0, -1.0),
+            arrayListOf(99.0, -1.0, -1.0, -1.0),
+            arrayListOf(40.0, 50.0, -1.0, -1.0),
+            arrayListOf(0.0, 90.0, -1.0, -1.0),
+            arrayListOf(0.0, 90.0, -1.0, -1.0),
+            arrayListOf(70.0, 30.0, -1.0, -1.0),
+            arrayListOf(80.0, -1.0, -1.0, -1.0),
+            arrayListOf(80.0, -1.0, -1.0, -1.0),
+            arrayListOf(22.0, -1.0, 10.0, -1.0),
+            arrayListOf(13.0, -1.0, 20.0, 5.0),
+            arrayListOf(50.0, -1.0, 29.0, 5.0),
+            arrayListOf(88.0, -1.0, -1.0, -1.0)
+        )*/
+
         for (hour in startHour until endHour) {
             var data_point_count = 0
             for (address in uniqueAddressIds) {
