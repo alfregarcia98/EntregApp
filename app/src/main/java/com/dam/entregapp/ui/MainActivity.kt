@@ -52,12 +52,6 @@ class MainActivity : AppCompatActivity() {
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         title = "EntregApp"
 
-
-        /*        //AlarmScheduler
-                val scheduler = AndroidAlarmScheduler(this)
-                var alarmItem: AlarmItem? = null*/
-
-
         //Para al hacer tap en la notificación abrir la aplicacion
         // Create an explicit intent for an Activity in your app
 

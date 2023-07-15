@@ -59,9 +59,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     prefs.savePrimaryAddressName(primaryName)
                     prefs.saveSecondaryAddressName(secondaryName)
 
-                    //Hecho en el Sync fragment
-                    //saveUserDataToFirestore(lista)
-
                     Log.d(
                         "Prueba",
                         "PrimaryLat: $primaryLat, PrimaryLon: $primaryLon, SecondaryLat: $secondaryLat, SecondaryLon: $secondaryLon"

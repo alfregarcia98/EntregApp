@@ -27,7 +27,6 @@ class Prefs(val context: Context) {
     val SHARED_SECONDARYNAME = "secondaryAddressName"
     val SHARED_THIRDNAME = "thirdAddressName"
     val SHARED_FOURTHNAME = "fourthAddressName"
-    val SHARED_INTERVAL = "updateInterval"
 
     //Create a new field storing the actual user
     val storage = context.getSharedPreferences(SHARED_NAME, 0)

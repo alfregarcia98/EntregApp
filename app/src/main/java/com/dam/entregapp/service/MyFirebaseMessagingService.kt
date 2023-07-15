@@ -57,10 +57,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //2
         handler.post(Runnable {
             Toast.makeText(baseContext, remoteMessage.notification?.title, Toast.LENGTH_LONG).show()
-//            Toast.makeText(
-//                baseContext, getString(R.string.handle_notification_now),
-//                Toast.LENGTH_LONG
-//            ).show()
 
             remoteMessage.notification?.let {
                 val intent = Intent("MyData")
